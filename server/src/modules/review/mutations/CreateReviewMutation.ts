@@ -1,7 +1,7 @@
 import { GraphQLString, GraphQLNonNull, GraphQLID, GraphQLInt } from 'graphql';
 import { mutationWithClientMutationId, toGlobalId } from 'graphql-relay';
 
-import { errorField, successField, getObjectId } from '@entria/graphql-mongo-helpers';
+import { errorField, successField, getObjectId, objectIdResolver } from '@entria/graphql-mongo-helpers';
 
 import { GraphQLContext } from '../../../graphql/types';
 import ProductModel from '../../product/ProductModel';
@@ -39,7 +39,7 @@ const mutation = mutationWithClientMutationId({
 
     const product = await ProductModel.findOne({
       _id: getObjectId(args.product),
-    });
+    }).populate('user');
 
     if (!product) {
       return {
@@ -47,9 +47,9 @@ const mutation = mutationWithClientMutationId({
       };
     }
 
-    if (product.user === context.user._id) {
+    if (product.user._id.toString() === context.user.id) {
       return {
-        error: 'Cannot assign a review for your own product...',
+        error: 'You cannot post a review for your own product',
       };
     }
 
