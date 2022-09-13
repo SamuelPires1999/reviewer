@@ -2,9 +2,11 @@ import { GraphQLObjectType, GraphQLNonNull, GraphQLString } from 'graphql';
 import { nodesField, nodeField } from '../modules/node/typeRegister';
 import UserType from '../modules/user/UserType';
 import * as UserLoader from '../modules/user/UserLoader';
-import ProductType, { ProductConnection } from '../modules/product/ProdutType';
+import { ProductConnection } from '../modules/product/ProductType';
 import * as ProductLoader from '../modules/product/ProductLoader';
 import { connectionArgs } from 'graphql-relay';
+import { ReviewConnection } from '../modules/review/ReviewType';
+import * as ReviewLoader from '../modules/review/ReviewLoader';
 
 const QueryType = new GraphQLObjectType({
   name: 'Query',
@@ -22,6 +24,13 @@ const QueryType = new GraphQLObjectType({
         ...connectionArgs,
       },
       resolve: async (_, args, context) => await ProductLoader.loadAll(context, args),
+    },
+    reviews: {
+      type: new GraphQLNonNull(ReviewConnection.connectionType),
+      args: {
+        ...connectionArgs,
+      },
+      resolve: async (_, args, context) => await ReviewLoader.loadAll(context, args),
     },
   }),
 });

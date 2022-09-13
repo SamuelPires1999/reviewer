@@ -1,7 +1,7 @@
-import { GraphQLObjectType, GraphQLString, GraphQLInt } from 'graphql';
-import { globalIdField } from 'graphql-relay';
+import { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLNonNull } from 'graphql';
+import { connectionArgs, globalIdField } from 'graphql-relay';
 
-import { connectionDefinitions, objectIdResolver, timestampResolver } from '@entria/graphql-mongo-helpers';
+import { connectionDefinitions, objectIdResolver, timestampResolver, withFilter } from '@entria/graphql-mongo-helpers';
 
 import { nodeInterface, registerTypeLoader } from '../node/typeRegister';
 
@@ -10,7 +10,10 @@ import UserType from '../user/UserType';
 import * as UserLoader from '../user/UserLoader';
 import { IProduct } from './ProductModel';
 import { load } from './ProductLoader';
+import ReviewType, { ReviewConnection } from '../review/ReviewType';
+import * as ReviewLoader from '../review/ReviewLoader';
 
+//@ts-ignore
 const ProductType = new GraphQLObjectType<IProduct, GraphQLContext>({
   name: 'Product',
   description: 'Product data',
@@ -33,6 +36,14 @@ const ProductType = new GraphQLObjectType<IProduct, GraphQLContext>({
     user: {
       type: UserType,
       resolve: (product, _, context) => UserLoader.load(context, product.user),
+    },
+    reviews: {
+      type: new GraphQLNonNull(ReviewConnection.connectionType),
+      args: {
+        ...connectionArgs,
+      },
+      resolve: async (product, args, context) =>
+        await ReviewLoader.loadAll(context, withFilter(args, { product: product._id })),
     },
     ...timestampResolver,
   }),

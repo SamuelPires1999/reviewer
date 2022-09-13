@@ -4,7 +4,7 @@ import { mutationWithClientMutationId, toGlobalId } from 'graphql-relay';
 import { errorField, successField } from '@entria/graphql-mongo-helpers';
 import ProductModel from '../ProductModel';
 import * as ProductLoader from '../ProductLoader';
-import { ProductConnection } from '../ProdutType';
+import { ProductConnection } from '../ProductType';
 import { GraphQLContext } from '../../../graphql/types';
 
 type Args = {

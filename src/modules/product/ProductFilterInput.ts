@@ -1,4 +1,4 @@
-import { GraphQLID, GraphQLInputObjectType } from 'graphql';
+import { graphql, GraphQLID, GraphQLInputObjectType } from 'graphql';
 
 import { FILTER_CONDITION_TYPE, getObjectId } from '@entria/graphql-mongo-helpers';
 
@@ -12,9 +12,13 @@ export const productFilteInputMapping = {
 const ProductFilterInputType = new GraphQLInputObjectType({
   name: 'ProductFilter',
   description: 'Used to filter products per user',
+  //@ts-ignore
   fields: () => ({
     user: {
       type: GraphQLID,
+    },
+    reviews: {
+      type: [GraphQLID],
     },
   }),
 });

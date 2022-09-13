@@ -6,7 +6,7 @@ import ProductModel from './ProductModel';
 import { productFilteInputMapping } from './ProductFilterInput';
 
 const {
-  Wrapper: Post,
+  Wrapper: Product,
   getLoader,
   clearCache,
   load,
@@ -18,6 +18,6 @@ const {
 });
 
 export { getLoader, clearCache, load, loadAll };
-export default Post;
+export default Product;
 
 registerLoader('ProductLoader', getLoader);
