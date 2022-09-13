@@ -1,4 +1,4 @@
-import mongoose, { Document, Model } from 'mongoose';
+import mongoose, { Document, Model, Schema, Types } from 'mongoose';
 import bcrypt from 'bcryptjs';
 
 const UserSchema = new mongoose.Schema(
@@ -16,6 +16,16 @@ const UserSchema = new mongoose.Schema(
       type: String,
       hidden: true,
     },
+    reviews: {
+      type: [Schema.Types.ObjectId],
+      red: 'Review',
+      default: [],
+    },
+    products: {
+      type: [Schema.Types.ObjectId],
+      red: 'Product',
+      default: [],
+    },
   },
   {
     timestamps: {
@@ -30,6 +40,8 @@ export interface IUser extends Document {
   name: string;
   email: string;
   password: string;
+  products: Types.ObjectId[];
+  reviews: Types.ObjectId[];
   authenticate: (plainTextPassword: string) => boolean;
   encryptPassword: (password: string | undefined) => string;
   createdAt: Date;
