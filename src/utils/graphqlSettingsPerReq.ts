@@ -1,7 +1,7 @@
 import { GraphQLError } from 'graphql';
 import { Context, Request } from 'koa';
 import { OptionsData } from 'koa-graphql';
-import { getUser } from 'src/auth';
+import { getUser } from '../auth';
 import { schema } from '../schema/schema';
 import { getContext } from './getContext';
 import { setCookie } from './setCookie';

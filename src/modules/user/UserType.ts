@@ -13,6 +13,7 @@ import { load } from './UserLoader';
 const UserType = new GraphQLObjectType<IUser, GraphQLContext>({
   name: 'User',
   description: 'User data',
+  //@ts-ignore
   fields: () => ({
     id: globalIdField('User'),
     ...objectIdResolver,
