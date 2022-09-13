@@ -7,7 +7,8 @@ export const getUser = async (token: string | null | undefined) => {
 
   try {
     const decodedToken = jwt.verify(token.substring(4), config.JWT_SECRET);
-
+    console.log('token >>>', token);
+    console.log('decoded >>', decodedToken);
     const user = await User.findOne({ _id: (decodedToken as { id: string }).id });
 
     return {

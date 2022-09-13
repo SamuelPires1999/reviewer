@@ -31,6 +31,7 @@ router.all(
   '/graphiql',
   koaPlayground({
     endpoint: '/graphql',
+    workspaceName: 'dark',
   })
 );
 

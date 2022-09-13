@@ -6,6 +6,10 @@ const ProductSchema = new mongoose.Schema(
       type: Schema.Types.ObjectId,
       ref: 'User',
     },
+    name: {
+      type: String,
+      required: true,
+    },
     referenceLink: {
       type: String,
       required: false,
@@ -32,6 +36,7 @@ const ProductSchema = new mongoose.Schema(
 export interface IProduct extends Document {
   user: Types.ObjectId;
   reviews: Types.ObjectId[];
+  name: string;
   description?: string;
   referenceLink?: string;
   createdAt: Date;

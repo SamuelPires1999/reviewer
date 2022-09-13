@@ -1,5 +1,6 @@
 export interface DataLoaders {
   UserLoader: ReturnType<typeof import('../user/UserLoader').getLoader>;
+  ProductLoader: ReturnType<typeof import('../product/ProductLoader').getLoader>;
 }
 
 const loaders: {
