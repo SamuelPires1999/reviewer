@@ -1,8 +1,8 @@
-import { GraphQLObjectType, GraphQLNonNull, GraphQLString } from 'graphql';
+import { GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLInt } from 'graphql';
 import { nodesField, nodeField } from '../modules/node/typeRegister';
 import UserType from '../modules/user/UserType';
 import * as UserLoader from '../modules/user/UserLoader';
-import { ProductConnection } from '../modules/product/ProductType';
+import ProductType, { ProductConnection } from '../modules/product/ProductType';
 import * as ProductLoader from '../modules/product/ProductLoader';
 import { connectionArgs } from 'graphql-relay';
 import { ReviewConnection } from '../modules/review/ReviewType';
@@ -31,6 +31,15 @@ const QueryType = new GraphQLObjectType({
         ...connectionArgs,
       },
       resolve: async (_, args, context) => await ReviewLoader.loadAll(context, args),
+    },
+    singleProductById: {
+      type: ProductType,
+      args: {
+        id: {
+          type: new GraphQLNonNull(GraphQLString),
+        },
+      },
+      resolve: async (_, args, context) => await ProductLoader.load(context, args.id),
     },
   }),
 });
