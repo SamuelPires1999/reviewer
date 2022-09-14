@@ -1,0 +1,15 @@
+{
+  "name": "reviewer",
+  "version": "1.0.0",
+  "repository": "git@github.com:SamuelPires1999/reviewer.git",
+  "author": "SamuelPires1999 <samuel.ferpires@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "server:dev": "yarn workspace @reviewer/server start:dev"
+  },
+  "workspaces":{
+    "packages": [
+      "apps/*"
+    ]
+  }
+}

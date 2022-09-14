@@ -18,6 +18,6 @@
     "emitDecoratorMetadata": true,
 
   },
-  "include": ["src"],
+  "include": ["src", "vitest.config.ts"],
   "exclude": ["node_modules", "dist", "__tests__", "coverage"]
 }
