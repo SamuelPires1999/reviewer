@@ -4,7 +4,7 @@ module.exports = {
   testEnvironment: 'node',
   coverageDirectory: 'coverage',
   collectCoverageFrom: ['src/**/*.{js,ts}'],
-  coverageThreshold:{
+  coverageThreshold: {
     global: {
       branches: 0,
       functions: 0,
@@ -12,7 +12,7 @@ module.exports = {
       statements: 0,
     },
   },
-  moduleDirectories:['node_modules', 'src'],
+  moduleDirectories: ['node_modules', 'src'],
   moduleNameMapper: {
     'src/(.*)': '<rootDir>/src/$1',
   },
