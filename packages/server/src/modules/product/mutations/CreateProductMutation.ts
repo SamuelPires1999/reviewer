@@ -11,6 +11,7 @@ type Args = {
   referenceLink?: string;
   description?: string;
   name: string;
+  category: string;
 };
 const mutation = mutationWithClientMutationId({
   name: 'ProductCreate',
@@ -24,9 +25,12 @@ const mutation = mutationWithClientMutationId({
     description: {
       type: GraphQLString,
     },
+    category: {
+      type: new GraphQLNonNull(GraphQLString),
+    },
   },
   mutateAndGetPayload: async (args: Args, context: GraphQLContext) => {
-    const { referenceLink, description, name } = args;
+    const { referenceLink, description, name, category } = args;
 
     if (!context.user) {
       return {
@@ -38,6 +42,7 @@ const mutation = mutationWithClientMutationId({
       description,
       referenceLink,
       name,
+      category,
       user: context.user._id,
     }).save();
 

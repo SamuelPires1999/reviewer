@@ -33,6 +33,10 @@ const ProductType = new GraphQLObjectType<IProduct, GraphQLContext>({
       type: GraphQLString,
       resolve: product => product.name,
     },
+    category: {
+      type: GraphQLString,
+      resolve: product => product.category,
+    },
     user: {
       type: UserType,
       resolve: (product, _, context) => UserLoader.load(context, product.user),

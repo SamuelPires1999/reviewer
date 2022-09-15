@@ -1,3 +1,4 @@
+import { GraphQLString } from 'graphql';
 import mongoose, { Document, Model, Schema, Types } from 'mongoose';
 
 const ProductSchema = new mongoose.Schema(
@@ -13,6 +14,11 @@ const ProductSchema = new mongoose.Schema(
     referenceLink: {
       type: String,
       required: false,
+    },
+    category: {
+      type: GraphQLString,
+      enum: ['food', 'games', 'pc-parts', 'clothing', 'gadgets', 'random'],
+      required: true,
     },
     reviews: {
       type: [Schema.Types.ObjectId],
@@ -38,6 +44,7 @@ export interface IProduct extends Document {
   reviews: Types.ObjectId[];
   name: string;
   description?: string;
+  category: string;
   referenceLink?: string;
   createdAt: Date;
   updatedAt: Date;
