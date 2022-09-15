@@ -63,9 +63,13 @@ const mutation = mutationWithClientMutationId({
     return {
       id: deletedProduct?._id,
       error: null,
+      message: 'Product Deleted!',
     };
   },
   outputFields: {
+    message: {
+      type: GraphQLString,
+    },
     ...errorField,
     ...successField,
   },
