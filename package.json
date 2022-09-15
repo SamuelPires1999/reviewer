@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "server:dev": "yarn workspace @reviewer/server start:dev",
-    "server:test": "yarn workspace @reviewer/server test"
+    "web:dev": "yarn workspace @reviewer/web dev"
   },
   "workspaces":{
     "packages": [
