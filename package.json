@@ -4,12 +4,14 @@
   "repository": "git@github.com:SamuelPires1999/reviewer.git",
   "author": "SamuelPires1999 <samuel.ferpires@gmail.com>",
   "license": "MIT",
+  "private": true,
   "scripts": {
-    "server:dev": "yarn workspace @reviewer/server start:dev"
+    "server:dev": "yarn workspace @reviewer/server start:dev",
+    "server:test": "yarn workspace @reviewer/server test"
   },
   "workspaces":{
     "packages": [
-      "apps/*"
+      "packages/*"
     ]
   }
 }
