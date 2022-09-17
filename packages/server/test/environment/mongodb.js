@@ -1,3 +1,4 @@
+/* eslint-disable */
 const { MongoMemoryServer } = require('mongodb-memory-server-global');
 const NodeEnvironment = require('jest-environment-node');
 
