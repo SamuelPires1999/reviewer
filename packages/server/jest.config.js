@@ -1,19 +1,17 @@
-/** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const package = require('./package');
+
 module.exports = {
-  preset: 'ts-jest',
-  testEnvironment: 'node',
-  coverageDirectory: 'coverage',
-  collectCoverageFrom: ['src/**/*.{js,ts}'],
-  coverageThreshold: {
-    global: {
-      branches: 0,
-      functions: 0,
-      lines: 0,
-      statements: 0,
-    },
+  displayName: package.name,
+  name: package.name,
+  testEnvironment: '<rootDir>/test/environment/mongodb',
+  testPathIgnorePatterns: ['/node_modules/', './dist'],
+  coverageReporters: ['lcov', 'html'],
+  resetModules: false,
+  transform: {
+    '^.+\\.(js|ts|tsx)?$': '<rootDir>/test/babel-transformer',
   },
-  moduleDirectories: ['node_modules', 'src'],
-  moduleNameMapper: {
-    'src/(.*)': '<rootDir>/src/$1',
-  },
+  testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(js|ts|tsx)?$',
+  moduleFileExtensions: ['ts', 'js', 'tsx', 'json'],
+  setupFiles: ['<rootDir>/test/jest.setup.js'],
 };

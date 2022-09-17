@@ -16,6 +16,6 @@ const ENV = process.env;
 export const config = {
   MONGO_URI: ENV.MONGO_URI || 'mongodb://localhost/27017',
   PORT: ENV.PORT || 3000,
-  JWT_SECRET: ENV.JWT_KEY || 'secret_key',
+  JWT_SECRET: ENV.JWT_SECRET || 'secret_key',
   APPLICATION_COOKIE: 'woovi-challenge-cookie',
 };
