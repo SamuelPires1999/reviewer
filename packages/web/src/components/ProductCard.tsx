@@ -17,7 +17,7 @@ interface ExpandMoreProps extends IconButtonProps {
 
 export default function ProductCard() {
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card elevation={12} sx={{ maxWidth: 345 }}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -44,8 +44,8 @@ export default function ProductCard() {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton style={{flexGrow: 1}} aria-label="reviews">
-          Reviews 
+        <IconButton style={{ flexGrow: 1 }} aria-label="reviews">
+          Reviews
           <ArrowForwardIcon />
         </IconButton>
       </CardActions>
