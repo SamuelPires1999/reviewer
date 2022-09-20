@@ -44,7 +44,7 @@ export default function ProductCard(props: CardProps) {
           <strong>By: </strong> {props.author}
         </Typography>
         <Typography sx={{ mt: '6px' }} variant="body2" color="text.secondary">
-          <strong>Review Count: </strong> {props.reviewCount}
+          <strong>Reviews: </strong> {props.reviewCount}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
