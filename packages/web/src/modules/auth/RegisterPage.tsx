@@ -3,53 +3,63 @@ import { useMutation } from 'react-relay';
 import * as Yup from 'yup';
 import { Form, FormikProvider, useFormik } from 'formik';
 import { AuthLoginMutation } from './AuthLoginMutation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   CssBaseline,
   Box,
   Avatar,
   Typography,
   Button,
-  Grid,
-  Link,
   Snackbar,
   Alert,
 } from '@mui/material';
 import { InputField } from '../../components/InputField';
 import Reviews from '@mui/icons-material/Reviews';
-import type { AuthLoginMutation as AuthLoginMutationType } from './__generated__/AuthLoginMutation.graphql';
+import type { AuthRegisterMutation as AuthRegisterMutationType } from './__generated__/AuthRegisterMutation.graphql';
+import { AuthRegisterMutation } from './AuthRegisterMutation';
 import { useAuth } from './utils/useAuth';
 import { useNavigate } from 'react-router-dom';
 
-export const LoginPage = () => {
+export const RegisterPage = () => {
   const { signin } = useAuth();
   const navigate = useNavigate();
-
   const [error, setError] = useState({
     status: false,
     message: '',
   });
 
-  const [handleUserLogin] =
-    useMutation<AuthLoginMutationType>(AuthLoginMutation);
+  const [handleUserRegister] =
+    useMutation<AuthRegisterMutationType>(AuthRegisterMutation);
 
   const formikValue = useFormik({
-    initialValues: { email: '', password: '' },
+    initialValues: { name: '', email: '', password: '' },
     validateOnMount: true,
     validationSchema: Yup.object().shape({
+      name: Yup.string().required('User name is required'),
       email: Yup.string().email().required('Email is required'),
       password: Yup.string().required('Password is required'),
     }),
     onSubmit: (values, actions) => {
-      handleUserLogin({
+      handleUserRegister({
         variables: values,
-        onCompleted: ({ LoginWithEmailMutation }) => {
-          if (LoginWithEmailMutation?.error) {
+        onCompleted: ({ RegisterWithEmailMutation }) => {
+          if (RegisterWithEmailMutation?.error) {
             actions.setSubmitting(false);
-            setError({ message: LoginWithEmailMutation.error, status: true });
+            setError({
+              message: RegisterWithEmailMutation.error,
+              status: true,
+            });
             return;
           }
-          signin(LoginWithEmailMutation?.token, () => {
+
+          if (RegisterWithEmailMutation?.token) {
+            localStorage.setItem(
+              'CHALLENGE-TOKEN',
+              RegisterWithEmailMutation?.token,
+            );
+          }
+
+          signin(RegisterWithEmailMutation?.token, () => {
             navigate('/', { replace: true });
           });
         },
@@ -78,7 +88,7 @@ export const LoginPage = () => {
                 <Reviews />
               </Avatar>
               <Typography component="h1" variant="h5">
-                Sign in to reviewer
+                Create your account
               </Typography>
               <Box
                 sx={{
@@ -91,10 +101,18 @@ export const LoginPage = () => {
               >
                 <InputField
                   required
+                  fullWidth
+                  name="name"
+                  id="name"
+                  shouldValidate
+                  autoFocus
+                  placeholder="Your display name"
+                />
+                <InputField
+                  required
                   id="email"
                   name="email"
                   autoComplete="email"
-                  autoFocus
                   shouldValidate
                   placeholder="email@valid.com"
                 />
@@ -114,15 +132,8 @@ export const LoginPage = () => {
                   sx={{ mt: 3, mb: 2 }}
                   disabled={!isValid}
                 >
-                  {isSubmitting ? 'Loading...' : 'Sign In'}
+                  {isSubmitting ? 'Loading...' : 'Create Account'}
                 </Button>
-                <Grid container>
-                  <Grid item xs={12} justifyContent="center" display={'flex'}>
-                    <Link href="#" variant="body2">
-                      {"Don't have an account? Sign Up"}
-                    </Link>
-                  </Grid>
-                </Grid>
               </Box>
             </Box>
           </Form>
@@ -131,7 +142,7 @@ export const LoginPage = () => {
       <Snackbar
         open={error.status}
         message={error.message}
-        autoHideDuration={5000}
+        autoHideDuration={4000}
       >
         <Alert severity="error">{error.message}</Alert>
       </Snackbar>
