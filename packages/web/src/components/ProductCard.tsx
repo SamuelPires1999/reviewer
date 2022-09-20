@@ -7,30 +7,28 @@ import CardActions from '@mui/material/CardActions';
 import Avatar from '@mui/material/Avatar';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
+import { blue } from '@mui/material/colors';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { Reviews } from '@mui/icons-material';
 
-interface ExpandMoreProps extends IconButtonProps {
-  expand: boolean;
+interface CardProps {
+  author: string;
+  description: string;
+  reviewCount: number;
+  name: string;
 }
 
-export default function ProductCard() {
+export default function ProductCard(props: CardProps) {
   return (
     <Card elevation={12} sx={{ maxWidth: 345 }}>
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            AN
+          <Avatar sx={{ bgcolor: blue[600] }} aria-label="recipe">
+            <Reviews />
           </Avatar>
         }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
-        title="User"
-        subheader="September 14, 2016"
+        title={props.name}
       />
       <CardMedia
         component="img"
@@ -40,13 +38,19 @@ export default function ProductCard() {
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          Very cool product, should I buy it?
+          {props.description}
+        </Typography>
+        <Typography sx={{ mt: '6px' }} variant="body2" color="text.secondary">
+          <strong>By: </strong> {props.author}
+        </Typography>
+        <Typography sx={{ mt: '6px' }} variant="body2" color="text.secondary">
+          <strong>Review Count: </strong> {props.reviewCount}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
         <IconButton style={{ flexGrow: 1 }} aria-label="reviews">
-          Reviews
-          <ArrowForwardIcon />
+          <Typography>Reviews</Typography>
+          <ArrowForwardIcon style={{ fontSize: '16', marginLeft: '6' }} />
         </IconButton>
       </CardActions>
     </Card>
