@@ -1,25 +1,27 @@
-import { Container } from '@mui/system';
 import { useMutation } from 'react-relay';
 import * as Yup from 'yup';
 import { Form, FormikProvider, useFormik } from 'formik';
 import { AuthLoginMutation } from './AuthLoginMutation';
 import { useState } from 'react';
-import {
-  CssBaseline,
-  Box,
-  Avatar,
-  Typography,
-  Button,
-  Grid,
-  Link,
-  Snackbar,
-  Alert,
-} from '@mui/material';
 import { InputField } from '../../components/InputField';
-import Reviews from '@mui/icons-material/Reviews';
 import type { AuthLoginMutation as AuthLoginMutationType } from './__generated__/AuthLoginMutation.graphql';
 import { useAuth } from './utils/useAuth';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import {
+  VStack,
+  Button,
+  Spinner,
+  Text,
+  Box,
+  Checkbox,
+  Flex,
+  FormControl,
+  FormLabel,
+  Heading,
+  Input,
+  Stack,
+  useColorModeValue,
+} from '@chakra-ui/react';
 
 export const LoginPage = () => {
   const { signin } = useAuth();
@@ -62,79 +64,67 @@ export const LoginPage = () => {
   return (
     <div>
       <FormikProvider value={formikValue}>
-        <Container component="main" maxWidth="xs">
-          <Form style={{ width: '100%' }}>
-            <CssBaseline />
-            <Box
-              sx={{
-                marginTop: 8,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                width: '100%',
-              }}
-            >
-              <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
-                <Reviews />
-              </Avatar>
-              <Typography component="h1" variant="h5">
-                Sign in to reviewer
-              </Typography>
+        <Form>
+          <Flex
+            minH={'100vh'}
+            align={'center'}
+            justify={'center'}
+            bg={useColorModeValue('gray.50', 'gray.800')}
+          >
+            <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
+              <Stack align={'center'}>
+                <Heading fontSize={'4xl'}>Sign in to your account</Heading>
+                <Text fontSize={'lg'} color={'gray.600'}>
+                  to enjoy all of our cool{' '}
+                  <Link to={'/'} color={'blue.400'}>
+                    features
+                  </Link>{' '}
+                  ✌️
+                </Text>
+              </Stack>
               <Box
-                sx={{
-                  mt: 5,
-                  width: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '20px',
-                }}
+                rounded={'lg'}
+                bg={useColorModeValue('white', 'gray.700')}
+                boxShadow={'lg'}
+                p={8}
               >
-                <InputField
-                  required
-                  id="email"
-                  name="email"
-                  autoComplete="email"
-                  autoFocus
-                  shouldValidate
-                  placeholder="email@valid.com"
-                />
-                <InputField
-                  required
-                  fullWidth
-                  name="password"
-                  type="password"
-                  id="password"
-                  shouldValidate
-                  placeholder="password"
-                />
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
-                  disabled={!isValid}
-                >
-                  {isSubmitting ? 'Loading...' : 'Sign In'}
-                </Button>
-                <Grid container>
-                  <Grid item xs={12} justifyContent="center" display={'flex'}>
-                    <Link href="#" variant="body2">
-                      {"Don't have an account? Sign Up"}
-                    </Link>
-                  </Grid>
-                </Grid>
+                <Stack spacing={4}>
+                  <FormControl id="email">
+                    <FormLabel>Email address</FormLabel>
+                    <InputField
+                      name="email"
+                      type="email"
+                      placeholder="email"
+                      shouldValidate
+                    />
+                  </FormControl>
+                  <FormControl id="password">
+                    <FormLabel>Password</FormLabel>
+                    <InputField
+                      name="password"
+                      type="password"
+                      placeholder="Password"
+                      shouldValidate
+                    />
+                  </FormControl>
+                  <Stack spacing={10}>
+                    <Button
+                      type="submit"
+                      bg={'blue.400'}
+                      color={'white'}
+                      _hover={{
+                        bg: 'blue.500',
+                      }}
+                    >
+                      {isSubmitting ? <Spinner /> : 'Login'}
+                    </Button>
+                  </Stack>
+                </Stack>
               </Box>
-            </Box>
-          </Form>
-        </Container>
+            </Stack>
+          </Flex>
+        </Form>
       </FormikProvider>
-      <Snackbar
-        open={error.status}
-        message={error.message}
-        autoHideDuration={5000}
-      >
-        <Alert severity="error">{error.message}</Alert>
-      </Snackbar>
     </div>
   );
 };

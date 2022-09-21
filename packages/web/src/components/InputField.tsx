@@ -1,8 +1,9 @@
 import {
   FormControl,
-  OutlinedInput as MyInput,
+  FormErrorMessage,
+  Input as ChakraInput,
   InputProps,
-} from '@mui/material';
+} from '@chakra-ui/react';
 import { ErrorMessage, useField } from 'formik';
 
 type Props = InputProps & {
@@ -25,9 +26,19 @@ export const InputField = ({
 
   return (
     <FormControl {...(shouldValidate ? propsWhenShouldValidateProps : {})}>
-      <MyInput {...field} {...rest} />
+      <ChakraInput {...field} {...rest} />
       {shouldValidate && (
-        <ErrorMessage name={name}>{error => error}</ErrorMessage>
+        <ErrorMessage name={name}>
+          {error => (
+            <FormErrorMessage
+              data-testid={`error-message-${name}`}
+              fontSize="xs"
+              pt={1}
+            >
+              {error}
+            </FormErrorMessage>
+          )}
+        </ErrorMessage>
       )}
     </FormControl>
   );
