@@ -6,18 +6,26 @@ import {
   Stack,
   Avatar,
   useColorModeValue,
+  useDisclosure,
 } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
+import { ProductsGetReviewsFragment$key } from '../modules/products/__generated__/ProductsGetReviewsFragment.graphql';
+import { ProductModal } from './ProductModal';
+
 interface CardProps {
   author: string;
   description: string;
   reviewCount: number;
   name: string;
   category: string;
+  id: string | undefined;
 }
 
 export default function ProductCard(props: CardProps) {
+  const navigate = useNavigate();
+
   return (
-    <Center py={6}>
+    <Center py={6} onClick={() => navigate(`/products/${props.id}`)}>
       <Box
         maxW={'445px'}
         w={'full'}
@@ -52,6 +60,9 @@ export default function ProductCard(props: CardProps) {
             {props.name}
           </Heading>
           <Text color={'gray.500'}>{props.description}</Text>
+          <Text color={'gray.500'} fontWeight="bold">
+            Reviews: {props.reviewCount}
+          </Text>
         </Stack>
         <Stack mt={6} direction={'row'} spacing={4} align={'center'}>
           <Avatar
