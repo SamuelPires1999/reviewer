@@ -21,7 +21,8 @@
     "react-relay": "^14.1.0",
     "react-router-dom": "^6.4.0",
     "relay-runtime": "^14.1.0",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "zustand": "^4.1.1"
   },
   "devDependencies": {
     "@types/react": "^18.0.17",

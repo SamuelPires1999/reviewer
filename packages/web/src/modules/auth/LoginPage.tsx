@@ -22,6 +22,7 @@ import {
   Stack,
   useColorModeValue,
 } from '@chakra-ui/react';
+import { useStore } from '../../store/useStore';
 
 export const LoginPage = () => {
   const { signin } = useAuth();
@@ -34,6 +35,8 @@ export const LoginPage = () => {
 
   const [handleUserLogin] =
     useMutation<AuthLoginMutationType>(AuthLoginMutation);
+
+  const setUser = useStore(state => state.setUser);
 
   const formikValue = useFormik({
     initialValues: { email: '', password: '' },
@@ -51,6 +54,15 @@ export const LoginPage = () => {
             setError({ message: LoginWithEmailMutation.error, status: true });
             return;
           }
+
+          if (LoginWithEmailMutation?.me) {
+            setUser({
+              _id: LoginWithEmailMutation.me._id,
+              name: LoginWithEmailMutation.me.name,
+              email: LoginWithEmailMutation.me.email,
+            });
+          }
+
           signin(LoginWithEmailMutation?.token, () => {
             navigate('/', { replace: true });
           });

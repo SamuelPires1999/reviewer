@@ -6,8 +6,8 @@ import { AuthProvider } from './modules/auth/utils/AuthContext';
 function App() {
   return (
     <div>
-      <Topbar />
       <BrowserRouter>
+        <Topbar />
         <AuthProvider>
           <Routes />
         </AuthProvider>

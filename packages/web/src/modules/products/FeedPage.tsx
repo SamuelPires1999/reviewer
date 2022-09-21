@@ -18,7 +18,7 @@ export const FeedPage = () => {
   );
 
   return (
-    <Flex gap={12} px={12}>
+    <Flex gap={12} px={12} wrap={'wrap'} width="full" justify={'center'}>
       {products.edges.map((product, index) => (
         <ProductCard
           author={product?.node?.user?.name || 'Anon'}

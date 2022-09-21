@@ -17,6 +17,8 @@ import {
   Center,
 } from '@chakra-ui/react';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
+import { useStore } from '../store/useStore';
+import { useNavigate } from 'react-router-dom';
 
 const NavLink = ({ children }: { children: ReactNode }) => (
   <Link
@@ -27,7 +29,6 @@ const NavLink = ({ children }: { children: ReactNode }) => (
       textDecoration: 'none',
       bg: useColorModeValue('gray.200', 'gray.700'),
     }}
-    href={'#'}
   >
     {children}
   </Link>
@@ -35,12 +36,22 @@ const NavLink = ({ children }: { children: ReactNode }) => (
 
 export default function Nav() {
   const { colorMode, toggleColorMode } = useColorMode();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const store = useStore();
+  const navigate = useNavigate();
+
   return (
     <>
       <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
-          <Box letterSpacing={5}>Reviewer</Box>
+          <Box
+            letterSpacing={5}
+            fontWeight="bold"
+            fontSize={18}
+            onClick={() => navigate('/')}
+            cursor="pointer"
+          >
+            Reviewer
+          </Box>
 
           <Flex alignItems={'center'}>
             <Stack direction={'row'} spacing={7}>
@@ -71,14 +82,32 @@ export default function Nav() {
                   </Center>
                   <br />
                   <Center>
-                    <p>Username</p>
+                    {store.user ? (
+                      `Logged as ${store.user.name}`
+                    ) : (
+                      <Link onClick={() => navigate('/login')}>Login</Link>
+                    )}
                   </Center>
                   <br />
                   <MenuDivider />
-                  <MenuItem>Your Products</MenuItem>
-                  <MenuItem>Your Reviews</MenuItem>
-                  <MenuItem>Account Settings</MenuItem>
-                  <MenuItem>Logout</MenuItem>
+                  {store.user ? (
+                    <>
+                      <MenuItem>Your Products</MenuItem>
+                      <MenuItem>Your Reviews</MenuItem>
+                      <MenuItem onClick={() => navigate('/register')}>
+                        Account Settings
+                      </MenuItem>
+                      <MenuItem
+                        onClick={() => {
+                          localStorage.removeItem('CHALLENGE-TOKEN');
+                          store.setUser(undefined);
+                          navigate('/');
+                        }}
+                      >
+                        Logout
+                      </MenuItem>
+                    </>
+                  ) : null}
                 </MenuList>
               </Menu>
             </Stack>
