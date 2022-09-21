@@ -1,17 +1,12 @@
-import { styled } from '@mui/material/styles';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Avatar from '@mui/material/Avatar';
-import IconButton, { IconButtonProps } from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import { blue } from '@mui/material/colors';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { Reviews } from '@mui/icons-material';
-
+import {
+  Box,
+  Center,
+  Heading,
+  Text,
+  Stack,
+  Avatar,
+  useColorModeValue,
+} from '@chakra-ui/react';
 interface CardProps {
   author: string;
   description: string;
@@ -21,38 +16,54 @@ interface CardProps {
 
 export default function ProductCard(props: CardProps) {
   return (
-    <Card elevation={12} sx={{ maxWidth: 345 }}>
-      <CardHeader
-        avatar={
-          <Avatar sx={{ bgcolor: blue[600] }} aria-label="recipe">
-            <Reviews />
-          </Avatar>
-        }
-        title={props.name}
-      />
-      <CardMedia
-        component="img"
-        height="194"
-        image="https://image.shutterstock.com/image-vector/default-ui-image-placeholder-wireframes-600w-1037719192.jpg"
-        alt="Placeholder"
-      />
-      <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          {props.description}
-        </Typography>
-        <Typography sx={{ mt: '6px' }} variant="body2" color="text.secondary">
-          <strong>By: </strong> {props.author}
-        </Typography>
-        <Typography sx={{ mt: '6px' }} variant="body2" color="text.secondary">
-          <strong>Reviews: </strong> {props.reviewCount}
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-        <IconButton style={{ flexGrow: 1 }} aria-label="reviews">
-          <Typography>Reviews</Typography>
-          <ArrowForwardIcon style={{ fontSize: '16', marginLeft: '6' }} />
-        </IconButton>
-      </CardActions>
-    </Card>
+    <Center py={6}>
+      <Box
+        maxW={'445px'}
+        w={'full'}
+        bg={useColorModeValue('white', 'gray.900')}
+        boxShadow={'2xl'}
+        rounded={'md'}
+        p={6}
+        overflow={'hidden'}
+      >
+        <Box bg={'gray.100'} mt={-6} mx={-6} mb={6} pos={'relative'}>
+          <img
+            src={
+              'https://image.shutterstock.com/image-vector/default-ui-image-placeholder-wireframes-600w-1037719192.jpg'
+            }
+          />
+        </Box>
+        <Stack>
+          <Text
+            color={'green.500'}
+            textTransform={'uppercase'}
+            fontWeight={800}
+            fontSize={'sm'}
+            letterSpacing={1.1}
+          >
+            Blog
+          </Text>
+          <Heading
+            color={useColorModeValue('gray.700', 'white')}
+            fontSize={'2xl'}
+            fontFamily={'body'}
+          >
+            {props.name}
+          </Heading>
+          <Text color={'gray.500'}>{props.description}</Text>
+        </Stack>
+        <Stack mt={6} direction={'row'} spacing={4} align={'center'}>
+          <Avatar
+            src={
+              'https://image.shutterstock.com/image-vector/default-ui-image-placeholder-wireframes-600w-1037719192.jpg'
+            }
+          />
+          <Stack direction={'column'} spacing={0} fontSize={'sm'}>
+            <Text fontWeight={600}>{props.author}</Text>
+            <Text color={'gray.500'}>data de postagem aqui</Text>
+          </Stack>
+        </Stack>
+      </Box>
+    </Center>
   );
 }

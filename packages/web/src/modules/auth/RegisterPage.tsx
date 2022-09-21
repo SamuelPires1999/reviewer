@@ -1,24 +1,25 @@
-import { Container } from '@mui/system';
 import { useMutation } from 'react-relay';
 import * as Yup from 'yup';
 import { Form, FormikProvider, useFormik } from 'formik';
-import { AuthLoginMutation } from './AuthLoginMutation';
-import { useEffect, useState } from 'react';
-import {
-  CssBaseline,
-  Box,
-  Avatar,
-  Typography,
-  Button,
-  Snackbar,
-  Alert,
-} from '@mui/material';
+import { useState } from 'react';
 import { InputField } from '../../components/InputField';
-import Reviews from '@mui/icons-material/Reviews';
 import type { AuthRegisterMutation as AuthRegisterMutationType } from './__generated__/AuthRegisterMutation.graphql';
 import { AuthRegisterMutation } from './AuthRegisterMutation';
 import { useAuth } from './utils/useAuth';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import {
+  VStack,
+  Button,
+  Spinner,
+  Text,
+  Stack,
+  Box,
+  Flex,
+  FormControl,
+  FormLabel,
+  Heading,
+  useColorModeValue,
+} from '@chakra-ui/react';
 
 export const RegisterPage = () => {
   const { signin } = useAuth();
@@ -28,7 +29,7 @@ export const RegisterPage = () => {
     message: '',
   });
 
-  const [handleUserRegister] =
+  const [handleUserRegister, isPending] =
     useMutation<AuthRegisterMutationType>(AuthRegisterMutation);
 
   const formikValue = useFormik({
@@ -72,80 +73,69 @@ export const RegisterPage = () => {
   return (
     <div>
       <FormikProvider value={formikValue}>
-        <Container component="main" maxWidth="xs">
-          <Form style={{ width: '100%' }}>
-            <CssBaseline />
-            <Box
-              sx={{
-                marginTop: 8,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                width: '100%',
-              }}
-            >
-              <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
-                <Reviews />
-              </Avatar>
-              <Typography component="h1" variant="h5">
-                Create your account
-              </Typography>
+        <Form>
+          <Flex
+            minH={'100vh'}
+            align={'center'}
+            justify={'center'}
+            bg={useColorModeValue('gray.50', 'gray.800')}
+          >
+            <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
+              <Stack align={'center'}>
+                <Heading fontSize={'4xl'}>Create your account!</Heading>
+              </Stack>
               <Box
-                sx={{
-                  mt: 5,
-                  width: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '20px',
-                }}
+                rounded={'lg'}
+                bg={useColorModeValue('white', 'gray.700')}
+                boxShadow={'lg'}
+                p={8}
               >
-                <InputField
-                  required
-                  fullWidth
-                  name="name"
-                  id="name"
-                  shouldValidate
-                  autoFocus
-                  placeholder="Your display name"
-                />
-                <InputField
-                  required
-                  id="email"
-                  name="email"
-                  autoComplete="email"
-                  shouldValidate
-                  placeholder="email@valid.com"
-                />
-                <InputField
-                  required
-                  fullWidth
-                  name="password"
-                  type="password"
-                  id="password"
-                  shouldValidate
-                  placeholder="password"
-                />
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
-                  disabled={!isValid}
-                >
-                  {isSubmitting ? 'Loading...' : 'Create Account'}
-                </Button>
+                <Stack spacing={4}>
+                  <FormControl id="email">
+                    <FormLabel>Email address</FormLabel>
+                    <InputField
+                      name="email"
+                      type="email"
+                      placeholder="email"
+                      shouldValidate
+                    />
+                  </FormControl>
+                  <FormControl id="name">
+                    <FormLabel>Name</FormLabel>
+                    <InputField
+                      name="name"
+                      type="name"
+                      placeholder="name"
+                      shouldValidate
+                    />
+                  </FormControl>
+                  <FormControl id="password">
+                    <FormLabel>Password</FormLabel>
+                    <InputField
+                      name="password"
+                      type="password"
+                      placeholder="Password"
+                      shouldValidate
+                    />
+                  </FormControl>
+                  <Stack spacing={10}>
+                    <Button
+                      type="submit"
+                      bg={'blue.400'}
+                      color={'white'}
+                      _hover={{
+                        bg: 'blue.500',
+                      }}
+                    >
+                      {isSubmitting ? <Spinner /> : 'Create Account'}
+                    </Button>
+                  </Stack>
+                </Stack>
               </Box>
-            </Box>
-          </Form>
-        </Container>
+            </Stack>
+          </Flex>
+        </Form>
       </FormikProvider>
-      <Snackbar
-        open={error.status}
-        message={error.message}
-        autoHideDuration={4000}
-      >
-        <Alert severity="error">{error.message}</Alert>
-      </Snackbar>
     </div>
   );
 };

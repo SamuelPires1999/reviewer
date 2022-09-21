@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material';
+import { Flex } from '@chakra-ui/react';
 import { loadQuery, usePreloadedQuery } from 'react-relay';
 import ProductCard from '../../components/ProductCard';
 import relayEnvironment from '../../relay/relayEnvironment';
@@ -18,20 +18,16 @@ export const FeedPage = () => {
   );
 
   return (
-    <Grid container spacing={2} style={{ padding: '30px' }}>
+    <Flex gap={12} px={12}>
       {products.edges.map((product, index) => (
-        <Grid item>
-          <ProductCard
-            author={product?.node?.user?.name || 'Anon'}
-            name={product?.node?.name || 'No name provided'}
-            description={
-              product?.node?.description || 'No description provided'
-            }
-            reviewCount={product?.node?.reviews.count || 0}
-            key={index}
-          />
-        </Grid>
+        <ProductCard
+          author={product?.node?.user?.name || 'Anon'}
+          name={product?.node?.name || 'No name provided'}
+          description={product?.node?.description || 'No description provided'}
+          reviewCount={product?.node?.reviews.count || 0}
+          key={index}
+        />
       ))}
-    </Grid>
+    </Flex>
   );
 };
