@@ -12,6 +12,7 @@ interface CardProps {
   description: string;
   reviewCount: number;
   name: string;
+  category: string;
 }
 
 export default function ProductCard(props: CardProps) {
@@ -41,7 +42,7 @@ export default function ProductCard(props: CardProps) {
             fontSize={'sm'}
             letterSpacing={1.1}
           >
-            Blog
+            {props.category}
           </Text>
           <Heading
             color={useColorModeValue('gray.700', 'white')}
@@ -60,7 +61,7 @@ export default function ProductCard(props: CardProps) {
           />
           <Stack direction={'column'} spacing={0} fontSize={'sm'}>
             <Text fontWeight={600}>{props.author}</Text>
-            <Text color={'gray.500'}>data de postagem aqui</Text>
+            <Text color={'gray.500'}>TODO: adicionar data da postagem</Text>
           </Stack>
         </Stack>
       </Box>

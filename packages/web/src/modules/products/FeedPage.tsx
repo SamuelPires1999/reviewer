@@ -25,6 +25,7 @@ export const FeedPage = () => {
           name={product?.node?.name || 'No name provided'}
           description={product?.node?.description || 'No description provided'}
           reviewCount={product?.node?.reviews.count || 0}
+          category={product?.node?.category || 'No category'}
           key={index}
         />
       ))}

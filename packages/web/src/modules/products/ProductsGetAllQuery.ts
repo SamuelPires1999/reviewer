@@ -8,6 +8,7 @@ export const ProductsGetAllQuery = graphql`
         node {
           description
           name
+          category
           _id
           reviews {
             count

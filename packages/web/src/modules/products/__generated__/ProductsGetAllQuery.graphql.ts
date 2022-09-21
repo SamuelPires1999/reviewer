@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<30df222db4335f447f8ca889a428a5c5>>
+ * @generated SignedSource<<c9bac4d920f2af888bfa464d0ff28b96>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -16,6 +16,7 @@ export type ProductsGetAllQuery$data = {
     readonly edges: ReadonlyArray<{
       readonly node: {
         readonly _id: string;
+        readonly category: string | null;
         readonly description: string | null;
         readonly name: string | null;
         readonly reviews: {
@@ -70,31 +71,38 @@ v3 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "_id",
+  "name": "category",
   "storageKey": null
 },
 v4 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "comment",
+  "name": "_id",
   "storageKey": null
 },
 v5 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "rating",
+  "name": "comment",
   "storageKey": null
 },
 v6 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "email",
+  "name": "rating",
   "storageKey": null
 },
 v7 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "email",
+  "storageKey": null
+},
+v8 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
@@ -136,6 +144,7 @@ return {
                   (v1/*: any*/),
                   (v2/*: any*/),
                   (v3/*: any*/),
+                  (v4/*: any*/),
                   {
                     "alias": null,
                     "args": null,
@@ -161,8 +170,8 @@ return {
                             "name": "node",
                             "plural": false,
                             "selections": [
-                              (v4/*: any*/),
                               (v5/*: any*/),
+                              (v6/*: any*/),
                               {
                                 "alias": null,
                                 "args": null,
@@ -171,7 +180,7 @@ return {
                                 "name": "user",
                                 "plural": false,
                                 "selections": [
-                                  (v6/*: any*/),
+                                  (v7/*: any*/),
                                   (v2/*: any*/)
                                 ],
                                 "storageKey": null
@@ -194,7 +203,7 @@ return {
                     "plural": false,
                     "selections": [
                       (v2/*: any*/),
-                      (v6/*: any*/)
+                      (v7/*: any*/)
                     ],
                     "storageKey": null
                   }
@@ -245,6 +254,7 @@ return {
                   (v1/*: any*/),
                   (v2/*: any*/),
                   (v3/*: any*/),
+                  (v4/*: any*/),
                   {
                     "alias": null,
                     "args": null,
@@ -270,8 +280,8 @@ return {
                             "name": "node",
                             "plural": false,
                             "selections": [
-                              (v4/*: any*/),
                               (v5/*: any*/),
+                              (v6/*: any*/),
                               {
                                 "alias": null,
                                 "args": null,
@@ -280,13 +290,13 @@ return {
                                 "name": "user",
                                 "plural": false,
                                 "selections": [
-                                  (v6/*: any*/),
+                                  (v7/*: any*/),
                                   (v2/*: any*/),
-                                  (v7/*: any*/)
+                                  (v8/*: any*/)
                                 ],
                                 "storageKey": null
                               },
-                              (v7/*: any*/)
+                              (v8/*: any*/)
                             ],
                             "storageKey": null
                           }
@@ -305,12 +315,12 @@ return {
                     "plural": false,
                     "selections": [
                       (v2/*: any*/),
-                      (v6/*: any*/),
-                      (v7/*: any*/)
+                      (v7/*: any*/),
+                      (v8/*: any*/)
                     ],
                     "storageKey": null
                   },
-                  (v7/*: any*/)
+                  (v8/*: any*/)
                 ],
                 "storageKey": null
               }
@@ -323,16 +333,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "8196b48288a68e8682848b432e12ddeb",
+    "cacheID": "e3ff80fc663cdc501bc5134246cbedea",
     "id": null,
     "metadata": {},
     "name": "ProductsGetAllQuery",
     "operationKind": "query",
-    "text": "query ProductsGetAllQuery {\n  products {\n    count\n    edges {\n      node {\n        description\n        name\n        _id\n        reviews {\n          count\n          edges {\n            node {\n              comment\n              rating\n              user {\n                email\n                name\n                id\n              }\n              id\n            }\n          }\n        }\n        user {\n          name\n          email\n          id\n        }\n        id\n      }\n    }\n  }\n}\n"
+    "text": "query ProductsGetAllQuery {\n  products {\n    count\n    edges {\n      node {\n        description\n        name\n        category\n        _id\n        reviews {\n          count\n          edges {\n            node {\n              comment\n              rating\n              user {\n                email\n                name\n                id\n              }\n              id\n            }\n          }\n        }\n        user {\n          name\n          email\n          id\n        }\n        id\n      }\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "436d0594eb67d46a69511af3844758a9";
+(node as any).hash = "afbd47f01707554a6330075d85b3af44";
 
 export default node;
