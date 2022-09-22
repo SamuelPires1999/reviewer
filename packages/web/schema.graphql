@@ -21,21 +21,6 @@ type ChangeUserPasswordPayload {
   clientMutationId: String
 }
 
-"""Comment data"""
-type Comment implements Node {
-  """The ID of an object"""
-  id: ID!
-
-  """mongoose _id"""
-  _id: String!
-  comment: String
-  rating: Int
-  user: User
-  product: Product
-  createdAt: String
-  updatedAt: String
-}
-
 """A connection to a list of items."""
 interface Connection {
   """Number of items in this connection."""
@@ -250,6 +235,21 @@ type Query {
   singleProductById(id: String!): Product
 }
 
+"""Review data"""
+type Review implements Node {
+  """The ID of an object"""
+  id: ID!
+
+  """mongoose _id"""
+  _id: String!
+  comment: String
+  rating: Int
+  user: User
+  product: Product
+  createdAt: String
+  updatedAt: String
+}
+
 """A connection to a list of items."""
 type ReviewConnection implements Connection {
   """Number of items in this connection."""
@@ -279,7 +279,7 @@ type ReviewConnection implements Connection {
 """An edge in a connection."""
 type ReviewEdge {
   """The item at the end of the edge."""
-  node: Comment
+  node: Review
 
   """A cursor for use in pagination."""
   cursor: String!

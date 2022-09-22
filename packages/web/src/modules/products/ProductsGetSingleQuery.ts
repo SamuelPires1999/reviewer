@@ -12,7 +12,19 @@ export const ProductsGetSingleQuery = graphql`
         name
         email
       }
-      ...ProductsGetReviewsFragment
+      reviews {
+        count
+        edges {
+          node {
+            comment
+            rating
+            user {
+              name
+              _id
+            }
+          }
+        }
+      }
     }
   }
 `;

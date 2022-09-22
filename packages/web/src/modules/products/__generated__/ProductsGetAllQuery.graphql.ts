@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<c9bac4d920f2af888bfa464d0ff28b96>>
+ * @generated SignedSource<<cbb98aee59f20805f202dbb988f7613d>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -21,16 +21,6 @@ export type ProductsGetAllQuery$data = {
         readonly name: string | null;
         readonly reviews: {
           readonly count: number | null;
-          readonly edges: ReadonlyArray<{
-            readonly node: {
-              readonly comment: string | null;
-              readonly rating: number | null;
-              readonly user: {
-                readonly email: string | null;
-                readonly name: string | null;
-              } | null;
-            } | null;
-          } | null>;
         };
         readonly user: {
           readonly email: string | null;
@@ -84,25 +74,23 @@ v4 = {
 v5 = {
   "alias": null,
   "args": null,
-  "kind": "ScalarField",
-  "name": "comment",
+  "concreteType": "ReviewConnection",
+  "kind": "LinkedField",
+  "name": "reviews",
+  "plural": false,
+  "selections": [
+    (v0/*: any*/)
+  ],
   "storageKey": null
 },
 v6 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "rating",
-  "storageKey": null
-},
-v7 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
   "name": "email",
   "storageKey": null
 },
-v8 = {
+v7 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
@@ -145,55 +133,7 @@ return {
                   (v2/*: any*/),
                   (v3/*: any*/),
                   (v4/*: any*/),
-                  {
-                    "alias": null,
-                    "args": null,
-                    "concreteType": "ReviewConnection",
-                    "kind": "LinkedField",
-                    "name": "reviews",
-                    "plural": false,
-                    "selections": [
-                      (v0/*: any*/),
-                      {
-                        "alias": null,
-                        "args": null,
-                        "concreteType": "ReviewEdge",
-                        "kind": "LinkedField",
-                        "name": "edges",
-                        "plural": true,
-                        "selections": [
-                          {
-                            "alias": null,
-                            "args": null,
-                            "concreteType": "Comment",
-                            "kind": "LinkedField",
-                            "name": "node",
-                            "plural": false,
-                            "selections": [
-                              (v5/*: any*/),
-                              (v6/*: any*/),
-                              {
-                                "alias": null,
-                                "args": null,
-                                "concreteType": "User",
-                                "kind": "LinkedField",
-                                "name": "user",
-                                "plural": false,
-                                "selections": [
-                                  (v7/*: any*/),
-                                  (v2/*: any*/)
-                                ],
-                                "storageKey": null
-                              }
-                            ],
-                            "storageKey": null
-                          }
-                        ],
-                        "storageKey": null
-                      }
-                    ],
-                    "storageKey": null
-                  },
+                  (v5/*: any*/),
                   {
                     "alias": null,
                     "args": null,
@@ -203,7 +143,7 @@ return {
                     "plural": false,
                     "selections": [
                       (v2/*: any*/),
-                      (v7/*: any*/)
+                      (v6/*: any*/)
                     ],
                     "storageKey": null
                   }
@@ -255,57 +195,7 @@ return {
                   (v2/*: any*/),
                   (v3/*: any*/),
                   (v4/*: any*/),
-                  {
-                    "alias": null,
-                    "args": null,
-                    "concreteType": "ReviewConnection",
-                    "kind": "LinkedField",
-                    "name": "reviews",
-                    "plural": false,
-                    "selections": [
-                      (v0/*: any*/),
-                      {
-                        "alias": null,
-                        "args": null,
-                        "concreteType": "ReviewEdge",
-                        "kind": "LinkedField",
-                        "name": "edges",
-                        "plural": true,
-                        "selections": [
-                          {
-                            "alias": null,
-                            "args": null,
-                            "concreteType": "Comment",
-                            "kind": "LinkedField",
-                            "name": "node",
-                            "plural": false,
-                            "selections": [
-                              (v5/*: any*/),
-                              (v6/*: any*/),
-                              {
-                                "alias": null,
-                                "args": null,
-                                "concreteType": "User",
-                                "kind": "LinkedField",
-                                "name": "user",
-                                "plural": false,
-                                "selections": [
-                                  (v7/*: any*/),
-                                  (v2/*: any*/),
-                                  (v8/*: any*/)
-                                ],
-                                "storageKey": null
-                              },
-                              (v8/*: any*/)
-                            ],
-                            "storageKey": null
-                          }
-                        ],
-                        "storageKey": null
-                      }
-                    ],
-                    "storageKey": null
-                  },
+                  (v5/*: any*/),
                   {
                     "alias": null,
                     "args": null,
@@ -315,12 +205,12 @@ return {
                     "plural": false,
                     "selections": [
                       (v2/*: any*/),
-                      (v7/*: any*/),
-                      (v8/*: any*/)
+                      (v6/*: any*/),
+                      (v7/*: any*/)
                     ],
                     "storageKey": null
                   },
-                  (v8/*: any*/)
+                  (v7/*: any*/)
                 ],
                 "storageKey": null
               }
@@ -333,16 +223,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "e3ff80fc663cdc501bc5134246cbedea",
+    "cacheID": "37d8cb861d37cab0715b4cc878be85ce",
     "id": null,
     "metadata": {},
     "name": "ProductsGetAllQuery",
     "operationKind": "query",
-    "text": "query ProductsGetAllQuery {\n  products {\n    count\n    edges {\n      node {\n        description\n        name\n        category\n        _id\n        reviews {\n          count\n          edges {\n            node {\n              comment\n              rating\n              user {\n                email\n                name\n                id\n              }\n              id\n            }\n          }\n        }\n        user {\n          name\n          email\n          id\n        }\n        id\n      }\n    }\n  }\n}\n"
+    "text": "query ProductsGetAllQuery {\n  products {\n    count\n    edges {\n      node {\n        description\n        name\n        category\n        _id\n        reviews {\n          count\n        }\n        user {\n          name\n          email\n          id\n        }\n        id\n      }\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "afbd47f01707554a6330075d85b3af44";
+(node as any).hash = "b76ff078b54c14f03e009fbdb8edc80f";
 
 export default node;

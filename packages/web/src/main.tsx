@@ -7,10 +7,12 @@ import { ChakraProvider } from '@chakra-ui/react';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <ChakraProvider>
-      <RelayEnvironmentProvider environment={relayEnvironment}>
-        <App />
-      </RelayEnvironmentProvider>
-    </ChakraProvider>
+    <React.Suspense fallback="Loading...">
+      <ChakraProvider>
+        <RelayEnvironmentProvider environment={relayEnvironment}>
+          <App />
+        </RelayEnvironmentProvider>
+      </ChakraProvider>
+    </React.Suspense>
   </React.StrictMode>,
 );

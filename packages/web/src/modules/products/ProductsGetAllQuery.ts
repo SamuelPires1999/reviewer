@@ -12,16 +12,6 @@ export const ProductsGetAllQuery = graphql`
           _id
           reviews {
             count
-            edges {
-              node {
-                comment
-                rating
-                user {
-                  email
-                  name
-                }
-              }
-            }
           }
           user {
             name
