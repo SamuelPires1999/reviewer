@@ -1,7 +1,18 @@
-import { GraphQLString, GraphQLNonNull, GraphQLID, GraphQLInt } from 'graphql';
+import {
+  GraphQLString,
+  GraphQLNonNull,
+  GraphQLID,
+  GraphQLInt,
+  graphql,
+} from 'graphql';
 import { mutationWithClientMutationId, toGlobalId } from 'graphql-relay';
 
-import { errorField, successField, getObjectId, objectIdResolver } from '@entria/graphql-mongo-helpers';
+import {
+  errorField,
+  successField,
+  getObjectId,
+  objectIdResolver,
+} from '@entria/graphql-mongo-helpers';
 
 import { GraphQLContext } from '../../../graphql/types';
 import ProductModel from '../../product/ProductModel';
@@ -13,7 +24,7 @@ import ProductType from '../../product/ProductType';
 import * as ProductLoader from '../../product/ProductLoader';
 
 type Args = {
-  rating: number;
+  rating: string;
   comment?: string;
   product: string;
 };
@@ -21,7 +32,7 @@ const mutation = mutationWithClientMutationId({
   name: 'CreateReviewMutation',
   inputFields: {
     rating: {
-      type: new GraphQLNonNull(GraphQLInt),
+      type: new GraphQLNonNull(GraphQLString),
     },
     comment: {
       type: GraphQLString,
@@ -57,7 +68,7 @@ const mutation = mutationWithClientMutationId({
       user: context.user._id,
       product,
       comment: args.comment,
-      rating: args.rating,
+      rating: parseInt(args.rating),
     }).save();
 
     return {

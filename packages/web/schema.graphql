@@ -45,7 +45,7 @@ interface Connection {
 }
 
 input CreateReviewMutationInput {
-  rating: Int!
+  rating: String!
   comment: String
   product: String!
   clientMutationId: String
