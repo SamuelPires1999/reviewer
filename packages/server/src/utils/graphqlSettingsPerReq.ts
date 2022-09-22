@@ -6,7 +6,11 @@ import { schema } from '../schema/schema';
 import { getContext } from './getContext';
 import { setCookie } from './setCookie';
 
-export const graphqlSettingsPerReq = async (req: Request, ctx: any, koaContext: Context) => {
+export const graphqlSettingsPerReq = async (
+  req: Request,
+  ctx: any,
+  koaContext: Context,
+) => {
   const { user } = await getUser(req.header.authorization);
 
   return {

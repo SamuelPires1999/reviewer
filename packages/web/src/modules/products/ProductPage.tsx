@@ -16,16 +16,20 @@ import {
   VisuallyHidden,
   List,
   ListItem,
+  useDisclosure,
 } from '@chakra-ui/react';
 import { useLazyLoadQuery } from 'react-relay';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useStore } from '../../store/useStore';
 import { ProductsGetSingleQuery } from './ProductsGetSingleQuery';
+import { ReviewModal } from './ReviewModal';
 import type { ProductsGetSingleQuery as QueryType } from './__generated__/ProductsGetSingleQuery.graphql';
 
 export const ProductPage = () => {
   const params = useParams();
   const store = useStore();
+  const { isOpen, onClose, onOpen } = useDisclosure();
+  const navigate = useNavigate();
 
   const data = useLazyLoadQuery<QueryType>(
     ProductsGetSingleQuery,
@@ -138,11 +142,15 @@ export const ProductPage = () => {
               transform: 'translateY(2px)',
               boxShadow: 'lg',
             }}
+            onClick={() => {
+              store.user ? onOpen() : navigate('/login');
+            }}
           >
             {store.user ? 'Add your review' : 'Login to add a review'}
           </Button>
         </Stack>
       </SimpleGrid>
+      <ReviewModal isOpen={isOpen} onClose={onClose} productId={params.id} />
     </Container>
   );
 };
