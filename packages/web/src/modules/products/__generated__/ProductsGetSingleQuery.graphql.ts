@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<41371a7fddfac472cfdef8d7e9498015>>
+ * @generated SignedSource<<ad61be380d030a95cf218e464c1b80bd>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -185,13 +185,6 @@ return {
               {
                 "alias": null,
                 "args": null,
-                "kind": "ScalarField",
-                "name": "count",
-                "storageKey": null
-              },
-              {
-                "alias": null,
-                "args": null,
                 "concreteType": "ReviewEdge",
                 "kind": "LinkedField",
                 "name": "edges",
@@ -200,7 +193,7 @@ return {
                   {
                     "alias": null,
                     "args": null,
-                    "concreteType": "Comment",
+                    "concreteType": "Review",
                     "kind": "LinkedField",
                     "name": "node",
                     "plural": false,
@@ -212,6 +205,7 @@ return {
                         "name": "comment",
                         "storageKey": null
                       },
+                      (v6/*: any*/),
                       {
                         "alias": null,
                         "args": null,
@@ -228,7 +222,6 @@ return {
                         "plural": false,
                         "selections": [
                           (v2/*: any*/),
-                          (v6/*: any*/),
                           (v8/*: any*/)
                         ],
                         "storageKey": null
@@ -250,12 +243,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "30f3ddc8a31bef5999c6e4de02e98d76",
+    "cacheID": "f186cea5c79a044d89777292f934cc88",
     "id": null,
     "metadata": {},
     "name": "ProductsGetSingleQuery",
     "operationKind": "query",
-    "text": "query ProductsGetSingleQuery(\n  $id: String!\n) {\n  singleProductById(id: $id) {\n    name\n    referenceLink\n    category\n    description\n    user {\n      _id\n      name\n      email\n      id\n    }\n    ...ProductsGetReviewsFragment\n    id\n  }\n}\n\nfragment ProductsGetReviewsFragment on Product {\n  reviews {\n    count\n    edges {\n      node {\n        comment\n        rating\n        user {\n          name\n          _id\n          id\n        }\n        id\n      }\n    }\n  }\n}\n"
+    "text": "query ProductsGetSingleQuery(\n  $id: String!\n) {\n  singleProductById(id: $id) {\n    name\n    referenceLink\n    category\n    description\n    user {\n      _id\n      name\n      email\n      id\n    }\n    ...ProductsGetReviewsFragment\n    id\n  }\n}\n\nfragment ProductsGetReviewsFragment on Product {\n  reviews {\n    edges {\n      node {\n        comment\n        _id\n        rating\n        user {\n          name\n          id\n        }\n        id\n      }\n    }\n  }\n}\n"
   }
 };
 })();

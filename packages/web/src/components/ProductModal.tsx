@@ -9,22 +9,23 @@ import {
   Button,
   Avatar,
 } from '@chakra-ui/react';
-
-type Product = {
-  author: string;
-  description: string;
-  reviewCount: number;
-  name: string;
-  category: string;
-};
+import { useLazyLoadQuery } from 'react-relay';
+import { ProductsGetSingleQuery } from '../modules/products/ProductsGetSingleQuery';
+import type { ProductsGetSingleQuery as QueryType } from '../modules/products/__generated__/ProductsGetSingleQuery.graphql';
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
-  productInfo: Product;
+  id: string;
 }
 
-export const ProductModal = ({ isOpen, onClose, productInfo }: Props) => {
+export const ProductModal = ({ isOpen, onClose, id }: Props) => {
+  const { singleProductById } = useLazyLoadQuery<QueryType>(
+    ProductsGetSingleQuery,
+    { id: id },
+    { fetchPolicy: 'store-or-network' },
+  );
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -36,12 +37,12 @@ export const ProductModal = ({ isOpen, onClose, productInfo }: Props) => {
               'https://image.shutterstock.com/image-vector/default-ui-image-placeholder-wireframes-600w-1037719192.jpg'
             }
           />
-          {productInfo.name}
+          {singleProductById?.name}
         </ModalHeader>
         <ModalCloseButton />
-        <ModalBody>{productInfo.description}</ModalBody>
+        <ModalBody>{singleProductById?.description}</ModalBody>
 
-        <ModalBody>data here</ModalBody>
+        <ModalBody>{singleProductById?.category}</ModalBody>
         <ModalFooter>
           <Button colorScheme="blue" mr={3} onClick={onClose}>
             Close

@@ -6,19 +6,15 @@ import {
   Stack,
   Avatar,
   useColorModeValue,
-  useDisclosure,
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
-import { ProductsGetReviewsFragment$key } from '../modules/products/__generated__/ProductsGetReviewsFragment.graphql';
-import { ProductModal } from './ProductModal';
-
 interface CardProps {
   author: string;
   description: string;
   reviewCount: number;
   name: string;
   category: string;
-  id: string | undefined;
+  id: string;
 }
 
 export default function ProductCard(props: CardProps) {
