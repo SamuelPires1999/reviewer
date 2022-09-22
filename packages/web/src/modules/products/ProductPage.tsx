@@ -1,3 +1,4 @@
+import { StarIcon } from '@chakra-ui/icons';
 import {
   Box,
   chakra,
@@ -18,10 +19,10 @@ import {
 } from '@chakra-ui/react';
 import { useLazyLoadQuery } from 'react-relay';
 import { useParams } from 'react-router-dom';
-import { ReviewList } from '../../components/ReviewList';
 import { useStore } from '../../store/useStore';
 import { ProductsGetSingleQuery } from './ProductsGetSingleQuery';
 import type { ProductsGetSingleQuery as QueryType } from './__generated__/ProductsGetSingleQuery.graphql';
+
 export const ProductPage = () => {
   const params = useParams();
   const store = useStore();
@@ -94,10 +95,33 @@ export const ProductPage = () => {
                 textTransform={'uppercase'}
                 mb={'4'}
               >
-                Product Details
+                Reviews:
               </Text>
 
-              <ReviewList product={data.singleProductById} />
+              <Flex direction={'column'}>
+                {data.singleProductById?.reviews.edges.map((review, index) => (
+                  <Stack
+                    key={index}
+                    p={6}
+                    divider={
+                      <StackDivider
+                        borderColor={useColorModeValue('gray.200', 'gray.600')}
+                      />
+                    }
+                  >
+                    <Text fontWeight={'bold'}>{review?.node?.user?.name}</Text>
+                    <Flex gap={1}>
+                      {[...Array(review?.node?.rating).keys()].map(
+                        (item, index) => (
+                          <StarIcon color={'yellow.400'} />
+                        ),
+                      )}
+                    </Flex>
+                    <Text>{review?.node?.comment}</Text>
+                  </Stack>
+                ))}
+              </Flex>
+              {/* <ReviewList product={data.singleProductById} /> */}
             </Box>
           </Stack>
 

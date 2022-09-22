@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<ad61be380d030a95cf218e464c1b80bd>>
+ * @generated SignedSource<<e0a763f5d370e3cfc20a96662a4547aa>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,7 +9,6 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Query } from 'relay-runtime';
-import { FragmentRefs } from "relay-runtime";
 export type ProductsGetSingleQuery$variables = {
   id: string;
 };
@@ -19,12 +18,24 @@ export type ProductsGetSingleQuery$data = {
     readonly description: string | null;
     readonly name: string | null;
     readonly referenceLink: string | null;
+    readonly reviews: {
+      readonly count: number | null;
+      readonly edges: ReadonlyArray<{
+        readonly node: {
+          readonly comment: string | null;
+          readonly rating: number | null;
+          readonly user: {
+            readonly _id: string;
+            readonly name: string | null;
+          } | null;
+        } | null;
+      } | null>;
+    };
     readonly user: {
       readonly _id: string;
       readonly email: string | null;
       readonly name: string | null;
     } | null;
-    readonly " $fragmentSpreads": FragmentRefs<"ProductsGetReviewsFragment">;
   } | null;
 };
 export type ProductsGetSingleQuery = {
@@ -93,6 +104,27 @@ v8 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
+  "name": "count",
+  "storageKey": null
+},
+v9 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "comment",
+  "storageKey": null
+},
+v10 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "rating",
+  "storageKey": null
+},
+v11 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
   "name": "id",
   "storageKey": null
 };
@@ -130,9 +162,53 @@ return {
             "storageKey": null
           },
           {
+            "alias": null,
             "args": null,
-            "kind": "FragmentSpread",
-            "name": "ProductsGetReviewsFragment"
+            "concreteType": "ReviewConnection",
+            "kind": "LinkedField",
+            "name": "reviews",
+            "plural": false,
+            "selections": [
+              (v8/*: any*/),
+              {
+                "alias": null,
+                "args": null,
+                "concreteType": "ReviewEdge",
+                "kind": "LinkedField",
+                "name": "edges",
+                "plural": true,
+                "selections": [
+                  {
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "Review",
+                    "kind": "LinkedField",
+                    "name": "node",
+                    "plural": false,
+                    "selections": [
+                      (v9/*: any*/),
+                      (v10/*: any*/),
+                      {
+                        "alias": null,
+                        "args": null,
+                        "concreteType": "User",
+                        "kind": "LinkedField",
+                        "name": "user",
+                        "plural": false,
+                        "selections": [
+                          (v2/*: any*/),
+                          (v6/*: any*/)
+                        ],
+                        "storageKey": null
+                      }
+                    ],
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
           }
         ],
         "storageKey": null
@@ -170,7 +246,7 @@ return {
               (v6/*: any*/),
               (v2/*: any*/),
               (v7/*: any*/),
-              (v8/*: any*/)
+              (v11/*: any*/)
             ],
             "storageKey": null
           },
@@ -182,6 +258,7 @@ return {
             "name": "reviews",
             "plural": false,
             "selections": [
+              (v8/*: any*/),
               {
                 "alias": null,
                 "args": null,
@@ -198,21 +275,8 @@ return {
                     "name": "node",
                     "plural": false,
                     "selections": [
-                      {
-                        "alias": null,
-                        "args": null,
-                        "kind": "ScalarField",
-                        "name": "comment",
-                        "storageKey": null
-                      },
-                      (v6/*: any*/),
-                      {
-                        "alias": null,
-                        "args": null,
-                        "kind": "ScalarField",
-                        "name": "rating",
-                        "storageKey": null
-                      },
+                      (v9/*: any*/),
+                      (v10/*: any*/),
                       {
                         "alias": null,
                         "args": null,
@@ -222,11 +286,12 @@ return {
                         "plural": false,
                         "selections": [
                           (v2/*: any*/),
-                          (v8/*: any*/)
+                          (v6/*: any*/),
+                          (v11/*: any*/)
                         ],
                         "storageKey": null
                       },
-                      (v8/*: any*/)
+                      (v11/*: any*/)
                     ],
                     "storageKey": null
                   }
@@ -236,23 +301,23 @@ return {
             ],
             "storageKey": null
           },
-          (v8/*: any*/)
+          (v11/*: any*/)
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "f186cea5c79a044d89777292f934cc88",
+    "cacheID": "82e58063d33ec3717249011a1a298882",
     "id": null,
     "metadata": {},
     "name": "ProductsGetSingleQuery",
     "operationKind": "query",
-    "text": "query ProductsGetSingleQuery(\n  $id: String!\n) {\n  singleProductById(id: $id) {\n    name\n    referenceLink\n    category\n    description\n    user {\n      _id\n      name\n      email\n      id\n    }\n    ...ProductsGetReviewsFragment\n    id\n  }\n}\n\nfragment ProductsGetReviewsFragment on Product {\n  reviews {\n    edges {\n      node {\n        comment\n        _id\n        rating\n        user {\n          name\n          id\n        }\n        id\n      }\n    }\n  }\n}\n"
+    "text": "query ProductsGetSingleQuery(\n  $id: String!\n) {\n  singleProductById(id: $id) {\n    name\n    referenceLink\n    category\n    description\n    user {\n      _id\n      name\n      email\n      id\n    }\n    reviews {\n      count\n      edges {\n        node {\n          comment\n          rating\n          user {\n            name\n            _id\n            id\n          }\n          id\n        }\n      }\n    }\n    id\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "5fdfcc1ff5a036c70d07ab775e801942";
+(node as any).hash = "df6c318c73d2ce3d99b9f51ad49e9802";
 
 export default node;

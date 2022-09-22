@@ -1,6 +1,5 @@
 import { List, ListItem, Text } from '@chakra-ui/react';
-import { useFragment } from 'react-relay';
-import { ProductsGetReviewsFragment } from '../modules/products/ProductsGetReviewsFragment';
+import { graphql, useFragment } from 'react-relay';
 import { ProductsGetReviewsFragment$key } from '../modules/products/__generated__/ProductsGetReviewsFragment.graphql';
 
 interface Props {
@@ -9,7 +8,23 @@ interface Props {
 
 export const ReviewList = (props: Props) => {
   const data = useFragment<ProductsGetReviewsFragment$key>(
-    ProductsGetReviewsFragment,
+    graphql`
+      fragment ReviewList_reviews on Product {
+        reviews {
+          edges {
+            node {
+              comment
+              _id
+              rating
+              user {
+                name
+                id
+              }
+            }
+          }
+        }
+      }
+    `,
     props.product,
   );
 
