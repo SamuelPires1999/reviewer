@@ -1,7 +1,17 @@
-import { GraphQLObjectType, GraphQLString, GraphQLNonNull, GraphQLInt, GraphQLBoolean } from 'graphql';
+import {
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLNonNull,
+  GraphQLInt,
+  GraphQLBoolean,
+} from 'graphql';
 import { globalIdField } from 'graphql-relay';
 
-import { connectionDefinitions, objectIdResolver, timestampResolver } from '@entria/graphql-mongo-helpers';
+import {
+  connectionDefinitions,
+  objectIdResolver,
+  timestampResolver,
+} from '@entria/graphql-mongo-helpers';
 
 import { nodeInterface, registerTypeLoader } from '../node/typeRegister';
 
@@ -15,11 +25,11 @@ import { load } from './ReviewLoader';
 
 //@ts-ignore
 const ReviewType = new GraphQLObjectType<IReview, GraphQLContext>({
-  name: 'Comment',
-  description: 'Comment data',
+  name: 'Review',
+  description: 'Review data',
   //@ts-ignore
   fields: () => ({
-    id: globalIdField('Comment'),
+    id: globalIdField('Review'),
     ...objectIdResolver,
     comment: {
       type: GraphQLString,
@@ -34,7 +44,8 @@ const ReviewType = new GraphQLObjectType<IReview, GraphQLContext>({
     },
     product: {
       type: ProductType,
-      resolve: (review, _, context) => ProductLoader.load(context, review.product),
+      resolve: (review, _, context) =>
+        ProductLoader.load(context, review.product),
     },
     ...timestampResolver,
   }),
