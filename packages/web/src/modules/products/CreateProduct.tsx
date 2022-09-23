@@ -6,9 +6,13 @@ import {
   FormControl,
   FormLabel,
   Button,
+  RadioGroup,
+  Radio,
+  Divider,
+  Text,
 } from '@chakra-ui/react';
 import * as Yup from 'yup';
-import { Form, FormikProvider, useFormik } from 'formik';
+import { Field, Form, FormikProvider, useFormik } from 'formik';
 import { InputField } from '../../components/InputField';
 
 export const CreateProduct = () => {
@@ -17,12 +21,14 @@ export const CreateProduct = () => {
       description: '',
       name: '',
       referenceLink: '',
+      category: '',
     },
     validateOnMount: true,
     validationSchema: Yup.object().shape({
       description: Yup.string(),
       name: Yup.string().required(),
       referenceLink: Yup.string(),
+      category: Yup.string(),
     }),
     onSubmit: values => {
       console.log(values);
@@ -73,6 +79,23 @@ export const CreateProduct = () => {
                 shouldValidate
                 mb={5}
               />
+            </FormControl>{' '}
+            <FormControl id="category">
+              <FormLabel>Category</FormLabel>
+              <Flex mb={5} gap={3}>
+                <Stack direction={'row'}>
+                  <Field type="radio" name="category" value="pc-parts" />
+                  <Text ml={3}>PC-PARTS</Text>
+                </Stack>
+                <Stack direction={'row'}>
+                  <Field type="radio" name="category" value="food" />
+                  <Text ml={3}>FOOD</Text>
+                </Stack>{' '}
+                <Stack direction={'row'}>
+                  <Field type="radio" name="category" value="clothing" />
+                  <Text ml={3}>CLOTHING</Text>
+                </Stack>
+              </Flex>
             </FormControl>
             <FormControl id="description">
               <FormLabel>description</FormLabel>
