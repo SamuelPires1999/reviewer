@@ -18,12 +18,12 @@ const UserSchema = new mongoose.Schema(
     },
     reviews: {
       type: [Schema.Types.ObjectId],
-      red: 'Review',
+      ref: 'Review',
       default: [],
     },
     products: {
       type: [Schema.Types.ObjectId],
-      red: 'Product',
+      ref: 'Product',
       default: [],
     },
   },
