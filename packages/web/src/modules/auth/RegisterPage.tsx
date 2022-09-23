@@ -20,6 +20,7 @@ import {
   Heading,
   useColorModeValue,
 } from '@chakra-ui/react';
+import { useStore } from '../../store/useStore';
 
 export const RegisterPage = () => {
   const { signin } = useAuth();
@@ -28,6 +29,8 @@ export const RegisterPage = () => {
     status: false,
     message: '',
   });
+
+  const setUser = useStore(state => state.setUser);
 
   const [handleUserRegister, isPending] =
     useMutation<AuthRegisterMutationType>(AuthRegisterMutation);
@@ -51,6 +54,14 @@ export const RegisterPage = () => {
               status: true,
             });
             return;
+          }
+
+          if (RegisterWithEmailMutation?.me) {
+            setUser({
+              _id: RegisterWithEmailMutation.me._id,
+              name: RegisterWithEmailMutation.me.name,
+              email: RegisterWithEmailMutation.me.email,
+            });
           }
 
           if (RegisterWithEmailMutation?.token) {

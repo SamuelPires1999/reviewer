@@ -131,6 +131,14 @@ export const LoginPage = () => {
                       {isSubmitting ? <Spinner /> : 'Login'}
                     </Button>
                   </Stack>
+                  <Button
+                    variant={'link'}
+                    fontWeight="hairline"
+                    fontSize={'sm'}
+                    onClick={() => navigate('/register')}
+                  >
+                    Doesnt have an account? Create one!
+                  </Button>
                 </Stack>
               </Box>
             </Stack>
