@@ -18,11 +18,13 @@ import {
   ListItem,
   useDisclosure,
 } from '@chakra-ui/react';
-import { useLazyLoadQuery } from 'react-relay';
+import { useLazyLoadQuery, useMutation } from 'react-relay';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useStore } from '../../store/useStore';
+import { DeleteProductMutation } from './DeleteProduct';
 import { ProductsGetSingleQuery } from './ProductsGetSingleQuery';
 import { ReviewModal } from './ReviewModal';
+import { DeleteProductMutation as MutationType } from './__generated__/DeleteProductMutation.graphql';
 import type { ProductsGetSingleQuery as QueryType } from './__generated__/ProductsGetSingleQuery.graphql';
 
 export const ProductPage = () => {
@@ -37,6 +39,10 @@ export const ProductPage = () => {
       id: params.id || '000',
     },
     { fetchPolicy: 'store-or-network' },
+  );
+
+  const [handkleDeleteProduct] = useMutation<MutationType>(
+    DeleteProductMutation,
   );
 
   return (
@@ -79,6 +85,30 @@ export const ProductPage = () => {
               />
             }
           >
+            {store.user?._id === data.singleProductById?.user?._id ? (
+              <Box>
+                <Button
+                  onClick={() => {
+                    handkleDeleteProduct({
+                      variables: { input: { product: params.id || '000' } },
+                      onCompleted: data => {
+                        console.log(data);
+                        if (data.DeleteProductMutation?.error) {
+                          alert(data.DeleteProductMutation?.error);
+                          return;
+                        }
+
+                        navigate('/');
+                      },
+                    });
+                  }}
+                  size={'md'}
+                  colorScheme="red"
+                >
+                  Delete This Product
+                </Button>
+              </Box>
+            ) : null}
             <Box>
               <Text
                 fontSize={{ base: '16px', lg: '18px' }}
