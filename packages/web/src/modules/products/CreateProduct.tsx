@@ -14,8 +14,18 @@ import {
 import * as Yup from 'yup';
 import { Field, Form, FormikProvider, useFormik } from 'formik';
 import { InputField } from '../../components/InputField';
+import { useMutation } from 'react-relay';
+import { ProductCreateMutation } from './ProductCreateMutation';
+import type { ProductCreateMutation as MutationType } from './__generated__/ProductCreateMutation.graphql';
+import { useNavigate } from 'react-router-dom';
 
 export const CreateProduct = () => {
+  const navigate = useNavigate();
+
+  const [handleCreateProduct] = useMutation<MutationType>(
+    ProductCreateMutation,
+  );
+
   const formikValue = useFormik({
     initialValues: {
       description: '',
@@ -32,6 +42,15 @@ export const CreateProduct = () => {
     }),
     onSubmit: values => {
       console.log(values);
+      handleCreateProduct({
+        variables: {
+          input: values,
+        },
+        onCompleted: data => {
+          console.log(data);
+          navigate('/');
+        },
+      });
     },
   });
 
@@ -94,6 +113,14 @@ export const CreateProduct = () => {
                 <Stack direction={'row'}>
                   <Field type="radio" name="category" value="clothing" />
                   <Text ml={3}>CLOTHING</Text>
+                </Stack>{' '}
+                <Stack direction={'row'}>
+                  <Field type="radio" name="category" value="gadgets" />
+                  <Text ml={3}>GADGETS</Text>
+                </Stack>{' '}
+                <Stack direction={'row'}>
+                  <Field type="radio" name="category" value="random" />
+                  <Text ml={3}>RANDOM</Text>
                 </Stack>
               </Flex>
             </FormControl>
