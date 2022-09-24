@@ -16,6 +16,7 @@ export const ProductsGetSingleQuery = graphql`
         count
         edges {
           node {
+            _id
             comment
             rating
             user {

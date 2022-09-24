@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<e0a763f5d370e3cfc20a96662a4547aa>>
+ * @generated SignedSource<<22961950b60f444bcbe713c95e1149f3>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -22,6 +22,7 @@ export type ProductsGetSingleQuery$data = {
       readonly count: number | null;
       readonly edges: ReadonlyArray<{
         readonly node: {
+          readonly _id: string;
           readonly comment: string | null;
           readonly rating: number | null;
           readonly user: {
@@ -186,6 +187,7 @@ return {
                     "name": "node",
                     "plural": false,
                     "selections": [
+                      (v6/*: any*/),
                       (v9/*: any*/),
                       (v10/*: any*/),
                       {
@@ -275,6 +277,7 @@ return {
                     "name": "node",
                     "plural": false,
                     "selections": [
+                      (v6/*: any*/),
                       (v9/*: any*/),
                       (v10/*: any*/),
                       {
@@ -308,16 +311,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "82e58063d33ec3717249011a1a298882",
+    "cacheID": "111d71b749d76c1f36aee3fcdd6305ed",
     "id": null,
     "metadata": {},
     "name": "ProductsGetSingleQuery",
     "operationKind": "query",
-    "text": "query ProductsGetSingleQuery(\n  $id: String!\n) {\n  singleProductById(id: $id) {\n    name\n    referenceLink\n    category\n    description\n    user {\n      _id\n      name\n      email\n      id\n    }\n    reviews {\n      count\n      edges {\n        node {\n          comment\n          rating\n          user {\n            name\n            _id\n            id\n          }\n          id\n        }\n      }\n    }\n    id\n  }\n}\n"
+    "text": "query ProductsGetSingleQuery(\n  $id: String!\n) {\n  singleProductById(id: $id) {\n    name\n    referenceLink\n    category\n    description\n    user {\n      _id\n      name\n      email\n      id\n    }\n    reviews {\n      count\n      edges {\n        node {\n          _id\n          comment\n          rating\n          user {\n            name\n            _id\n            id\n          }\n          id\n        }\n      }\n    }\n    id\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "df6c318c73d2ce3d99b9f51ad49e9802";
+(node as any).hash = "d42610c93426902061cc3303f34fd5b2";
 
 export default node;

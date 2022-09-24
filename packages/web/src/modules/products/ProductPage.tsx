@@ -22,9 +22,11 @@ import { useLazyLoadQuery, useMutation } from 'react-relay';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useStore } from '../../store/useStore';
 import { DeleteProductMutation } from './DeleteProduct';
+import { DeleteReviewMutation } from './DeleteReview';
 import { ProductsGetSingleQuery } from './ProductsGetSingleQuery';
 import { ReviewModal } from './ReviewModal';
-import { DeleteProductMutation as MutationType } from './__generated__/DeleteProductMutation.graphql';
+import { DeleteProductMutation as DeleteProductMutationType } from './__generated__/DeleteProductMutation.graphql';
+import { DeleteReviewMutation as DeleteReviewMutationType } from './__generated__/DeleteReviewMutation.graphql';
 import type { ProductsGetSingleQuery as QueryType } from './__generated__/ProductsGetSingleQuery.graphql';
 
 export const ProductPage = () => {
@@ -41,9 +43,11 @@ export const ProductPage = () => {
     { fetchPolicy: 'store-or-network' },
   );
 
-  const [handkleDeleteProduct] = useMutation<MutationType>(
+  const [handleDeleteProduct] = useMutation<DeleteProductMutationType>(
     DeleteProductMutation,
   );
+  const [handleDeleteReview] =
+    useMutation<DeleteReviewMutationType>(DeleteReviewMutation);
 
   return (
     <Container maxW={'7xl'}>
@@ -89,7 +93,7 @@ export const ProductPage = () => {
               <Box>
                 <Button
                   onClick={() => {
-                    handkleDeleteProduct({
+                    handleDeleteProduct({
                       variables: { input: { product: params.id || '000' } },
                       onCompleted: data => {
                         console.log(data);
@@ -152,6 +156,29 @@ export const ProductPage = () => {
                       )}
                     </Flex>
                     <Text>{review?.node?.comment}</Text>
+                    {store.user?._id === review?.node?.user?._id ? (
+                      <Button
+                        onClick={() => {
+                          handleDeleteReview({
+                            variables: {
+                              input: { review: review?.node?._id || '000' },
+                            },
+                            onCompleted: data => {
+                              console.log(data);
+                              if (data.DeleteReviewMutation?.error) {
+                                alert(data.DeleteReviewMutation?.error);
+                                return;
+                              }
+
+                              navigate('/');
+                            },
+                          });
+                        }}
+                        colorScheme={'red'}
+                      >
+                        Delete this review
+                      </Button>
+                    ) : null}
                   </Stack>
                 ))}
               </Flex>

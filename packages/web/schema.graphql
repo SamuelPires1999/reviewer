@@ -63,6 +63,20 @@ type CreateReviewMutationPayload {
   clientMutationId: String
 }
 
+input DeleteReviewMutationInput {
+  review: String!
+  clientMutationId: String
+}
+
+type DeleteReviewMutationPayload {
+  """Default error field resolver."""
+  error: String
+
+  """Default success field resolver."""
+  success: String
+  clientMutationId: String
+}
+
 type Mutation {
   RegisterWithEmailMutation(input: UserRegisterWithEmailInput!): UserRegisterWithEmailPayload
   LoginWithEmailMutation(input: UserLoginWithEmailInput!): UserLoginWithEmailPayload
@@ -70,6 +84,7 @@ type Mutation {
   CreateProductMutation(input: ProductCreateInput!): ProductCreatePayload
   DeleteProductMutation(input: ProductDeleteInput!): ProductDeletePayload
   CreateReviewMutation(input: CreateReviewMutationInput!): CreateReviewMutationPayload
+  DeleteReviewMutation(input: DeleteReviewMutationInput!): DeleteReviewMutationPayload
 }
 
 """An object with an ID"""
