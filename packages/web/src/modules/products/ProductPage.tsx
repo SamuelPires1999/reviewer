@@ -1,4 +1,4 @@
-import { StarIcon } from '@chakra-ui/icons';
+import { ExternalLinkIcon, StarIcon } from '@chakra-ui/icons';
 import {
   Box,
   chakra,
@@ -21,6 +21,7 @@ import {
 import { useEffect } from 'react';
 import { useLazyLoadQuery, useMutation } from 'react-relay';
 import { useNavigate, useParams } from 'react-router-dom';
+import { ExternalLinkWarning } from '../../components/ExternalLinkWarningl';
 import { useStore } from '../../store/useStore';
 import { AuthMeQuery } from '../auth/AuthMeQuery';
 import { AuthMeQuery as AuthQueryType } from '../auth/__generated__/AuthMeQuery.graphql';
@@ -35,7 +36,16 @@ import type { ProductsGetSingleQuery as QueryType } from './__generated__/Produc
 export const ProductPage = () => {
   const params = useParams();
   const store = useStore();
-  const { isOpen, onClose, onOpen } = useDisclosure();
+  const {
+    isOpen: isReviewModalOpen,
+    onClose: reviewModalClose,
+    onOpen: reviewModalOpen,
+  } = useDisclosure();
+  const {
+    isOpen: isExternalLinkModalOpen,
+    onClose: externalLinkModalClose,
+    onOpen: externalLinkModalOpen,
+  } = useDisclosure();
   const navigate = useNavigate();
 
   const data = useLazyLoadQuery<QueryType>(
@@ -85,7 +95,7 @@ export const ProductPage = () => {
           />
         </Flex>
         <Stack spacing={{ base: 6, md: 10 }}>
-          <Box as={'header'}>
+          <Flex as={'header'} alignItems="center" gap={'10px'}>
             <Heading
               lineHeight={1.1}
               fontWeight={600}
@@ -93,7 +103,16 @@ export const ProductPage = () => {
             >
               {data.singleProductById?.name}
             </Heading>
-          </Box>
+            {data.singleProductById?.referenceLink ? (
+              <Button
+                rightIcon={<ExternalLinkIcon />}
+                onClick={() => externalLinkModalOpen()}
+                variant={'outline'}
+              >
+                Visit reference link
+              </Button>
+            ) : null}
+          </Flex>
 
           <Stack
             spacing={{ base: 4, sm: 6 }}
@@ -215,14 +234,25 @@ export const ProductPage = () => {
               boxShadow: 'lg',
             }}
             onClick={() => {
-              store.user ? onOpen() : navigate('/login');
+              store.user ? reviewModalOpen() : navigate('/login');
             }}
           >
             {store.user ? 'Add your review' : 'Login to add a review'}
           </Button>
         </Stack>
       </SimpleGrid>
-      <ReviewModal isOpen={isOpen} onClose={onClose} productId={params.id} />
+      <ReviewModal
+        isOpen={isReviewModalOpen}
+        onClose={reviewModalClose}
+        productId={params.id}
+      />
+      <ExternalLinkWarning
+        isOpen={isExternalLinkModalOpen}
+        onClose={externalLinkModalClose}
+        referenceLink={
+          data.singleProductById?.referenceLink || 'www.google.com'
+        }
+      />
     </Container>
   );
 };
