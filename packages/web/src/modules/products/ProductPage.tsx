@@ -130,7 +130,6 @@ export const ProductPage = () => {
                     handleDeleteProduct({
                       variables: { input: { product: params.id || '000' } },
                       onCompleted: data => {
-                        console.log(data);
                         if (data.DeleteProductMutation?.error) {
                           alert(data.DeleteProductMutation?.error);
                           return;
@@ -198,7 +197,6 @@ export const ProductPage = () => {
                               input: { review: review?.node?._id || '000' },
                             },
                             onCompleted: data => {
-                              console.log(data);
                               if (data.DeleteReviewMutation?.error) {
                                 alert(data.DeleteReviewMutation?.error);
                                 return;

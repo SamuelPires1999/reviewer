@@ -41,7 +41,6 @@ export const ReviewModal = (props: Props) => {
       comment: Yup.string(),
     }),
     onSubmit: (values, actions) => {
-      console.log(values);
       commit({
         variables: {
           input: {
@@ -51,7 +50,6 @@ export const ReviewModal = (props: Props) => {
           },
         },
         onCompleted: data => {
-          console.log(data);
           props.onClose();
         },
       });

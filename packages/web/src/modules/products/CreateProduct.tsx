@@ -58,13 +58,11 @@ export const CreateProduct = () => {
       category: Yup.string(),
     }),
     onSubmit: values => {
-      console.log(values);
       handleCreateProduct({
         variables: {
           input: values,
         },
         onCompleted: data => {
-          console.log(data);
           navigate('/');
         },
       });
