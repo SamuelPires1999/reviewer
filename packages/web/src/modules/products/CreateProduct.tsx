@@ -14,17 +14,34 @@ import {
 import * as Yup from 'yup';
 import { Field, Form, FormikProvider, useFormik } from 'formik';
 import { InputField } from '../../components/InputField';
-import { useMutation } from 'react-relay';
+import { useLazyLoadQuery, useMutation } from 'react-relay';
 import { ProductCreateMutation } from './ProductCreateMutation';
 import type { ProductCreateMutation as MutationType } from './__generated__/ProductCreateMutation.graphql';
 import { useNavigate } from 'react-router-dom';
+import { AuthMeQuery } from '../auth/AuthMeQuery';
+import { useEffect } from 'react';
+import { useStore } from '../../store/useStore';
+import { AuthMeQuery as AuthQueryType } from '../auth/__generated__/AuthMeQuery.graphql';
 
 export const CreateProduct = () => {
   const navigate = useNavigate();
+  const store = useStore();
 
   const [handleCreateProduct] = useMutation<MutationType>(
     ProductCreateMutation,
   );
+
+  const authData = useLazyLoadQuery<AuthQueryType>(AuthMeQuery, {});
+
+  useEffect(() => {
+    if (!store.user && localStorage.getItem('CHALLENGE-TOKEN')) {
+      store.setUser({
+        _id: authData.me?._id || '000',
+        email: authData.me?.email || '',
+        name: authData.me?.name || '',
+      });
+    }
+  }, []);
 
   const formikValue = useFormik({
     initialValues: {

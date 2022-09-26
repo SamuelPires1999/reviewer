@@ -18,9 +18,12 @@ import {
   ListItem,
   useDisclosure,
 } from '@chakra-ui/react';
+import { useEffect } from 'react';
 import { useLazyLoadQuery, useMutation } from 'react-relay';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useStore } from '../../store/useStore';
+import { AuthMeQuery } from '../auth/AuthMeQuery';
+import { AuthMeQuery as AuthQueryType } from '../auth/__generated__/AuthMeQuery.graphql';
 import { DeleteProductMutation } from './DeleteProduct';
 import { DeleteReviewMutation } from './DeleteReview';
 import { ProductsGetSingleQuery } from './ProductsGetSingleQuery';
@@ -48,6 +51,18 @@ export const ProductPage = () => {
   );
   const [handleDeleteReview] =
     useMutation<DeleteReviewMutationType>(DeleteReviewMutation);
+
+  const authData = useLazyLoadQuery<AuthQueryType>(AuthMeQuery, {});
+
+  useEffect(() => {
+    if (!store.user && localStorage.getItem('CHALLENGE-TOKEN')) {
+      store.setUser({
+        _id: authData.me?._id || '000',
+        email: authData.me?.email || '',
+        name: authData.me?.name || '',
+      });
+    }
+  }, []);
 
   return (
     <Container maxW={'7xl'}>

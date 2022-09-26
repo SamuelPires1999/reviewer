@@ -1,11 +1,19 @@
 import { Button, Flex } from '@chakra-ui/react';
-import { loadQuery, useMutation, usePreloadedQuery } from 'react-relay';
+import { useEffect } from 'react';
+import {
+  loadQuery,
+  useLazyLoadQuery,
+  useMutation,
+  usePreloadedQuery,
+} from 'react-relay';
 import { useNavigate } from 'react-router-dom';
 import ProductCard from '../../components/ProductCard';
 import relayEnvironment from '../../relay/relayEnvironment';
 import { useStore } from '../../store/useStore';
 import { ProductsGetAllQuery } from './ProductsGetAllQuery';
 import type { ProductsGetAllQuery as QueryType } from './__generated__/ProductsGetAllQuery.graphql';
+import { AuthMeQuery } from '../auth/AuthMeQuery';
+import { AuthMeQuery as MeQueryType } from '../auth/__generated__/AuthMeQuery.graphql';
 
 const preloadedQuery = loadQuery<QueryType>(
   relayEnvironment,
@@ -20,6 +28,17 @@ export const FeedPage = () => {
     ProductsGetAllQuery,
     preloadedQuery,
   );
+  const authData = useLazyLoadQuery<MeQueryType>(AuthMeQuery, {});
+
+  useEffect(() => {
+    if (!store.user && localStorage.getItem('CHALLENGE-TOKEN')) {
+      store.setUser({
+        _id: authData.me?._id || '000',
+        email: authData.me?.email || '',
+        name: authData.me?.name || '',
+      });
+    }
+  }, []);
 
   return (
     <>
