@@ -7,6 +7,8 @@
   "private": true,
   "scripts": {
     "server:dev": "yarn workspace @reviewer/server start:dev",
+    "server:prod": "yarn workspace @reviewer/server start:prod",
+    "build:server": "yarn workspace @reviewer/server build",
     "web:dev": "yarn workspace @reviewer/web dev"
   },
   "workspaces": {
