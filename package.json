@@ -5,9 +5,6 @@
   "author": "SamuelPires1999 <samuel.ferpires@gmail.com>",
   "license": "MIT",
   "private": true,
-  "engines" : {
-    "node": "16.15.0"
-  },
   "scripts": {
     "server:dev": "yarn workspace @reviewer/server start:dev",
     "web:dev": "yarn workspace @reviewer/web dev",
