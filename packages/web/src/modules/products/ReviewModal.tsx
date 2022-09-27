@@ -16,8 +16,6 @@ import {
   NumberInputStepper,
   useToast,
   useNumberInput,
-  HStack,
-  Input,
   NumberInput,
 } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -49,25 +47,6 @@ export const ReviewModal = (props: Props) => {
   const incrementRatingButton = getIncrementButtonProps();
   const ratingInput = getInputProps();
   const decrementRatingButton = getDecrementButtonProps();
-
-  // const formikValue = useFormik({
-  //   onSubmit: (values, actions) => {
-  //     commit({
-  //       variables: {
-  //         input: {
-  //           rating: values.rating,
-  //           comment: values.comment,
-  //           product: props.productId || '000',
-  //         },
-  //       },
-  //       onCompleted: data => {
-  //         props.onClose();
-  //       },
-  //     });
-  //   },
-  // });
-
-  //const { isValid } = formikValue;
 
   type Inputs = {
     rating: number;
