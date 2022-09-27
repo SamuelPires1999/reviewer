@@ -62,7 +62,7 @@ export const LoginPage = () => {
             title: 'Error',
             description: 'Invalid Credentials',
             status: 'error',
-            duration: 2000,
+            duration: 1500,
           });
         }
 
@@ -71,7 +71,7 @@ export const LoginPage = () => {
             title: 'Success',
             description: 'You are logged in',
             status: 'success',
-            duration: 100,
+            duration: 1500,
           });
 
           setUser({
@@ -107,11 +107,7 @@ export const LoginPage = () => {
           <Stack align={'center'}>
             <Heading fontSize={'4xl'}>Sign in to your account</Heading>
             <Text fontSize={'lg'} color={'gray.600'}>
-              to enjoy all of our cool{' '}
-              <Link to={'/'} color={'blue.400'}>
-                features
-              </Link>{' '}
-              ✌️
+              to enjoy all of our cool features ✌️
             </Text>
           </Stack>
           <Box

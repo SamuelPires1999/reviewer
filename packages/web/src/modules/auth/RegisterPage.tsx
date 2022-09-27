@@ -63,7 +63,7 @@ export const RegisterPage = () => {
             title: 'Error',
             description: 'Invalid Credentials',
             status: 'error',
-            duration: 2000,
+            duration: 1500,
           });
         }
 
@@ -72,7 +72,7 @@ export const RegisterPage = () => {
             title: 'Success',
             description: 'Account created',
             status: 'success',
-            duration: 1000,
+            duration: 1500,
           });
 
           setUser({
