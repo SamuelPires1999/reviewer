@@ -14,11 +14,14 @@ import {
   NumberIncrementStepper,
   NumberInputField,
   NumberInputStepper,
+  useToast,
+  useNumberInput,
+  NumberInput,
 } from '@chakra-ui/react';
-import { Form, Formik, FormikProvider, useFormik } from 'formik';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation } from 'react-relay';
 import * as Yup from 'yup';
-import { TextInputField, InputField } from '../../components/InputField';
 import { ProductsMakeReviewMutation } from './ProductsMakeReviewMutation';
 import { ProductsMakeReviewMutation as MutationType } from './__generated__/ProductsMakeReviewMutation.graphql';
 
@@ -32,31 +35,70 @@ export const ReviewModal = (props: Props) => {
   const [commit, isInFlight] = useMutation<MutationType>(
     ProductsMakeReviewMutation,
   );
+  const toast = useToast();
 
-  const formikValue = useFormik({
-    initialValues: { rating: '0', comment: '' },
-    validateOnMount: true,
-    validationSchema: Yup.object().shape({
-      rating: Yup.number().min(0).max(10),
-      comment: Yup.string(),
-    }),
-    onSubmit: (values, actions) => {
-      commit({
-        variables: {
-          input: {
-            rating: values.rating,
-            comment: values.comment,
-            product: props.productId || '000',
-          },
-        },
-        onCompleted: data => {
-          props.onClose();
-        },
-      });
-    },
+  const { getDecrementButtonProps, getIncrementButtonProps, getInputProps } =
+    useNumberInput({
+      step: 1,
+      min: 0,
+      max: 10,
+    });
+
+  const incrementRatingButton = getIncrementButtonProps();
+  const ratingInput = getInputProps();
+  const decrementRatingButton = getDecrementButtonProps();
+
+  type Inputs = {
+    rating: number;
+    comment: string;
+  };
+
+  const schema = Yup.object({
+    rating: Yup.number()
+      .min(0, 'The minimum is 0')
+      .max(10, 'The maximum is 10')
+      .typeError('The rating must be a number'),
+    comment: Yup.string(),
   });
 
-  const { isValid } = formikValue;
+  const {
+    formState: { isSubmitting },
+    handleSubmit,
+    register,
+  } = useForm<Inputs>({
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmit: SubmitHandler<Inputs> = data => {
+    commit({
+      variables: {
+        input: {
+          rating: data.rating.toString(),
+          comment: data.comment,
+          product: props.productId || '000',
+        },
+      },
+      onCompleted: ({ CreateReviewMutation }) => {
+        if (CreateReviewMutation?.error) {
+          toast({
+            title: 'Error',
+            description: 'Something went wrong',
+            status: 'error',
+            duration: 1500,
+          });
+
+          return;
+        }
+        toast({
+          title: 'Success',
+          description: 'Review Created',
+          status: 'success',
+          duration: 1500,
+        });
+        props.onClose();
+      },
+    });
+  };
 
   return (
     <Modal isOpen={props.isOpen} onClose={props.onClose}>
@@ -64,35 +106,28 @@ export const ReviewModal = (props: Props) => {
       <ModalContent>
         <ModalHeader>Post your review</ModalHeader>
         <ModalCloseButton />
-        <ModalBody>
-          <FormikProvider value={formikValue}>
-            <Form>
-              <Stack spacing={8} mx={'auto'} maxW={'lg'} py={6} px={6}>
-                <Stack spacing={4}>
-                  <FormControl id="rating">
-                    <FormLabel>Rating</FormLabel>
-                    <InputField id="rating" name="rating" shouldValidate />
-                  </FormControl>
-                  <FormControl id="comment">
-                    <FormLabel>Comment</FormLabel>
-                    <TextInputField
-                      id="comment"
-                      name="comment"
-                      placeholder="This product is amazing, or is it..."
-                    />
-                  </FormControl>
-                </Stack>
-              </Stack>
-              <Button
-                disabled={!isValid}
-                type="submit"
-                colorScheme="blue"
-                width={'full'}
-              >
-                Submit Review
-              </Button>
-            </Form>
-          </FormikProvider>
+        <ModalBody as={'form'} onSubmit={handleSubmit(onSubmit)}>
+          <Stack spacing={8} mx={'auto'} maxW={'lg'} py={6} px={6}>
+            <Stack spacing={4}>
+              <FormControl id="rating">
+                <FormLabel>Rating</FormLabel>
+                <NumberInput defaultValue={0} min={0} max={10}>
+                  <NumberInputField {...register('rating')} />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              </FormControl>
+              <FormControl id="comment">
+                <FormLabel>Comment</FormLabel>
+                <Textarea {...register('comment')} />
+              </FormControl>
+            </Stack>
+          </Stack>
+          <Button type="submit" colorScheme="blue" width={'full'}>
+            Submit Review
+          </Button>
         </ModalBody>
       </ModalContent>
     </Modal>
