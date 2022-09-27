@@ -1,17 +1,12 @@
 import { useMutation } from 'react-relay';
 import * as Yup from 'yup';
-import { Form, FormikProvider, useFormik } from 'formik';
-import { useState } from 'react';
-import { InputField } from '../../components/InputField';
 import type { AuthRegisterMutation as AuthRegisterMutationType } from './__generated__/AuthRegisterMutation.graphql';
 import { AuthRegisterMutation } from './AuthRegisterMutation';
 import { useAuth } from './utils/useAuth';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
-  VStack,
   Button,
   Spinner,
-  Text,
   Stack,
   Box,
   Flex,
