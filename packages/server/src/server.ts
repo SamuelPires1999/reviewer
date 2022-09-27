@@ -25,14 +25,16 @@ export const setupServer = () => {
   app.use(bodyParser());
 
   const graphqlServer = graphqlHTTP(graphqlSettingsPerReq);
-
+  router.all('/healthCheck', ctx => {
+    ctx.body = 'API WORKING';
+  });
   router.all('/graphql', graphqlServer);
   router.all(
     '/graphiql',
     koaPlayground({
       endpoint: '/graphql',
       workspaceName: 'dark',
-    })
+    }),
   );
 
   app.use(router.routes()).use(router.allowedMethods());
