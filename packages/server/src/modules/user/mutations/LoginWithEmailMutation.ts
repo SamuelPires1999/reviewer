@@ -41,8 +41,6 @@ export default mutationWithClientMutationId({
 
     const token = generateToken(user);
 
-    context.setCookie(config.APPLICATION_COOKIE, token);
-
     return {
       token: generateToken(user),
       id: user._id,
