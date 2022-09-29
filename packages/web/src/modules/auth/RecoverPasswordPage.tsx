@@ -1,9 +1,6 @@
 import { useMutation } from 'react-relay';
 import * as Yup from 'yup';
-import { AuthLoginMutation } from './AuthLoginMutation';
-import type { AuthLoginMutation as AuthLoginMutationType } from './__generated__/AuthLoginMutation.graphql';
-import { useAuth } from './utils/useAuth';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   Button,
   Spinner,
@@ -22,25 +19,26 @@ import {
 import { useStore } from '../../store/useStore';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { AuthRecoverPassword } from './AuthRecoverPassword';
+import { AuthRecoverPasswordMutation } from './__generated__/AuthRecoverPasswordMutation.graphql';
 
-export const LoginPage = () => {
-  const { signin } = useAuth();
+export const RecoverPasswordPage = () => {
   const navigate = useNavigate();
   const toast = useToast();
-  const [handleUserLogin] =
-    useMutation<AuthLoginMutationType>(AuthLoginMutation);
+  const [handleRecoverPassword] =
+    useMutation<AuthRecoverPasswordMutation>(AuthRecoverPassword);
   const setUser = useStore(state => state.setUser);
 
   type Inputs = {
     email: string;
-    password: string;
+    newPassword: string;
   };
 
   const schema = Yup.object({
     email: Yup.string()
       .email('The supplied email is invalid')
       .required('Email is required'),
-    password: Yup.string()
+    newPassword: Yup.string()
       .min(6, 'The password must be at least 6 characters long')
       .required('Password is required'),
   });
@@ -54,41 +52,27 @@ export const LoginPage = () => {
   });
 
   const onSubmit: SubmitHandler<Inputs> = data => {
-    handleUserLogin({
+    handleRecoverPassword({
       variables: data,
-      onCompleted: ({ LoginWithEmailMutation }) => {
-        if (LoginWithEmailMutation?.error) {
+      onCompleted: data => {
+        if (data.RecoverPasswordMutation?.error) {
           toast({
             title: 'Error',
-            description: 'Invalid Credentials',
+            description: data.RecoverPasswordMutation.error,
             status: 'error',
-            duration: 1500,
+            duration: 2500,
           });
+          return;
         }
 
-        if (LoginWithEmailMutation?.me && LoginWithEmailMutation?.token) {
-          toast({
-            title: 'Success',
-            description: 'You are logged in',
-            status: 'success',
-            duration: 1500,
-          });
-
-          setUser({
-            _id: LoginWithEmailMutation.me._id,
-            name: LoginWithEmailMutation.me.name,
-            email: LoginWithEmailMutation.me.email,
-          });
-
-          localStorage.setItem(
-            'CHALLENGE-TOKEN',
-            LoginWithEmailMutation?.token,
-          );
-        }
-
-        signin(LoginWithEmailMutation?.token, () => {
-          navigate('/', { replace: true });
+        toast({
+          title: 'Success',
+          description: data.RecoverPasswordMutation?.success,
+          status: 'success',
+          duration: 2500,
         });
+
+        navigate('/login');
       },
     });
   };
@@ -124,14 +108,16 @@ export const LoginPage = () => {
                   <FormErrorMessage>{errors.email.message}</FormErrorMessage>
                 )}
               </FormControl>
-              <FormControl id="password" isInvalid={!!errors.email}>
-                <FormLabel>Password</FormLabel>
+              <FormControl id="password" isInvalid={!!errors.newPassword}>
+                <FormLabel>New Password</FormLabel>
                 <Input
                   type={'password'}
-                  {...register('password', { required: true })}
+                  {...register('newPassword', { required: true })}
                 />
-                {errors.password && (
-                  <FormErrorMessage>{errors.password.message}</FormErrorMessage>
+                {errors.newPassword && (
+                  <FormErrorMessage>
+                    {errors.newPassword.message}
+                  </FormErrorMessage>
                 )}
               </FormControl>
               <Stack spacing={10}>
@@ -143,25 +129,9 @@ export const LoginPage = () => {
                     bg: 'blue.500',
                   }}
                 >
-                  {isSubmitting ? <Spinner /> : 'Login'}
+                  {isSubmitting ? <Spinner /> : 'Recover'}
                 </Button>
               </Stack>
-              <Button
-                variant={'link'}
-                fontWeight="hairline"
-                fontSize={'sm'}
-                onClick={() => navigate('/register')}
-              >
-                Doesnt have an account? Create one!
-              </Button>
-              <Button
-                variant={'link'}
-                fontWeight="hairline"
-                fontSize={'sm'}
-                onClick={() => navigate('/recover')}
-              >
-                Forgot your password? Create a new one!
-              </Button>
             </Stack>
           </Box>
         </Stack>
