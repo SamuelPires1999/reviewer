@@ -81,7 +81,7 @@ export const ProductPage = () => {
         spacing={{ base: 8, md: 10 }}
         py={{ base: 18, md: 24 }}
       >
-        <Flex>
+        <Flex justify={'center'}>
           <Image
             rounded={'md'}
             alt={'product image'}
@@ -90,7 +90,7 @@ export const ProductPage = () => {
             }
             fit={'cover'}
             align={'center'}
-            w={'100%'}
+            w={'3xl'}
             h={{ base: '100%', sm: '400px', lg: '500px' }}
           />
         </Flex>

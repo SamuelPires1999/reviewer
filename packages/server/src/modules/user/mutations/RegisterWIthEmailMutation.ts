@@ -25,7 +25,9 @@ export default mutationWithClientMutationId({
     },
   },
   mutateAndGetPayload: async ({ name, email, password }, context) => {
-    const hasUser = (await UserModel.countDocuments({ email: email.trim().toLowerCase() })) > 0;
+    const hasUser =
+      (await UserModel.countDocuments({ email: email.trim().toLowerCase() })) >
+      0;
 
     if (hasUser) {
       return {
@@ -40,8 +42,6 @@ export default mutationWithClientMutationId({
     }).save();
 
     const token = generateToken(user);
-
-    context.setCookie(config.APPLICATION_COOKIE, token);
 
     return {
       token,

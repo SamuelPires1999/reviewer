@@ -8,7 +8,6 @@ type ContextVars = {
   user?: IUser | null;
   req?: Request;
   koaContext: Context;
-  setCookie: (cookieName: string, token: string) => void;
 };
 
 export const getContext = async (ctx: ContextVars) => {
@@ -19,6 +18,5 @@ export const getContext = async (ctx: ContextVars) => {
     dataloaders,
     user: ctx.user,
     koaContext: ctx.koaContext,
-    setCookie: ctx.setCookie,
   } as GraphQLContext;
 };
