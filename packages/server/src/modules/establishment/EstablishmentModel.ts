@@ -1,7 +1,7 @@
 import { GraphQLString } from 'graphql';
 import mongoose, { Document, Model, Schema, Types } from 'mongoose';
 
-const ProductSchema = new mongoose.Schema(
+const EstablishmentSchema = new mongoose.Schema(
   {
     user: {
       type: Schema.Types.ObjectId,
@@ -11,14 +11,25 @@ const ProductSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    address: {
+      type: String,
+      required: true,
+    },
     referenceLink: {
       type: String,
       required: false,
     },
     category: {
       type: GraphQLString,
-      enum: ['food', 'games', 'pc-parts', 'clothing', 'gadgets', 'random'],
-      required: true,
+      enum: [
+        'restaurants/cooking',
+        'events',
+        'hospitality',
+        'shopping',
+        'varieties',
+        'not-especified',
+      ],
+      default: 'not-especified',
     },
     reviews: {
       type: [Schema.Types.ObjectId],
@@ -35,21 +46,24 @@ const ProductSchema = new mongoose.Schema(
       createdAt: 'createdAt',
       updatedAt: 'updatedAt',
     },
-    collection: 'Product',
-  }
+    collection: 'Establishment',
+  },
 );
 
-export interface IProduct extends Document {
+export interface IEstablishment extends Document {
   user: Types.ObjectId;
   reviews: Types.ObjectId[];
   name: string;
   description?: string;
+  address: string;
   category: string;
   referenceLink?: string;
   createdAt: Date;
   updatedAt: Date;
 }
 
-const ProductModel: Model<IProduct> = mongoose.models['Product'] || mongoose.model('Product', ProductSchema);
+const EstablishmentModel: Model<IEstablishment> =
+  mongoose.models['Establishment'] ||
+  mongoose.model('Establishment', EstablishmentSchema);
 
-export default ProductModel;
+export default EstablishmentModel;

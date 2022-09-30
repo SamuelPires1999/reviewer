@@ -1,10 +1,9 @@
 import { GraphQLString, GraphQLNonNull } from 'graphql';
 import { mutationWithClientMutationId, toGlobalId } from 'graphql-relay';
-
 import { errorField, successField } from '@entria/graphql-mongo-helpers';
-import ProductModel from '../ProductModel';
-import * as ProductLoader from '../ProductLoader';
-import { ProductConnection } from '../ProductType';
+import EstablishmentModel from '../EstablishmentModel';
+import * as EstablishmentLoader from '../EstablishmentLoader';
+import { EstablishmentConnection } from '../EstablishmentType';
 import { GraphQLContext } from '../../../graphql/types';
 
 type Args = {
@@ -12,9 +11,10 @@ type Args = {
   description?: string;
   name: string;
   category: string;
+  address: string;
 };
 const mutation = mutationWithClientMutationId({
-  name: 'ProductCreate',
+  name: 'EstablishmentCreate',
   inputFields: {
     name: {
       type: new GraphQLNonNull(GraphQLString),
@@ -22,15 +22,18 @@ const mutation = mutationWithClientMutationId({
     referenceLink: {
       type: GraphQLString,
     },
+    address: {
+      type: new GraphQLNonNull(GraphQLString),
+    },
     description: {
       type: GraphQLString,
     },
     category: {
-      type: new GraphQLNonNull(GraphQLString),
+      type: GraphQLString,
     },
   },
   mutateAndGetPayload: async (args: Args, context: GraphQLContext) => {
-    const { referenceLink, description, name, category } = args;
+    const { referenceLink, description, name, category, address } = args;
 
     if (!context.user) {
       return {
@@ -38,34 +41,35 @@ const mutation = mutationWithClientMutationId({
       };
     }
 
-    const post = await new ProductModel({
+    const establishment = await new EstablishmentModel({
       description,
       referenceLink,
       name,
+      address,
       category,
       user: context.user._id,
     }).save();
 
     return {
-      id: post._id,
+      id: establishment._id,
       error: null,
     };
   },
   outputFields: {
-    productEdge: {
-      type: ProductConnection.edgeType,
+    EstablishmentEdge: {
+      type: EstablishmentConnection.edgeType,
       resolve: async ({ id }, _, context) => {
         // Load new edge from loader
-        const product = await ProductLoader.load(context, id);
+        const establishment = await EstablishmentLoader.load(context, id);
 
         // Returns null if no node was loaded
-        if (!product) {
+        if (!establishment) {
           return null;
         }
 
         return {
-          cursor: toGlobalId('Product', product._id),
-          node: product,
+          cursor: toGlobalId('Establishment', establishment._id),
+          node: establishment,
         };
       },
     },

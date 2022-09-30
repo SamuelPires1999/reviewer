@@ -1,10 +1,4 @@
-import {
-  GraphQLObjectType,
-  GraphQLString,
-  GraphQLNonNull,
-  GraphQLInt,
-  GraphQLBoolean,
-} from 'graphql';
+import { GraphQLObjectType, GraphQLString, GraphQLInt } from 'graphql';
 import { globalIdField } from 'graphql-relay';
 
 import {
@@ -18,10 +12,10 @@ import { nodeInterface, registerTypeLoader } from '../node/typeRegister';
 import { GraphQLContext } from '../../graphql/types';
 import UserType from '../user/UserType';
 import * as UserLoader from '../user/UserLoader';
-import ReviewModel, { IReview } from './ReviewModel';
-import ProductType from '../product/ProductType';
-import * as ProductLoader from '../product/ProductLoader';
+import { IReview } from './ReviewModel';
+import * as EstablishmentLoader from '../establishment/EstablishmentLoader';
 import { load } from './ReviewLoader';
+import EstablishmentType from '../establishment/EstablishmentType';
 
 //@ts-ignore
 const ReviewType = new GraphQLObjectType<IReview, GraphQLContext>({
@@ -42,10 +36,10 @@ const ReviewType = new GraphQLObjectType<IReview, GraphQLContext>({
       type: UserType,
       resolve: (review, _, context) => UserLoader.load(context, review.user),
     },
-    product: {
-      type: ProductType,
+    establishment: {
+      type: EstablishmentType,
       resolve: (review, _, context) =>
-        ProductLoader.load(context, review.product),
+        EstablishmentLoader.load(context, review.establishment),
     },
     ...timestampResolver,
   }),
