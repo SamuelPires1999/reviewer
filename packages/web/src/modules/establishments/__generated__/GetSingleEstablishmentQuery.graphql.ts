@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<22961950b60f444bcbe713c95e1149f3>>
+ * @generated SignedSource<<7cb18d6e0c78be5c1d559b7630e9169d>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,21 +9,23 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Query } from 'relay-runtime';
-export type ProductsGetSingleQuery$variables = {
+export type GetSingleEstablishmentQuery$variables = {
   id: string;
 };
-export type ProductsGetSingleQuery$data = {
-  readonly singleProductById: {
+export type GetSingleEstablishmentQuery$data = {
+  readonly singleEstablishmentBy: {
+    readonly _id: string;
+    readonly address: string | null;
     readonly category: string | null;
     readonly description: string | null;
     readonly name: string | null;
     readonly referenceLink: string | null;
     readonly reviews: {
-      readonly count: number | null;
       readonly edges: ReadonlyArray<{
         readonly node: {
           readonly _id: string;
           readonly comment: string | null;
+          readonly createdAt: string | null;
           readonly rating: number | null;
           readonly user: {
             readonly _id: string;
@@ -34,14 +36,13 @@ export type ProductsGetSingleQuery$data = {
     };
     readonly user: {
       readonly _id: string;
-      readonly email: string | null;
       readonly name: string | null;
     } | null;
   } | null;
 };
-export type ProductsGetSingleQuery = {
-  response: ProductsGetSingleQuery$data;
-  variables: ProductsGetSingleQuery$variables;
+export type GetSingleEstablishmentQuery = {
+  response: GetSingleEstablishmentQuery$data;
+  variables: GetSingleEstablishmentQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -63,70 +64,97 @@ v2 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "name",
+  "name": "_id",
   "storageKey": null
 },
 v3 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "referenceLink",
+  "name": "description",
   "storageKey": null
 },
 v4 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "category",
+  "name": "referenceLink",
   "storageKey": null
 },
 v5 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "description",
+  "name": "address",
   "storageKey": null
 },
 v6 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "_id",
+  "name": "name",
   "storageKey": null
 },
 v7 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "email",
+  "name": "category",
   "storageKey": null
 },
 v8 = {
   "alias": null,
   "args": null,
-  "kind": "ScalarField",
-  "name": "count",
+  "concreteType": "User",
+  "kind": "LinkedField",
+  "name": "user",
+  "plural": false,
+  "selections": [
+    (v2/*: any*/),
+    (v6/*: any*/)
+  ],
   "storageKey": null
 },
 v9 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "comment",
+  "name": "createdAt",
   "storageKey": null
 },
 v10 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "rating",
+  "name": "comment",
   "storageKey": null
 },
 v11 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
+  "name": "rating",
+  "storageKey": null
+},
+v12 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
   "name": "id",
+  "storageKey": null
+},
+v13 = {
+  "alias": null,
+  "args": null,
+  "concreteType": "User",
+  "kind": "LinkedField",
+  "name": "user",
+  "plural": false,
+  "selections": [
+    (v2/*: any*/),
+    (v6/*: any*/),
+    (v12/*: any*/)
+  ],
   "storageKey": null
 };
 return {
@@ -134,34 +162,23 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "ProductsGetSingleQuery",
+    "name": "GetSingleEstablishmentQuery",
     "selections": [
       {
         "alias": null,
         "args": (v1/*: any*/),
-        "concreteType": "Product",
+        "concreteType": "Establishment",
         "kind": "LinkedField",
-        "name": "singleProductById",
+        "name": "singleEstablishmentBy",
         "plural": false,
         "selections": [
           (v2/*: any*/),
           (v3/*: any*/),
           (v4/*: any*/),
           (v5/*: any*/),
-          {
-            "alias": null,
-            "args": null,
-            "concreteType": "User",
-            "kind": "LinkedField",
-            "name": "user",
-            "plural": false,
-            "selections": [
-              (v6/*: any*/),
-              (v2/*: any*/),
-              (v7/*: any*/)
-            ],
-            "storageKey": null
-          },
+          (v6/*: any*/),
+          (v7/*: any*/),
+          (v8/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -170,7 +187,6 @@ return {
             "name": "reviews",
             "plural": false,
             "selections": [
-              (v8/*: any*/),
               {
                 "alias": null,
                 "args": null,
@@ -187,22 +203,11 @@ return {
                     "name": "node",
                     "plural": false,
                     "selections": [
-                      (v6/*: any*/),
+                      (v2/*: any*/),
+                      (v8/*: any*/),
                       (v9/*: any*/),
                       (v10/*: any*/),
-                      {
-                        "alias": null,
-                        "args": null,
-                        "concreteType": "User",
-                        "kind": "LinkedField",
-                        "name": "user",
-                        "plural": false,
-                        "selections": [
-                          (v2/*: any*/),
-                          (v6/*: any*/)
-                        ],
-                        "storageKey": null
-                      }
+                      (v11/*: any*/)
                     ],
                     "storageKey": null
                   }
@@ -223,35 +228,23 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "ProductsGetSingleQuery",
+    "name": "GetSingleEstablishmentQuery",
     "selections": [
       {
         "alias": null,
         "args": (v1/*: any*/),
-        "concreteType": "Product",
+        "concreteType": "Establishment",
         "kind": "LinkedField",
-        "name": "singleProductById",
+        "name": "singleEstablishmentBy",
         "plural": false,
         "selections": [
           (v2/*: any*/),
           (v3/*: any*/),
           (v4/*: any*/),
           (v5/*: any*/),
-          {
-            "alias": null,
-            "args": null,
-            "concreteType": "User",
-            "kind": "LinkedField",
-            "name": "user",
-            "plural": false,
-            "selections": [
-              (v6/*: any*/),
-              (v2/*: any*/),
-              (v7/*: any*/),
-              (v11/*: any*/)
-            ],
-            "storageKey": null
-          },
+          (v6/*: any*/),
+          (v7/*: any*/),
+          (v13/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -260,7 +253,6 @@ return {
             "name": "reviews",
             "plural": false,
             "selections": [
-              (v8/*: any*/),
               {
                 "alias": null,
                 "args": null,
@@ -277,24 +269,12 @@ return {
                     "name": "node",
                     "plural": false,
                     "selections": [
-                      (v6/*: any*/),
+                      (v2/*: any*/),
+                      (v13/*: any*/),
                       (v9/*: any*/),
                       (v10/*: any*/),
-                      {
-                        "alias": null,
-                        "args": null,
-                        "concreteType": "User",
-                        "kind": "LinkedField",
-                        "name": "user",
-                        "plural": false,
-                        "selections": [
-                          (v2/*: any*/),
-                          (v6/*: any*/),
-                          (v11/*: any*/)
-                        ],
-                        "storageKey": null
-                      },
-                      (v11/*: any*/)
+                      (v11/*: any*/),
+                      (v12/*: any*/)
                     ],
                     "storageKey": null
                   }
@@ -304,23 +284,23 @@ return {
             ],
             "storageKey": null
           },
-          (v11/*: any*/)
+          (v12/*: any*/)
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "111d71b749d76c1f36aee3fcdd6305ed",
+    "cacheID": "b73b096141f7c554d380bc20548dc3d6",
     "id": null,
     "metadata": {},
-    "name": "ProductsGetSingleQuery",
+    "name": "GetSingleEstablishmentQuery",
     "operationKind": "query",
-    "text": "query ProductsGetSingleQuery(\n  $id: String!\n) {\n  singleProductById(id: $id) {\n    name\n    referenceLink\n    category\n    description\n    user {\n      _id\n      name\n      email\n      id\n    }\n    reviews {\n      count\n      edges {\n        node {\n          _id\n          comment\n          rating\n          user {\n            name\n            _id\n            id\n          }\n          id\n        }\n      }\n    }\n    id\n  }\n}\n"
+    "text": "query GetSingleEstablishmentQuery(\n  $id: String!\n) {\n  singleEstablishmentBy(id: $id) {\n    _id\n    description\n    referenceLink\n    address\n    name\n    category\n    user {\n      _id\n      name\n      id\n    }\n    reviews {\n      edges {\n        node {\n          _id\n          user {\n            _id\n            name\n            id\n          }\n          createdAt\n          comment\n          rating\n          id\n        }\n      }\n    }\n    id\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "d42610c93426902061cc3303f34fd5b2";
+(node as any).hash = "13e124225fb86ce2c0bcb362f2456a20";
 
 export default node;

@@ -69,6 +69,5 @@ it('should get an error, email not provided', async () => {
   expect(result.errors).toBeDefined();
 
   const user = result?.data?.RegisterWithEmailMutation as any;
-
   expect(user).toBeUndefined();
 });

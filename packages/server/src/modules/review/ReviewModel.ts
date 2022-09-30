@@ -6,9 +6,9 @@ const ReviewSchema = new mongoose.Schema(
       type: Schema.Types.ObjectId,
       ref: 'User',
     },
-    product: {
+    establishment: {
       type: Schema.Types.ObjectId,
-      ref: 'Product',
+      ref: 'Establishment',
     },
     comment: {
       type: String,
@@ -27,18 +27,19 @@ const ReviewSchema = new mongoose.Schema(
       updatedAt: 'updatedAt',
     },
     collection: 'Review',
-  }
+  },
 );
 
 export interface IReview extends Document {
   user: Types.ObjectId;
-  product: Types.ObjectId;
+  establishment: Types.ObjectId;
   comment?: string;
   rating: number;
   createdAt: Date;
   updatedAt: Date;
 }
 
-const ReviewModel: Model<IReview> = mongoose.models['Review'] || mongoose.model('Review', ReviewSchema);
+const ReviewModel: Model<IReview> =
+  mongoose.models['Review'] || mongoose.model('Review', ReviewSchema);
 
 export default ReviewModel;

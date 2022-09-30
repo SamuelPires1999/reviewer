@@ -15,18 +15,18 @@ import {
 } from '@entria/graphql-mongo-helpers';
 
 import { GraphQLContext } from '../../../graphql/types';
-import ProductModel from '../../product/ProductModel';
+import EstablishmentModel from '../../establishment/EstablishmentModel';
 import ReviewModel from '../ReviewModel';
 import { ReviewConnection } from '../ReviewType';
 import * as ReviewLoader from '../ReviewLoader';
-import ProductType from '../../product/ProductType';
 
-import * as ProductLoader from '../../product/ProductLoader';
+import * as EstablishmentLoader from '../../establishment/EstablishmentLoader';
+import EstablishmentType from '../../establishment/EstablishmentType';
 
 type Args = {
   rating: string;
   comment?: string;
-  product: string;
+  establishment: string;
 };
 const mutation = mutationWithClientMutationId({
   name: 'CreateReviewMutation',
@@ -37,7 +37,7 @@ const mutation = mutationWithClientMutationId({
     comment: {
       type: GraphQLString,
     },
-    product: {
+    establishment: {
       type: new GraphQLNonNull(GraphQLString),
     },
   },
@@ -48,32 +48,26 @@ const mutation = mutationWithClientMutationId({
       };
     }
 
-    const product = await ProductModel.findOne({
-      _id: getObjectId(args.product),
+    const establishment = await EstablishmentModel.findOne({
+      _id: getObjectId(args.establishment),
     }).populate('user');
 
-    if (!product) {
+    if (!establishment) {
       return {
         error: 'post not found',
       };
     }
 
-    if (product.user._id.toString() === context.user.id) {
-      return {
-        error: 'You cannot post a review for your own product',
-      };
-    }
-
     const review = await new ReviewModel({
       user: context.user._id,
-      product,
+      establishment,
       comment: args.comment,
       rating: parseInt(args.rating),
     }).save();
 
     return {
       id: review._id,
-      product: product._id,
+      establishment: establishment._id,
       error: null,
     };
   },
@@ -95,10 +89,10 @@ const mutation = mutationWithClientMutationId({
         };
       },
     },
-    product: {
-      type: ProductType,
-      resolve: async ({ product }, _, context) => {
-        return await ProductLoader.load(context, product);
+    establishment: {
+      type: EstablishmentType,
+      resolve: async ({ establishment }, _, context) => {
+        return await EstablishmentLoader.load(context, establishment);
       },
     },
     ...errorField,

@@ -1,0 +1,397 @@
+# The root of all... queries
+type Query {
+  # Fetches an object given its ID
+  node(
+    # The ID of an object
+    id: ID!
+  ): Node
+
+  # Fetches objects given their IDs
+  nodes(
+    # The IDs of objects
+    ids: [ID!]!
+  ): [Node]!
+  me: User
+  establishments(
+    # Returns the items in the list that come after the specified cursor.
+    after: String
+
+    # Returns the first n items from the list.
+    first: Int
+
+    # Returns the items in the list that come before the specified cursor.
+    before: String
+
+    # Returns the last n items from the list.
+    last: Int
+  ): EstablishmentConnection!
+  reviews(
+    # Returns the items in the list that come after the specified cursor.
+    after: String
+
+    # Returns the first n items from the list.
+    first: Int
+
+    # Returns the items in the list that come before the specified cursor.
+    before: String
+
+    # Returns the last n items from the list.
+    last: Int
+  ): ReviewConnection!
+  singleEstablishmentBy(id: String!): Establishment
+}
+
+# An object with an ID
+interface Node {
+  # The id of the object.
+  id: ID!
+}
+
+# User data
+type User implements Node {
+  # The ID of an object
+  id: ID!
+
+  # mongoose _id
+  _id: String!
+  name: String
+  email: String
+  establishments(
+    # Returns the items in the list that come after the specified cursor.
+    after: String
+
+    # Returns the first n items from the list.
+    first: Int
+
+    # Returns the items in the list that come before the specified cursor.
+    before: String
+
+    # Returns the last n items from the list.
+    last: Int
+  ): EstablishmentConnection!
+  reviews(
+    # Returns the items in the list that come after the specified cursor.
+    after: String
+
+    # Returns the first n items from the list.
+    first: Int
+
+    # Returns the items in the list that come before the specified cursor.
+    before: String
+
+    # Returns the last n items from the list.
+    last: Int
+  ): ReviewConnection!
+  createdAt: String
+  updatedAt: String
+}
+
+# A connection to a list of items.
+type EstablishmentConnection implements Connection {
+  # Number of items in this connection.
+  count: Int
+
+  # A count of the total number of objects in this connection, ignoring pagination.
+  # This allows a client to fetch the first five objects by passing "5" as the
+  # argument to "first", then fetch the total count so it could display "5 of 83",
+  # for example.
+  totalCount: Int
+
+  # Offset from start.
+  startCursorOffset: Int!
+
+  # Offset till end.
+  endCursorOffset: Int!
+
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [EstablishmentEdge]!
+}
+
+# A connection to a list of items.
+interface Connection {
+  # Number of items in this connection.
+  count: Int
+
+  # A count of the total number of objects in this connection, ignoring pagination.
+  # This allows a client to fetch the first five objects by passing "5" as the
+  # argument to "first", then fetch the total count so it could display "5 of 83",
+  # for example.
+  totalCount: Int
+
+  # Offset from start.
+  startCursorOffset: Int!
+
+  # Offset till end.
+  endCursorOffset: Int!
+
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+}
+
+# Information about pagination in a connection.
+type PageInfo {
+  # When paginating forwards, are there more items?
+  hasNextPage: Boolean!
+
+  # When paginating backwards, are there more items?
+  hasPreviousPage: Boolean!
+
+  # When paginating backwards, the cursor to continue.
+  startCursor: String
+
+  # When paginating forwards, the cursor to continue.
+  endCursor: String
+}
+
+# An edge in a connection.
+type EstablishmentEdge {
+  # The item at the end of the edge.
+  node: Establishment
+
+  # A cursor for use in pagination.
+  cursor: String!
+}
+
+# Establishment data
+type Establishment implements Node {
+  # The ID of an object
+  id: ID!
+
+  # mongoose _id
+  _id: String!
+  description: String
+  referenceLink: String
+  address: String
+  name: String
+  category: String
+  user: User
+  reviews(
+    # Returns the items in the list that come after the specified cursor.
+    after: String
+
+    # Returns the first n items from the list.
+    first: Int
+
+    # Returns the items in the list that come before the specified cursor.
+    before: String
+
+    # Returns the last n items from the list.
+    last: Int
+  ): ReviewConnection!
+  createdAt: String
+  updatedAt: String
+}
+
+# A connection to a list of items.
+type ReviewConnection implements Connection {
+  # Number of items in this connection.
+  count: Int
+
+  # A count of the total number of objects in this connection, ignoring pagination.
+  # This allows a client to fetch the first five objects by passing "5" as the
+  # argument to "first", then fetch the total count so it could display "5 of 83",
+  # for example.
+  totalCount: Int
+
+  # Offset from start.
+  startCursorOffset: Int!
+
+  # Offset till end.
+  endCursorOffset: Int!
+
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [ReviewEdge]!
+}
+
+# An edge in a connection.
+type ReviewEdge {
+  # The item at the end of the edge.
+  node: Review
+
+  # A cursor for use in pagination.
+  cursor: String!
+}
+
+# Review data
+type Review implements Node {
+  # The ID of an object
+  id: ID!
+
+  # mongoose _id
+  _id: String!
+  comment: String
+  rating: Int
+  user: User
+  establishment: Establishment
+  createdAt: String
+  updatedAt: String
+}
+
+type Mutation {
+  RegisterWithEmailMutation(
+    input: UserRegisterWithEmailInput!
+  ): UserRegisterWithEmailPayload
+  LoginWithEmailMutation(
+    input: UserLoginWithEmailInput!
+  ): UserLoginWithEmailPayload
+  ChangePasswordMutation(
+    input: ChangeUserPasswordInput!
+  ): ChangeUserPasswordPayload
+  RecoverPasswordMutation(input: RecoverPasswordInput!): RecoverPasswordPayload
+  CreateEstablishmentMutation(
+    input: EstablishmentCreateInput!
+  ): EstablishmentCreatePayload
+  DeleteEstablishmentMutation(
+    input: EstablishmentDeleteInput!
+  ): EstablishmentDeletePayload
+  CreateReviewMutation(
+    input: CreateReviewMutationInput!
+  ): CreateReviewMutationPayload
+  DeleteReviewMutation(
+    input: DeleteReviewMutationInput!
+  ): DeleteReviewMutationPayload
+}
+
+type UserRegisterWithEmailPayload {
+  token: String
+  me: User
+
+  # Default error field resolver.
+  error: String
+
+  # Default success field resolver.
+  success: String
+  clientMutationId: String
+}
+
+input UserRegisterWithEmailInput {
+  name: String!
+  email: String!
+  password: String!
+  clientMutationId: String
+}
+
+type UserLoginWithEmailPayload {
+  token: String
+  me: User
+
+  # Default error field resolver.
+  error: String
+
+  # Default success field resolver.
+  success: String
+  clientMutationId: String
+}
+
+input UserLoginWithEmailInput {
+  email: String!
+  password: String!
+  clientMutationId: String
+}
+
+type ChangeUserPasswordPayload {
+  message: String
+
+  # Default error field resolver.
+  error: String
+
+  # Default success field resolver.
+  success: String
+  clientMutationId: String
+}
+
+input ChangeUserPasswordInput {
+  oldPassword: String!
+  newPassword: String!
+  clientMutationId: String
+}
+
+type RecoverPasswordPayload {
+  # Default error field resolver.
+  error: String
+
+  # Default success field resolver.
+  success: String
+  clientMutationId: String
+}
+
+input RecoverPasswordInput {
+  email: String!
+  newPassword: String!
+  clientMutationId: String
+}
+
+type EstablishmentCreatePayload {
+  EstablishmentEdge: EstablishmentEdge
+
+  # Default error field resolver.
+  error: String
+
+  # Default success field resolver.
+  success: String
+  clientMutationId: String
+}
+
+input EstablishmentCreateInput {
+  name: String!
+  referenceLink: String
+  address: String!
+  description: String
+  category: String
+  clientMutationId: String
+}
+
+type EstablishmentDeletePayload {
+  message: String
+
+  # Default error field resolver.
+  error: String
+
+  # Default success field resolver.
+  success: String
+  clientMutationId: String
+}
+
+input EstablishmentDeleteInput {
+  Establishment: String!
+  clientMutationId: String
+}
+
+type CreateReviewMutationPayload {
+  reviewEdge: ReviewEdge
+  establishment: Establishment
+
+  # Default error field resolver.
+  error: String
+
+  # Default success field resolver.
+  success: String
+  clientMutationId: String
+}
+
+input CreateReviewMutationInput {
+  rating: String!
+  comment: String
+  establishment: String!
+  clientMutationId: String
+}
+
+type DeleteReviewMutationPayload {
+  # Default error field resolver.
+  error: String
+
+  # Default success field resolver.
+  success: String
+  clientMutationId: String
+}
+
+input DeleteReviewMutationInput {
+  review: String!
+  clientMutationId: String
+}

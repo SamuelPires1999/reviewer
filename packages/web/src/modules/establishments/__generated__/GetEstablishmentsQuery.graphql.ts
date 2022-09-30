@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<cb6e6c08a1b1f918070cef47e9e1bd48>>
+ * @generated SignedSource<<d4d8363e9ed0fbb931309b85953e80b7>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,103 +8,103 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Mutation } from 'relay-runtime';
-export type ProductCreateInput = {
-  category: string;
-  clientMutationId?: string | null;
-  description?: string | null;
-  name: string;
-  referenceLink?: string | null;
-};
-export type ProductCreateMutation$variables = {
-  input: ProductCreateInput;
-};
-export type ProductCreateMutation$data = {
-  readonly CreateProductMutation: {
-    readonly error: string | null;
-    readonly productEdge: {
+import { ConcreteRequest, Query } from 'relay-runtime';
+export type GetEstablishmentsQuery$variables = {};
+export type GetEstablishmentsQuery$data = {
+  readonly establishments: {
+    readonly count: number | null;
+    readonly edges: ReadonlyArray<{
       readonly node: {
         readonly _id: string;
+        readonly address: string | null;
         readonly category: string | null;
+        readonly createdAt: string | null;
         readonly description: string | null;
         readonly name: string | null;
-        readonly referenceLink: string | null;
+        readonly reviews: {
+          readonly count: number | null;
+        };
         readonly user: {
           readonly _id: string;
+          readonly email: string | null;
           readonly name: string | null;
         } | null;
       } | null;
-    } | null;
-    readonly success: string | null;
-  } | null;
+    } | null>;
+  };
 };
-export type ProductCreateMutation = {
-  response: ProductCreateMutation$data;
-  variables: ProductCreateMutation$variables;
+export type GetEstablishmentsQuery = {
+  response: GetEstablishmentsQuery$data;
+  variables: GetEstablishmentsQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){
-var v0 = [
-  {
-    "defaultValue": null,
-    "kind": "LocalArgument",
-    "name": "input"
-  }
-],
-v1 = [
-  {
-    "kind": "Variable",
-    "name": "input",
-    "variableName": "input"
-  }
-],
-v2 = {
+var v0 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "error",
+  "name": "count",
   "storageKey": null
 },
-v3 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "success",
-  "storageKey": null
-},
-v4 = {
+v1 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "_id",
   "storageKey": null
 },
-v5 = {
+v2 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "description",
   "storageKey": null
 },
-v6 = {
+v3 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "name",
   "storageKey": null
 },
-v7 = {
+v4 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "address",
+  "storageKey": null
+},
+v5 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "createdAt",
+  "storageKey": null
+},
+v6 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "category",
   "storageKey": null
 },
+v7 = {
+  "alias": null,
+  "args": null,
+  "concreteType": "ReviewConnection",
+  "kind": "LinkedField",
+  "name": "reviews",
+  "plural": false,
+  "selections": [
+    (v0/*: any*/)
+  ],
+  "storageKey": null
+},
 v8 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "referenceLink",
+  "name": "email",
   "storageKey": null
 },
 v9 = {
@@ -116,42 +116,43 @@ v9 = {
 };
 return {
   "fragment": {
-    "argumentDefinitions": (v0/*: any*/),
+    "argumentDefinitions": [],
     "kind": "Fragment",
     "metadata": null,
-    "name": "ProductCreateMutation",
+    "name": "GetEstablishmentsQuery",
     "selections": [
       {
         "alias": null,
-        "args": (v1/*: any*/),
-        "concreteType": "ProductCreatePayload",
+        "args": null,
+        "concreteType": "EstablishmentConnection",
         "kind": "LinkedField",
-        "name": "CreateProductMutation",
+        "name": "establishments",
         "plural": false,
         "selections": [
-          (v2/*: any*/),
-          (v3/*: any*/),
+          (v0/*: any*/),
           {
             "alias": null,
             "args": null,
-            "concreteType": "ProductEdge",
+            "concreteType": "EstablishmentEdge",
             "kind": "LinkedField",
-            "name": "productEdge",
-            "plural": false,
+            "name": "edges",
+            "plural": true,
             "selections": [
               {
                 "alias": null,
                 "args": null,
-                "concreteType": "Product",
+                "concreteType": "Establishment",
                 "kind": "LinkedField",
                 "name": "node",
                 "plural": false,
                 "selections": [
+                  (v1/*: any*/),
+                  (v2/*: any*/),
+                  (v3/*: any*/),
                   (v4/*: any*/),
                   (v5/*: any*/),
                   (v6/*: any*/),
                   (v7/*: any*/),
-                  (v8/*: any*/),
                   {
                     "alias": null,
                     "args": null,
@@ -160,8 +161,9 @@ return {
                     "name": "user",
                     "plural": false,
                     "selections": [
-                      (v4/*: any*/),
-                      (v6/*: any*/)
+                      (v1/*: any*/),
+                      (v3/*: any*/),
+                      (v8/*: any*/)
                     ],
                     "storageKey": null
                   }
@@ -175,46 +177,47 @@ return {
         "storageKey": null
       }
     ],
-    "type": "Mutation",
+    "type": "Query",
     "abstractKey": null
   },
   "kind": "Request",
   "operation": {
-    "argumentDefinitions": (v0/*: any*/),
+    "argumentDefinitions": [],
     "kind": "Operation",
-    "name": "ProductCreateMutation",
+    "name": "GetEstablishmentsQuery",
     "selections": [
       {
         "alias": null,
-        "args": (v1/*: any*/),
-        "concreteType": "ProductCreatePayload",
+        "args": null,
+        "concreteType": "EstablishmentConnection",
         "kind": "LinkedField",
-        "name": "CreateProductMutation",
+        "name": "establishments",
         "plural": false,
         "selections": [
-          (v2/*: any*/),
-          (v3/*: any*/),
+          (v0/*: any*/),
           {
             "alias": null,
             "args": null,
-            "concreteType": "ProductEdge",
+            "concreteType": "EstablishmentEdge",
             "kind": "LinkedField",
-            "name": "productEdge",
-            "plural": false,
+            "name": "edges",
+            "plural": true,
             "selections": [
               {
                 "alias": null,
                 "args": null,
-                "concreteType": "Product",
+                "concreteType": "Establishment",
                 "kind": "LinkedField",
                 "name": "node",
                 "plural": false,
                 "selections": [
+                  (v1/*: any*/),
+                  (v2/*: any*/),
+                  (v3/*: any*/),
                   (v4/*: any*/),
                   (v5/*: any*/),
                   (v6/*: any*/),
                   (v7/*: any*/),
-                  (v8/*: any*/),
                   {
                     "alias": null,
                     "args": null,
@@ -223,8 +226,9 @@ return {
                     "name": "user",
                     "plural": false,
                     "selections": [
-                      (v4/*: any*/),
-                      (v6/*: any*/),
+                      (v1/*: any*/),
+                      (v3/*: any*/),
+                      (v8/*: any*/),
                       (v9/*: any*/)
                     ],
                     "storageKey": null
@@ -242,16 +246,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "cf18cc8472fbd295c8ed05a0d8a2ef6b",
+    "cacheID": "10ccff2e1732b68c8227ec04fda95d94",
     "id": null,
     "metadata": {},
-    "name": "ProductCreateMutation",
-    "operationKind": "mutation",
-    "text": "mutation ProductCreateMutation(\n  $input: ProductCreateInput!\n) {\n  CreateProductMutation(input: $input) {\n    error\n    success\n    productEdge {\n      node {\n        _id\n        description\n        name\n        category\n        referenceLink\n        user {\n          _id\n          name\n          id\n        }\n        id\n      }\n    }\n  }\n}\n"
+    "name": "GetEstablishmentsQuery",
+    "operationKind": "query",
+    "text": "query GetEstablishmentsQuery {\n  establishments {\n    count\n    edges {\n      node {\n        _id\n        description\n        name\n        address\n        createdAt\n        category\n        reviews {\n          count\n        }\n        user {\n          _id\n          name\n          email\n          id\n        }\n        id\n      }\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "5b07509c820aa52f48504ccb52ac6f21";
+(node as any).hash = "489abcc3a7e252dc1df667f929a4d642";
 
 export default node;

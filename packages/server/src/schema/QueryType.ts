@@ -1,9 +1,16 @@
-import { GraphQLObjectType, GraphQLNonNull, GraphQLString, GraphQLInt } from 'graphql';
+import {
+  GraphQLObjectType,
+  GraphQLNonNull,
+  GraphQLString,
+  GraphQLInt,
+} from 'graphql';
 import { nodesField, nodeField } from '../modules/node/typeRegister';
 import UserType from '../modules/user/UserType';
 import * as UserLoader from '../modules/user/UserLoader';
-import ProductType, { ProductConnection } from '../modules/product/ProductType';
-import * as ProductLoader from '../modules/product/ProductLoader';
+import EstablishmentType, {
+  EstablishmentConnection,
+} from '../modules/establishment/EstablishmentType';
+import * as EstablishmentLoader from '../modules/establishment/EstablishmentLoader';
 import { connectionArgs } from 'graphql-relay';
 import { ReviewConnection } from '../modules/review/ReviewType';
 import * as ReviewLoader from '../modules/review/ReviewLoader';
@@ -16,30 +23,34 @@ const QueryType = new GraphQLObjectType({
     nodes: nodesField,
     me: {
       type: UserType,
-      resolve: (root, args, context) => UserLoader.load(context, context.user?._id),
+      resolve: (root, args, context) =>
+        UserLoader.load(context, context.user?._id),
     },
-    products: {
-      type: new GraphQLNonNull(ProductConnection.connectionType),
+    establishments: {
+      type: new GraphQLNonNull(EstablishmentConnection.connectionType),
       args: {
         ...connectionArgs,
       },
-      resolve: async (_, args, context) => await ProductLoader.loadAll(context, args),
+      resolve: async (_, args, context) =>
+        await EstablishmentLoader.loadAll(context, args),
     },
     reviews: {
       type: new GraphQLNonNull(ReviewConnection.connectionType),
       args: {
         ...connectionArgs,
       },
-      resolve: async (_, args, context) => await ReviewLoader.loadAll(context, args),
+      resolve: async (_, args, context) =>
+        await ReviewLoader.loadAll(context, args),
     },
-    singleProductById: {
-      type: ProductType,
+    singleEstablishmentBy: {
+      type: EstablishmentType,
       args: {
         id: {
           type: new GraphQLNonNull(GraphQLString),
         },
       },
-      resolve: async (_, args, context) => await ProductLoader.load(context, args.id),
+      resolve: async (_, args, context) =>
+        await EstablishmentLoader.load(context, args.id),
     },
   }),
 });

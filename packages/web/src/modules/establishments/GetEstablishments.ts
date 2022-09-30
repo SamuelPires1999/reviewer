@@ -1,19 +1,22 @@
 import { graphql } from 'relay-runtime';
 
-export const ProductsGetAllQuery = graphql`
-  query ProductsGetAllQuery {
-    products {
+export const GetEstablishments = graphql`
+  query GetEstablishmentsQuery {
+    establishments {
       count
       edges {
         node {
+          _id
           description
           name
+          address
+          createdAt
           category
-          _id
           reviews {
             count
           }
           user {
+            _id
             name
             email
           }
