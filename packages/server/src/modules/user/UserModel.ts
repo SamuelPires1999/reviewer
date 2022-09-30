@@ -21,9 +21,9 @@ const UserSchema = new mongoose.Schema(
       ref: 'Review',
       default: [],
     },
-    products: {
+    establishment: {
       type: [Schema.Types.ObjectId],
-      ref: 'Product',
+      ref: 'Establishment',
       default: [],
     },
   },
@@ -33,14 +33,14 @@ const UserSchema = new mongoose.Schema(
       updatedAt: 'updatedAt',
     },
     collection: 'User',
-  }
+  },
 );
 
 export interface IUser extends Document {
   name: string;
   email: string;
   password: string;
-  products: Types.ObjectId[];
+  establishments: Types.ObjectId[];
   reviews: Types.ObjectId[];
   authenticate: (plainTextPassword: string) => boolean;
   encryptPassword: (password: string | undefined) => string;
@@ -66,6 +66,7 @@ UserSchema.methods = {
   },
 };
 
-const UserModel: Model<IUser> = mongoose.models['User'] || mongoose.model('User', UserSchema);
+const UserModel: Model<IUser> =
+  mongoose.models['User'] || mongoose.model('User', UserSchema);
 
 export default UserModel;

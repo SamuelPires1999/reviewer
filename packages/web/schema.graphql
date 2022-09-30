@@ -1,266 +1,376 @@
-# The root of all... queries
-type Query {
-  # Fetches an object given its ID
-  node(
-    # The ID of an object
-    id: ID!
-  ): Node
+"""Exposes a URL that specifies the behavior of this scalar."""
+directive @specifiedBy(
+  """The URL that specifies the behavior of this scalar."""
+  url: String!
+) on SCALAR
 
-  # Fetches objects given their IDs
-  nodes(
-    # The IDs of objects
-    ids: [ID!]!
-  ): [Node]!
-  me: User
-  products(
-    # Returns the items in the list that come after the specified cursor.
-    after: String
-
-    # Returns the first n items from the list.
-    first: Int
-
-    # Returns the items in the list that come before the specified cursor.
-    before: String
-
-    # Returns the last n items from the list.
-    last: Int
-  ): ProductConnection!
-  reviews(
-    # Returns the items in the list that come after the specified cursor.
-    after: String
-
-    # Returns the first n items from the list.
-    first: Int
-
-    # Returns the items in the list that come before the specified cursor.
-    before: String
-
-    # Returns the last n items from the list.
-    last: Int
-  ): ReviewConnection!
-  singleProductById(id: String!): Product
+input ChangeUserPasswordInput {
+  oldPassword: String!
+  newPassword: String!
+  clientMutationId: String
 }
 
-# An object with an ID
-interface Node {
-  # The id of the object.
-  id: ID!
+type ChangeUserPasswordPayload {
+  message: String
+
+  """Default error field resolver."""
+  error: String
+
+  """Default success field resolver."""
+  success: String
+  clientMutationId: String
 }
 
-# User data
-type User implements Node {
-  # The ID of an object
-  id: ID!
-
-  # mongoose _id
-  _id: String!
-  name: String
-  email: String
-  products(
-    # Returns the items in the list that come after the specified cursor.
-    after: String
-
-    # Returns the first n items from the list.
-    first: Int
-
-    # Returns the items in the list that come before the specified cursor.
-    before: String
-
-    # Returns the last n items from the list.
-    last: Int
-  ): ProductConnection!
-  reviews(
-    # Returns the items in the list that come after the specified cursor.
-    after: String
-
-    # Returns the first n items from the list.
-    first: Int
-
-    # Returns the items in the list that come before the specified cursor.
-    before: String
-
-    # Returns the last n items from the list.
-    last: Int
-  ): ReviewConnection!
-  createdAt: String
-  updatedAt: String
-}
-
-# A connection to a list of items.
-type ProductConnection implements Connection {
-  # Number of items in this connection.
-  count: Int
-
-  # A count of the total number of objects in this connection, ignoring pagination.
-  # This allows a client to fetch the first five objects by passing "5" as the
-  # argument to "first", then fetch the total count so it could display "5 of 83",
-  # for example.
-  totalCount: Int
-
-  # Offset from start.
-  startCursorOffset: Int!
-
-  # Offset till end.
-  endCursorOffset: Int!
-
-  # Information to aid in pagination.
-  pageInfo: PageInfo!
-
-  # A list of edges.
-  edges: [ProductEdge]!
-}
-
-# A connection to a list of items.
+"""A connection to a list of items."""
 interface Connection {
-  # Number of items in this connection.
+  """Number of items in this connection."""
   count: Int
 
-  # A count of the total number of objects in this connection, ignoring pagination.
-  # This allows a client to fetch the first five objects by passing "5" as the
-  # argument to "first", then fetch the total count so it could display "5 of 83",
-  # for example.
+  """
+  A count of the total number of objects in this connection, ignoring pagination.
+  This allows a client to fetch the first five objects by passing "5" as the
+  argument to "first", then fetch the total count so it could display "5 of 83",
+  for example.
+  """
   totalCount: Int
 
-  # Offset from start.
+  """Offset from start."""
   startCursorOffset: Int!
 
-  # Offset till end.
+  """Offset till end."""
   endCursorOffset: Int!
 
-  # Information to aid in pagination.
+  """Information to aid in pagination."""
   pageInfo: PageInfo!
 }
 
-# Information about pagination in a connection.
-type PageInfo {
-  # When paginating forwards, are there more items?
-  hasNextPage: Boolean!
-
-  # When paginating backwards, are there more items?
-  hasPreviousPage: Boolean!
-
-  # When paginating backwards, the cursor to continue.
-  startCursor: String
-
-  # When paginating forwards, the cursor to continue.
-  endCursor: String
+input CreateReviewMutationInput {
+  rating: String!
+  comment: String
+  establishment: String!
+  clientMutationId: String
 }
 
-# An edge in a connection.
-type ProductEdge {
-  # The item at the end of the edge.
-  node: Product
+type CreateReviewMutationPayload {
+  reviewEdge: ReviewEdge
+  establishment: Establishment
 
-  # A cursor for use in pagination.
-  cursor: String!
+  """Default error field resolver."""
+  error: String
+
+  """Default success field resolver."""
+  success: String
+  clientMutationId: String
 }
 
-# Product data
-type Product implements Node {
-  # The ID of an object
+input DeleteReviewMutationInput {
+  review: String!
+  clientMutationId: String
+}
+
+type DeleteReviewMutationPayload {
+  """Default error field resolver."""
+  error: String
+
+  """Default success field resolver."""
+  success: String
+  clientMutationId: String
+}
+
+"""Establishment data"""
+type Establishment implements Node {
+  """The ID of an object"""
   id: ID!
 
-  # mongoose _id
+  """mongoose _id"""
   _id: String!
   description: String
   referenceLink: String
+  address: String
   name: String
   category: String
   user: User
   reviews(
-    # Returns the items in the list that come after the specified cursor.
+    """Returns the items in the list that come after the specified cursor."""
     after: String
 
-    # Returns the first n items from the list.
+    """Returns the first n items from the list."""
     first: Int
 
-    # Returns the items in the list that come before the specified cursor.
+    """Returns the items in the list that come before the specified cursor."""
     before: String
 
-    # Returns the last n items from the list.
+    """Returns the last n items from the list."""
     last: Int
   ): ReviewConnection!
   createdAt: String
   updatedAt: String
 }
 
-# A connection to a list of items.
-type ReviewConnection implements Connection {
-  # Number of items in this connection.
+"""A connection to a list of items."""
+type EstablishmentConnection implements Connection {
+  """Number of items in this connection."""
   count: Int
 
-  # A count of the total number of objects in this connection, ignoring pagination.
-  # This allows a client to fetch the first five objects by passing "5" as the
-  # argument to "first", then fetch the total count so it could display "5 of 83",
-  # for example.
+  """
+  A count of the total number of objects in this connection, ignoring pagination.
+  This allows a client to fetch the first five objects by passing "5" as the
+  argument to "first", then fetch the total count so it could display "5 of 83",
+  for example.
+  """
   totalCount: Int
 
-  # Offset from start.
+  """Offset from start."""
   startCursorOffset: Int!
 
-  # Offset till end.
+  """Offset till end."""
   endCursorOffset: Int!
 
-  # Information to aid in pagination.
+  """Information to aid in pagination."""
   pageInfo: PageInfo!
 
-  # A list of edges.
-  edges: [ReviewEdge]!
+  """A list of edges."""
+  edges: [EstablishmentEdge]!
 }
 
-# An edge in a connection.
-type ReviewEdge {
-  # The item at the end of the edge.
-  node: Review
+input EstablishmentCreateInput {
+  name: String!
+  referenceLink: String
+  address: String!
+  description: String
+  category: String
+  clientMutationId: String
+}
 
-  # A cursor for use in pagination.
+type EstablishmentCreatePayload {
+  EstablishmentEdge: EstablishmentEdge
+
+  """Default error field resolver."""
+  error: String
+
+  """Default success field resolver."""
+  success: String
+  clientMutationId: String
+}
+
+input EstablishmentDeleteInput {
+  establishment: String!
+  clientMutationId: String
+}
+
+type EstablishmentDeletePayload {
+  message: String
+
+  """Default error field resolver."""
+  error: String
+
+  """Default success field resolver."""
+  success: String
+  clientMutationId: String
+}
+
+"""An edge in a connection."""
+type EstablishmentEdge {
+  """The item at the end of the edge."""
+  node: Establishment
+
+  """A cursor for use in pagination."""
   cursor: String!
 }
 
-# Review data
+type Mutation {
+  RegisterWithEmailMutation(input: UserRegisterWithEmailInput!): UserRegisterWithEmailPayload
+  LoginWithEmailMutation(input: UserLoginWithEmailInput!): UserLoginWithEmailPayload
+  ChangePasswordMutation(input: ChangeUserPasswordInput!): ChangeUserPasswordPayload
+  RecoverPasswordMutation(input: RecoverPasswordInput!): RecoverPasswordPayload
+  CreateEstablishmentMutation(input: EstablishmentCreateInput!): EstablishmentCreatePayload
+  DeleteEstablishmentMutation(input: EstablishmentDeleteInput!): EstablishmentDeletePayload
+  CreateReviewMutation(input: CreateReviewMutationInput!): CreateReviewMutationPayload
+  DeleteReviewMutation(input: DeleteReviewMutationInput!): DeleteReviewMutationPayload
+}
+
+"""An object with an ID"""
+interface Node {
+  """The id of the object."""
+  id: ID!
+}
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+}
+
+"""The root of all... queries"""
+type Query {
+  """Fetches an object given its ID"""
+  node(
+    """The ID of an object"""
+    id: ID!
+  ): Node
+
+  """Fetches objects given their IDs"""
+  nodes(
+    """The IDs of objects"""
+    ids: [ID!]!
+  ): [Node]!
+  me: User
+  establishments(
+    """Returns the items in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the first n items from the list."""
+    first: Int
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String
+
+    """Returns the last n items from the list."""
+    last: Int
+  ): EstablishmentConnection!
+  reviews(
+    """Returns the items in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the first n items from the list."""
+    first: Int
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String
+
+    """Returns the last n items from the list."""
+    last: Int
+  ): ReviewConnection!
+  singleEstablishmentBy(id: String!): Establishment
+}
+
+input RecoverPasswordInput {
+  email: String!
+  newPassword: String!
+  clientMutationId: String
+}
+
+type RecoverPasswordPayload {
+  """Default error field resolver."""
+  error: String
+
+  """Default success field resolver."""
+  success: String
+  clientMutationId: String
+}
+
+"""Review data"""
 type Review implements Node {
-  # The ID of an object
+  """The ID of an object"""
   id: ID!
 
-  # mongoose _id
+  """mongoose _id"""
   _id: String!
   comment: String
   rating: Int
   user: User
-  product: Product
+  establishment: Establishment
   createdAt: String
   updatedAt: String
 }
 
-type Mutation {
-  RegisterWithEmailMutation(
-    input: UserRegisterWithEmailInput!
-  ): UserRegisterWithEmailPayload
-  LoginWithEmailMutation(
-    input: UserLoginWithEmailInput!
-  ): UserLoginWithEmailPayload
-  ChangePasswordMutation(
-    input: ChangeUserPasswordInput!
-  ): ChangeUserPasswordPayload
-  RecoverPasswordMutation(input: RecoverPasswordInput!): RecoverPasswordPayload
-  CreateProductMutation(input: ProductCreateInput!): ProductCreatePayload
-  DeleteProductMutation(input: ProductDeleteInput!): ProductDeletePayload
-  CreateReviewMutation(
-    input: CreateReviewMutationInput!
-  ): CreateReviewMutationPayload
-  DeleteReviewMutation(
-    input: DeleteReviewMutationInput!
-  ): DeleteReviewMutationPayload
+"""A connection to a list of items."""
+type ReviewConnection implements Connection {
+  """Number of items in this connection."""
+  count: Int
+
+  """
+  A count of the total number of objects in this connection, ignoring pagination.
+  This allows a client to fetch the first five objects by passing "5" as the
+  argument to "first", then fetch the total count so it could display "5 of 83",
+  for example.
+  """
+  totalCount: Int
+
+  """Offset from start."""
+  startCursorOffset: Int!
+
+  """Offset till end."""
+  endCursorOffset: Int!
+
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [ReviewEdge]!
 }
 
-type UserRegisterWithEmailPayload {
+"""An edge in a connection."""
+type ReviewEdge {
+  """The item at the end of the edge."""
+  node: Review
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+"""User data"""
+type User implements Node {
+  """The ID of an object"""
+  id: ID!
+
+  """mongoose _id"""
+  _id: String!
+  name: String
+  email: String
+  establishments(
+    """Returns the items in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the first n items from the list."""
+    first: Int
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String
+
+    """Returns the last n items from the list."""
+    last: Int
+  ): EstablishmentConnection!
+  reviews(
+    """Returns the items in the list that come after the specified cursor."""
+    after: String
+
+    """Returns the first n items from the list."""
+    first: Int
+
+    """Returns the items in the list that come before the specified cursor."""
+    before: String
+
+    """Returns the last n items from the list."""
+    last: Int
+  ): ReviewConnection!
+  createdAt: String
+  updatedAt: String
+}
+
+input UserLoginWithEmailInput {
+  email: String!
+  password: String!
+  clientMutationId: String
+}
+
+type UserLoginWithEmailPayload {
   token: String
   me: User
 
-  # Default error field resolver.
+  """Default error field resolver."""
   error: String
 
-  # Default success field resolver.
+  """Default success field resolver."""
   success: String
   clientMutationId: String
 }
@@ -272,120 +382,15 @@ input UserRegisterWithEmailInput {
   clientMutationId: String
 }
 
-type UserLoginWithEmailPayload {
+type UserRegisterWithEmailPayload {
   token: String
   me: User
 
-  # Default error field resolver.
+  """Default error field resolver."""
   error: String
 
-  # Default success field resolver.
+  """Default success field resolver."""
   success: String
   clientMutationId: String
 }
 
-input UserLoginWithEmailInput {
-  email: String!
-  password: String!
-  clientMutationId: String
-}
-
-type ChangeUserPasswordPayload {
-  message: String
-
-  # Default error field resolver.
-  error: String
-
-  # Default success field resolver.
-  success: String
-  clientMutationId: String
-}
-
-input ChangeUserPasswordInput {
-  oldPassword: String!
-  newPassword: String!
-  clientMutationId: String
-}
-
-type RecoverPasswordPayload {
-  # Default error field resolver.
-  error: String
-
-  # Default success field resolver.
-  success: String
-  clientMutationId: String
-}
-
-input RecoverPasswordInput {
-  email: String!
-  newPassword: String!
-  clientMutationId: String
-}
-
-type ProductCreatePayload {
-  productEdge: ProductEdge
-
-  # Default error field resolver.
-  error: String
-
-  # Default success field resolver.
-  success: String
-  clientMutationId: String
-}
-
-input ProductCreateInput {
-  name: String!
-  referenceLink: String
-  description: String
-  category: String!
-  clientMutationId: String
-}
-
-type ProductDeletePayload {
-  message: String
-
-  # Default error field resolver.
-  error: String
-
-  # Default success field resolver.
-  success: String
-  clientMutationId: String
-}
-
-input ProductDeleteInput {
-  product: String!
-  clientMutationId: String
-}
-
-type CreateReviewMutationPayload {
-  reviewEdge: ReviewEdge
-  product: Product
-
-  # Default error field resolver.
-  error: String
-
-  # Default success field resolver.
-  success: String
-  clientMutationId: String
-}
-
-input CreateReviewMutationInput {
-  rating: String!
-  comment: String
-  product: String!
-  clientMutationId: String
-}
-
-type DeleteReviewMutationPayload {
-  # Default error field resolver.
-  error: String
-
-  # Default success field resolver.
-  success: String
-  clientMutationId: String
-}
-
-input DeleteReviewMutationInput {
-  review: String!
-  clientMutationId: String
-}

@@ -14,6 +14,7 @@ interface CardProps {
   reviewCount: number;
   name: string;
   category: string;
+  address: string;
   id: string;
 }
 
@@ -21,7 +22,7 @@ export default function ProductCard(props: CardProps) {
   const navigate = useNavigate();
 
   return (
-    <Center py={6} onClick={() => navigate(`/products/${props.id}`)}>
+    <Center py={6} onClick={() => navigate(`/establishments/${props.id}`)}>
       <Box
         maxW={'445px'}
         w={'full'}

@@ -15,8 +15,6 @@ import {
 } from '@chakra-ui/react';
 import * as Yup from 'yup';
 import { useLazyLoadQuery, useMutation } from 'react-relay';
-import { ProductCreateMutation } from './ProductCreateMutation';
-import type { ProductCreateMutation as MutationType } from './__generated__/ProductCreateMutation.graphql';
 import { useNavigate } from 'react-router-dom';
 import { AuthMeQuery } from '../auth/AuthMeQuery';
 import { useEffect } from 'react';
@@ -24,14 +22,15 @@ import { useStore } from '../../store/useStore';
 import { AuthMeQuery as AuthQueryType } from '../auth/__generated__/AuthMeQuery.graphql';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { CreateEstablishment } from './CreateEstablishment';
+import type { CreateEstablishmentMutation } from './__generated__/CreateEstablishmentMutation.graphql';
 
-export const CreateProduct = () => {
+export const CreateEstablishmentPage = () => {
   const navigate = useNavigate();
   const store = useStore();
   const toast = useToast();
-  const [handleCreateProduct] = useMutation<MutationType>(
-    ProductCreateMutation,
-  );
+  const [handleCreateEstablishment] =
+    useMutation<CreateEstablishmentMutation>(CreateEstablishment);
 
   const authData = useLazyLoadQuery<AuthQueryType>(AuthMeQuery, {});
 
@@ -48,15 +47,17 @@ export const CreateProduct = () => {
   type Inputs = {
     name: string;
     description: string;
+    address: string;
     referenceLink: string;
     category: string;
   };
 
   const schema = Yup.object({
     name: Yup.string().required('A username is required'),
+    address: Yup.string().required('An Address is required'),
     description: Yup.string().required('A description is required'),
     referenceLink: Yup.string(),
-    category: Yup.string(),
+    category: Yup.string().required('Category is required'),
   });
 
   const {
@@ -68,12 +69,12 @@ export const CreateProduct = () => {
   });
 
   const onSubmit: SubmitHandler<Inputs> = data => {
-    handleCreateProduct({
+    handleCreateEstablishment({
       variables: {
         input: data,
       },
       onCompleted: data => {
-        if (data.CreateProductMutation?.error) {
+        if (data.CreateEstablishmentMutation?.error) {
           toast({
             title: 'Error',
             description: 'Something went wrong',
@@ -86,7 +87,7 @@ export const CreateProduct = () => {
 
         toast({
           title: 'Success',
-          description: 'Product Created',
+          description: 'Establishment Created',
           status: 'success',
           duration: 1500,
         });
@@ -115,10 +116,10 @@ export const CreateProduct = () => {
         onSubmit={handleSubmit(onSubmit)}
       >
         <Heading lineHeight={1.1} fontSize={{ base: '2xl', sm: '3xl' }}>
-          Create a product
+          Create a establishment
         </Heading>
         <FormControl id="userName" isRequired isInvalid={!!errors.name}>
-          <FormLabel>Product name</FormLabel>
+          <FormLabel>Establishment name</FormLabel>
           <Input {...register('name', { required: true })} />
 
           {errors.name && (
@@ -133,26 +134,38 @@ export const CreateProduct = () => {
             <FormErrorMessage>{errors.referenceLink.message}</FormErrorMessage>
           )}
         </FormControl>{' '}
-        <FormControl id="category">
+        <FormControl isRequired id="category" isInvalid={!!errors.category}>
           <FormLabel>Category</FormLabel>
           <Select {...register('category')} placeholder="Select category">
-            <option value="random">random</option>
-            <option value="food">food</option>
-            <option value="clothing">clothing</option>
-            <option value="gadgets">gadgets</option>
-            <option value="pc-parts">pc-parts</option>
+            <option value="events">events</option>
+            <option value="restaurants/cooking">restaurants / cooking</option>
+            <option value="hospitality">hospitality</option>
+            <option value="shopping">shopping</option>
+            <option value="varieties">varieties</option>
+            <option value="not-specified">not-specified</option>
           </Select>
+          {errors.category && (
+            <FormErrorMessage>{errors.category.message}</FormErrorMessage>
+          )}
         </FormControl>
         <FormControl
           id="description"
           isRequired
           isInvalid={!!errors.description}
         >
-          <FormLabel>description</FormLabel>
+          <FormLabel>Description</FormLabel>
           <Input {...register('description', { required: true })} />
 
           {errors.description && (
             <FormErrorMessage>{errors.description.message}</FormErrorMessage>
+          )}
+        </FormControl>
+        <FormControl id="address" isRequired isInvalid={!!errors.address}>
+          <FormLabel>Address</FormLabel>
+          <Input {...register('address', { required: true })} />
+
+          {errors.address && (
+            <FormErrorMessage>{errors.address.message}</FormErrorMessage>
           )}
         </FormControl>
         <Stack spacing={6} direction={['column', 'row']}>

@@ -1,31 +1,31 @@
 import { Button, Flex } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import {
+  graphql,
   loadQuery,
   useLazyLoadQuery,
-  useMutation,
   usePreloadedQuery,
 } from 'react-relay';
 import { useNavigate } from 'react-router-dom';
-import ProductCard from '../../components/ProductCard';
+import EstablishmentCard from '../../components/EstablishmentCard';
 import relayEnvironment from '../../relay/relayEnvironment';
 import { useStore } from '../../store/useStore';
-import { ProductsGetAllQuery } from './ProductsGetAllQuery';
-import type { ProductsGetAllQuery as QueryType } from './__generated__/ProductsGetAllQuery.graphql';
 import { AuthMeQuery } from '../auth/AuthMeQuery';
 import { AuthMeQuery as MeQueryType } from '../auth/__generated__/AuthMeQuery.graphql';
+import { GetEstablishments } from './GetEstablishments';
+import type { GetEstablishmentsQuery as QueryType } from './__generated__/GetEstablishmentsQuery.graphql';
 
 const preloadedQuery = loadQuery<QueryType>(
   relayEnvironment,
-  ProductsGetAllQuery,
+  GetEstablishments,
   {},
 );
 
 export const FeedPage = () => {
   const navigate = useNavigate();
   const store = useStore();
-  const { products } = usePreloadedQuery<QueryType>(
-    ProductsGetAllQuery,
+  const { establishments } = usePreloadedQuery<QueryType>(
+    GetEstablishments,
     preloadedQuery,
   );
   const authData = useLazyLoadQuery<MeQueryType>(AuthMeQuery, {});
@@ -43,21 +43,25 @@ export const FeedPage = () => {
   return (
     <>
       {store.user && (
-        <Button width={'full'} onClick={() => navigate('/products/create')}>
-          Create a product
+        <Button
+          width={'full'}
+          onClick={() => navigate('/establishments/create')}
+        >
+          Post a establishment
         </Button>
       )}
       <Flex gap={12} px={12} wrap={'wrap'} width="full" justify={'center'}>
-        {products.edges.map((product, index) => (
-          <ProductCard
-            author={product?.node?.user?.name || 'Anon'}
-            name={product?.node?.name || 'No name provided'}
+        {establishments.edges.map((establishment, index) => (
+          <EstablishmentCard
+            author={establishment?.node?.user?.name || 'Anon'}
+            name={establishment?.node?.name || 'No name provided'}
             description={
-              product?.node?.description || 'No description provided'
+              establishment?.node?.description || 'No description provided'
             }
-            reviewCount={product?.node?.reviews.count || 0}
-            category={product?.node?.category || 'No category'}
-            id={product?.node?._id || '000'}
+            address={establishment?.node?.address || 'No address'}
+            reviewCount={establishment?.node?.reviews.count || 0}
+            category={establishment?.node?.category || 'No category'}
+            id={establishment?.node?._id || '000'}
             key={index}
           />
         ))}

@@ -25,15 +25,15 @@ import { ExternalLinkWarning } from '../../components/ExternalLinkWarning';
 import { useStore } from '../../store/useStore';
 import { AuthMeQuery } from '../auth/AuthMeQuery';
 import { AuthMeQuery as AuthQueryType } from '../auth/__generated__/AuthMeQuery.graphql';
-import { DeleteProductMutation } from './DeleteProduct';
+import { DeleteEstablishment } from './DeleteEstablishment';
 import { DeleteReviewMutation } from './DeleteReview';
-import { ProductsGetSingleQuery } from './ProductsGetSingleQuery';
+import { GetSingleEstablishment } from './GetSingleEstablishment';
+import type { DeleteEstablishmentMutation } from './__generated__/DeleteEstablishmentMutation.graphql';
 import { ReviewModal } from './ReviewModal';
-import { DeleteProductMutation as DeleteProductMutationType } from './__generated__/DeleteProductMutation.graphql';
 import { DeleteReviewMutation as DeleteReviewMutationType } from './__generated__/DeleteReviewMutation.graphql';
-import type { ProductsGetSingleQuery as QueryType } from './__generated__/ProductsGetSingleQuery.graphql';
+import type { GetSingleEstablishmentQuery as QueryType } from './__generated__/GetSingleEstablishmentQuery.graphql';
 
-export const ProductPage = () => {
+export const EstablishmentPage = () => {
   const params = useParams();
   const store = useStore();
   const {
@@ -49,16 +49,15 @@ export const ProductPage = () => {
   const navigate = useNavigate();
 
   const data = useLazyLoadQuery<QueryType>(
-    ProductsGetSingleQuery,
+    GetSingleEstablishment,
     {
       id: params.id || '000',
     },
     { fetchPolicy: 'store-or-network' },
   );
 
-  const [handleDeleteProduct] = useMutation<DeleteProductMutationType>(
-    DeleteProductMutation,
-  );
+  const [handleDeleteEstablishment] =
+    useMutation<DeleteEstablishmentMutation>(DeleteEstablishment);
   const [handleDeleteReview] =
     useMutation<DeleteReviewMutationType>(DeleteReviewMutation);
 
@@ -84,7 +83,7 @@ export const ProductPage = () => {
         <Flex justify={'center'}>
           <Image
             rounded={'md'}
-            alt={'product image'}
+            alt={'placeholder image'}
             src={
               'https://image.shutterstock.com/image-vector/default-ui-image-placeholder-wireframes-600w-1037719192.jpg'
             }
@@ -101,9 +100,9 @@ export const ProductPage = () => {
               fontWeight={600}
               fontSize={{ base: '2xl', sm: '4xl', lg: '5xl' }}
             >
-              {data.singleProductById?.name}
+              {data.singleEstablishmentBy?.name}
             </Heading>
-            {data.singleProductById?.referenceLink ? (
+            {data.singleEstablishmentBy?.referenceLink ? (
               <Button
                 rightIcon={<ExternalLinkIcon />}
                 onClick={() => externalLinkModalOpen()}
@@ -123,15 +122,15 @@ export const ProductPage = () => {
               />
             }
           >
-            {store.user?._id === data.singleProductById?.user?._id ? (
+            {store.user?._id === data.singleEstablishmentBy?.user?._id ? (
               <Box>
                 <Button
                   onClick={() => {
-                    handleDeleteProduct({
-                      variables: { input: { product: params.id || '000' } },
+                    handleDeleteEstablishment({
+                      variables: { establishment: params.id || '000' },
                       onCompleted: data => {
-                        if (data.DeleteProductMutation?.error) {
-                          alert(data.DeleteProductMutation?.error);
+                        if (data.DeleteEstablishmentMutation?.error) {
+                          alert(data.DeleteEstablishmentMutation?.error);
                           return;
                         }
 
@@ -142,7 +141,7 @@ export const ProductPage = () => {
                   size={'md'}
                   colorScheme="red"
                 >
-                  Delete This Product
+                  Delete This Establishment
                 </Button>
               </Box>
             ) : null}
@@ -156,7 +155,7 @@ export const ProductPage = () => {
               >
                 Description
               </Text>
-              {data.singleProductById?.description}
+              {data.singleEstablishmentBy?.description}
             </Box>
             <Box>
               <Text
@@ -170,51 +169,57 @@ export const ProductPage = () => {
               </Text>
 
               <Flex direction={'column'}>
-                {data.singleProductById?.reviews.edges.map((review, index) => (
-                  <Stack
-                    key={index}
-                    p={6}
-                    divider={
-                      <StackDivider
-                        borderColor={useColorModeValue('gray.200', 'gray.600')}
-                      />
-                    }
-                  >
-                    <Text fontWeight={'bold'}>{review?.node?.user?.name}</Text>
-                    <Flex gap={1}>
-                      {[...Array(review?.node?.rating).keys()].map(
-                        (item, index) => (
-                          <StarIcon color={'yellow.400'} />
-                        ),
-                      )}
-                    </Flex>
-                    <Text>{review?.node?.comment}</Text>
-                    {store.user?._id === review?.node?.user?._id ? (
-                      <Button
-                        onClick={() => {
-                          handleDeleteReview({
-                            variables: {
-                              input: { review: review?.node?._id || '000' },
-                            },
-                            onCompleted: data => {
-                              if (data.DeleteReviewMutation?.error) {
-                                alert(data.DeleteReviewMutation?.error);
-                                return;
-                              }
+                {data.singleEstablishmentBy?.reviews.edges.map(
+                  (review, index) => (
+                    <Stack
+                      key={index}
+                      p={6}
+                      divider={
+                        <StackDivider
+                          borderColor={useColorModeValue(
+                            'gray.200',
+                            'gray.600',
+                          )}
+                        />
+                      }
+                    >
+                      <Text fontWeight={'bold'}>
+                        {review?.node?.user?.name}
+                      </Text>
+                      <Flex gap={1}>
+                        {[...Array(review?.node?.rating).keys()].map(
+                          (_, index) => (
+                            <StarIcon key={index} color={'yellow.400'} />
+                          ),
+                        )}
+                      </Flex>
+                      <Text>{review?.node?.comment}</Text>
+                      {store.user?._id === review?.node?.user?._id ? (
+                        <Button
+                          onClick={() => {
+                            handleDeleteReview({
+                              variables: {
+                                input: { review: review?.node?._id || '000' },
+                              },
+                              onCompleted: data => {
+                                if (data.DeleteReviewMutation?.error) {
+                                  alert(data.DeleteReviewMutation?.error);
+                                  return;
+                                }
 
-                              navigate('/');
-                            },
-                          });
-                        }}
-                        colorScheme={'red'}
-                      >
-                        Delete this review
-                      </Button>
-                    ) : null}
-                  </Stack>
-                ))}
+                                navigate('/');
+                              },
+                            });
+                          }}
+                          colorScheme={'red'}
+                        >
+                          Delete this review
+                        </Button>
+                      ) : null}
+                    </Stack>
+                  ),
+                )}
               </Flex>
-              {/* <ReviewList product={data.singleProductById} /> */}
             </Box>
           </Stack>
 
@@ -242,13 +247,13 @@ export const ProductPage = () => {
       <ReviewModal
         isOpen={isReviewModalOpen}
         onClose={reviewModalClose}
-        productId={params.id}
+        establishmentId={params.id}
       />
       <ExternalLinkWarning
         isOpen={isExternalLinkModalOpen}
         onClose={externalLinkModalClose}
         referenceLink={
-          data.singleProductById?.referenceLink || 'www.google.com'
+          data.singleEstablishmentBy?.referenceLink || 'www.google.com'
         }
       />
     </Container>

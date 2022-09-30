@@ -1,28 +1,29 @@
 import { graphql } from 'relay-runtime';
 
-export const ProductsGetSingleQuery = graphql`
-  query ProductsGetSingleQuery($id: String!) {
-    singleProductById(id: $id) {
-      name
-      referenceLink
-      category
+export const GetSingleEstablishment = graphql`
+  query GetSingleEstablishmentQuery($id: String!) {
+    singleEstablishmentBy(id: $id) {
+      _id
       description
+      referenceLink
+      address
+      name
+      category
       user {
         _id
         name
-        email
       }
       reviews {
-        count
         edges {
           node {
             _id
+            user {
+              _id
+              name
+            }
+            createdAt
             comment
             rating
-            user {
-              name
-              _id
-            }
           }
         }
       }

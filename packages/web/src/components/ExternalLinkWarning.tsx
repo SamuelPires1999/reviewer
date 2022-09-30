@@ -11,10 +11,6 @@ import {
   Text,
   Link,
 } from '@chakra-ui/react';
-import { useLazyLoadQuery } from 'react-relay';
-import { string } from 'yup';
-import { ProductsGetSingleQuery } from '../modules/products/ProductsGetSingleQuery';
-import type { ProductsGetSingleQuery as QueryType } from '../modules/products/__generated__/ProductsGetSingleQuery.graphql';
 
 interface Props {
   isOpen: boolean;

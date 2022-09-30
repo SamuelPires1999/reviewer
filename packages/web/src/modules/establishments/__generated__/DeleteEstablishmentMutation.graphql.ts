@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<1de151eb231a8661b8a490ff881abf3c>>
+ * @generated SignedSource<<ecdde02c265e3d8b7036d3dccbaa476d>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,23 +9,18 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
-export type ProductDeleteInput = {
-  clientMutationId?: string | null;
-  product: string;
+export type DeleteEstablishmentMutation$variables = {
+  establishment: string;
 };
-export type DeleteProductMutation$variables = {
-  input: ProductDeleteInput;
-};
-export type DeleteProductMutation$data = {
-  readonly DeleteProductMutation: {
+export type DeleteEstablishmentMutation$data = {
+  readonly DeleteEstablishmentMutation: {
     readonly error: string | null;
     readonly message: string | null;
-    readonly success: string | null;
   } | null;
 };
-export type DeleteProductMutation = {
-  response: DeleteProductMutation$data;
-  variables: DeleteProductMutation$variables;
+export type DeleteEstablishmentMutation = {
+  response: DeleteEstablishmentMutation$data;
+  variables: DeleteEstablishmentMutation$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -33,7 +28,7 @@ var v0 = [
   {
     "defaultValue": null,
     "kind": "LocalArgument",
-    "name": "input"
+    "name": "establishment"
   }
 ],
 v1 = [
@@ -41,23 +36,22 @@ v1 = [
     "alias": null,
     "args": [
       {
-        "kind": "Variable",
-        "name": "input",
-        "variableName": "input"
+        "fields": [
+          {
+            "kind": "Variable",
+            "name": "establishment",
+            "variableName": "establishment"
+          }
+        ],
+        "kind": "ObjectValue",
+        "name": "input"
       }
     ],
-    "concreteType": "ProductDeletePayload",
+    "concreteType": "EstablishmentDeletePayload",
     "kind": "LinkedField",
-    "name": "DeleteProductMutation",
+    "name": "DeleteEstablishmentMutation",
     "plural": false,
     "selections": [
-      {
-        "alias": null,
-        "args": null,
-        "kind": "ScalarField",
-        "name": "message",
-        "storageKey": null
-      },
       {
         "alias": null,
         "args": null,
@@ -69,7 +63,7 @@ v1 = [
         "alias": null,
         "args": null,
         "kind": "ScalarField",
-        "name": "success",
+        "name": "message",
         "storageKey": null
       }
     ],
@@ -81,7 +75,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "DeleteProductMutation",
+    "name": "DeleteEstablishmentMutation",
     "selections": (v1/*: any*/),
     "type": "Mutation",
     "abstractKey": null
@@ -90,20 +84,20 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "DeleteProductMutation",
+    "name": "DeleteEstablishmentMutation",
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "2804f2bd8d44030b20700a927f60301a",
+    "cacheID": "9e94c5a738ba442bd3cdee78addad7a3",
     "id": null,
     "metadata": {},
-    "name": "DeleteProductMutation",
+    "name": "DeleteEstablishmentMutation",
     "operationKind": "mutation",
-    "text": "mutation DeleteProductMutation(\n  $input: ProductDeleteInput!\n) {\n  DeleteProductMutation(input: $input) {\n    message\n    error\n    success\n  }\n}\n"
+    "text": "mutation DeleteEstablishmentMutation(\n  $establishment: String!\n) {\n  DeleteEstablishmentMutation(input: {establishment: $establishment}) {\n    error\n    message\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "f231f495646ec758129589f3d2889faf";
+(node as any).hash = "8804475634d4d2655302c1d85be83246";
 
 export default node;

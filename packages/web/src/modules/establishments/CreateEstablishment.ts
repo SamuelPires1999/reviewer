@@ -1,17 +1,16 @@
 import { graphql } from 'relay-runtime';
 
-export const ProductCreateMutation = graphql`
-  mutation ProductCreateMutation($input: ProductCreateInput!) {
-    CreateProductMutation(input: $input) {
+export const CreateEstablishment = graphql`
+  mutation CreateEstablishmentMutation($input: EstablishmentCreateInput!) {
+    CreateEstablishmentMutation(input: $input) {
       error
-      success
-      productEdge {
+      EstablishmentEdge {
         node {
           _id
           description
+          address
           name
           category
-          referenceLink
           user {
             _id
             name
