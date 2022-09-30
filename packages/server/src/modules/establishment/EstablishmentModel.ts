@@ -27,9 +27,9 @@ const EstablishmentSchema = new mongoose.Schema(
         'hospitality',
         'shopping',
         'varieties',
-        'not-especified',
+        'not-specified',
       ],
-      default: 'not-especified',
+      default: 'not-specified',
     },
     reviews: {
       type: [Schema.Types.ObjectId],

@@ -18,7 +18,7 @@ type Args = {
 const mutation = mutationWithClientMutationId({
   name: 'EstablishmentDelete',
   inputFields: {
-    Establishment: {
+    establishment: {
       type: new GraphQLNonNull(GraphQLString),
     },
   },

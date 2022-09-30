@@ -22,31 +22,18 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation } from 'react-relay';
 import * as Yup from 'yup';
-import { ProductsMakeReviewMutation } from './ProductsMakeReviewMutation';
-import { ProductsMakeReviewMutation as MutationType } from './__generated__/ProductsMakeReviewMutation.graphql';
+import { CreateReview } from './CreateReview';
+import { CreateReviewMutation as MutationType } from './__generated__/CreateReviewMutation.graphql';
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
-  productId: string | undefined;
+  establishmentId: string | undefined;
 }
 
 export const ReviewModal = (props: Props) => {
-  const [commit, isInFlight] = useMutation<MutationType>(
-    ProductsMakeReviewMutation,
-  );
+  const [commit, isInFlight] = useMutation<MutationType>(CreateReview);
   const toast = useToast();
-
-  const { getDecrementButtonProps, getIncrementButtonProps, getInputProps } =
-    useNumberInput({
-      step: 1,
-      min: 0,
-      max: 10,
-    });
-
-  const incrementRatingButton = getIncrementButtonProps();
-  const ratingInput = getInputProps();
-  const decrementRatingButton = getDecrementButtonProps();
 
   type Inputs = {
     rating: number;
@@ -72,11 +59,9 @@ export const ReviewModal = (props: Props) => {
   const onSubmit: SubmitHandler<Inputs> = data => {
     commit({
       variables: {
-        input: {
-          rating: data.rating.toString(),
-          comment: data.comment,
-          product: props.productId || '000',
-        },
+        rating: data.rating.toString(),
+        comment: data.comment,
+        establishment: props.establishmentId || '000',
       },
       onCompleted: ({ CreateReviewMutation }) => {
         if (CreateReviewMutation?.error) {

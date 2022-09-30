@@ -92,7 +92,7 @@ export default function Nav() {
                   <MenuDivider />
                   {store.user ? (
                     <>
-                      <MenuItem>Your Products</MenuItem>
+                      <MenuItem>Your Establishments</MenuItem>
                       <MenuItem>Your Reviews</MenuItem>
                       <MenuItem onClick={() => navigate('/register')}>
                         Account Settings
