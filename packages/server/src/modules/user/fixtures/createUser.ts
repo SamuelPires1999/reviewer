@@ -1,13 +1,14 @@
-import { DeepPartial } from '../../../../test/deepPartial';
-import UserModel, { IUser } from '../UserModel';
+import { DeepPartial, getCounter } from '../../../../test';
+import { IUser } from '../UserModel';
+import User from '../UserModel';
 
-export const createUser = async (args?: DeepPartial<IUser>): Promise<IUser> => {
-  const i = Math.floor(Math.random() * 100);
+export const createUser = (args: DeepPartial<IUser> = {}) => {
+  const i = getCounter('user');
 
-  return new UserModel({
+  return new User({
     name: `user#${i}`,
-    password: `password#${i}`,
-    email: `testing#${i}@email.com`,
+    email: `user${i}@example.com`,
+    password: '123456',
     ...args,
   }).save();
 };
