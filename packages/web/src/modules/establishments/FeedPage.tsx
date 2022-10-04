@@ -62,6 +62,7 @@ export const FeedPage = () => {
             reviewCount={establishment?.node?.reviews.count || 0}
             category={establishment?.node?.category || 'No category'}
             id={establishment?.node?._id || '000'}
+            createdAt={establishment?.node?.createdAt || 'No date available'}
             key={index}
           />
         ))}
