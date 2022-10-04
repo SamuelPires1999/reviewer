@@ -8,6 +8,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
+import { formatDistance } from 'date-fns';
 interface CardProps {
   author: string;
   description: string;
@@ -15,6 +16,7 @@ interface CardProps {
   name: string;
   category: string;
   address: string;
+  createdAt: string;
   id: string;
 }
 
@@ -69,7 +71,11 @@ export default function ProductCard(props: CardProps) {
           />
           <Stack direction={'column'} spacing={0} fontSize={'sm'}>
             <Text fontWeight={600}>{props.author}</Text>
-            <Text color={'gray.500'}>TODO: adicionar data da postagem</Text>
+            <Text color={'gray.500'}>
+              {formatDistance(new Date(props.createdAt), new Date(), {
+                addSuffix: true,
+              })}
+            </Text>
           </Stack>
         </Stack>
       </Box>
