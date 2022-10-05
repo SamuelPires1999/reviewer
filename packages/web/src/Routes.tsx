@@ -4,6 +4,7 @@ import { AuthRoutes } from './modules/auth/AuthRoutes';
 import { CreateEstablishmentPage } from './modules/establishments/CreateEstablishmentPage';
 import { FeedPage } from './modules/establishments/FeedPage';
 import { EstablishmentPage } from './modules/establishments/EstablishmentPage';
+import { ProfilePage } from './modules/auth/ProfilePage';
 
 export const Routes = () => (
   <Router>
@@ -14,5 +15,6 @@ export const Routes = () => (
       path="/establishments/create"
       element={<CreateEstablishmentPage />}
     />
+    <Route path="/me" element={<ProfilePage />} />
   </Router>
 );
