@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<0c45da7e1066629772332372e7120bb1>>
+ * @generated SignedSource<<30896bc9efae842a1dda46cdaa0f6f4c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,6 +9,7 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Mutation } from 'relay-runtime';
+import { FragmentRefs } from "relay-runtime";
 export type EstablishmentCreateInput = {
   address: string;
   category?: string | null;
@@ -18,21 +19,14 @@ export type EstablishmentCreateInput = {
   referenceLink?: string | null;
 };
 export type CreateEstablishmentMutation$variables = {
+  connections: ReadonlyArray<string>;
   input: EstablishmentCreateInput;
 };
 export type CreateEstablishmentMutation$data = {
   readonly CreateEstablishmentMutation: {
     readonly EstablishmentEdge: {
       readonly node: {
-        readonly _id: string;
-        readonly address: string | null;
-        readonly category: string | null;
-        readonly description: string | null;
-        readonly name: string | null;
-        readonly user: {
-          readonly _id: string;
-          readonly name: string | null;
-        } | null;
+        readonly " $fragmentSpreads": FragmentRefs<"EstablishmentCard_establishnment">;
       } | null;
     } | null;
     readonly error: string | null;
@@ -44,63 +38,45 @@ export type CreateEstablishmentMutation = {
 };
 
 const node: ConcreteRequest = (function(){
-var v0 = [
-  {
-    "defaultValue": null,
-    "kind": "LocalArgument",
-    "name": "input"
-  }
-],
-v1 = [
+var v0 = {
+  "defaultValue": null,
+  "kind": "LocalArgument",
+  "name": "connections"
+},
+v1 = {
+  "defaultValue": null,
+  "kind": "LocalArgument",
+  "name": "input"
+},
+v2 = [
   {
     "kind": "Variable",
     "name": "input",
     "variableName": "input"
   }
 ],
-v2 = {
+v3 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "error",
   "storageKey": null
 },
-v3 = {
+v4 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "_id",
   "storageKey": null
 },
-v4 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "description",
-  "storageKey": null
-},
 v5 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "address",
-  "storageKey": null
-},
-v6 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "name",
   "storageKey": null
 },
-v7 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "category",
-  "storageKey": null
-},
-v8 = {
+v6 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
@@ -109,20 +85,23 @@ v8 = {
 };
 return {
   "fragment": {
-    "argumentDefinitions": (v0/*: any*/),
+    "argumentDefinitions": [
+      (v0/*: any*/),
+      (v1/*: any*/)
+    ],
     "kind": "Fragment",
     "metadata": null,
     "name": "CreateEstablishmentMutation",
     "selections": [
       {
         "alias": null,
-        "args": (v1/*: any*/),
+        "args": (v2/*: any*/),
         "concreteType": "EstablishmentCreatePayload",
         "kind": "LinkedField",
         "name": "CreateEstablishmentMutation",
         "plural": false,
         "selections": [
-          (v2/*: any*/),
+          (v3/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -139,23 +118,10 @@ return {
                 "name": "node",
                 "plural": false,
                 "selections": [
-                  (v3/*: any*/),
-                  (v4/*: any*/),
-                  (v5/*: any*/),
-                  (v6/*: any*/),
-                  (v7/*: any*/),
                   {
-                    "alias": null,
                     "args": null,
-                    "concreteType": "User",
-                    "kind": "LinkedField",
-                    "name": "user",
-                    "plural": false,
-                    "selections": [
-                      (v3/*: any*/),
-                      (v6/*: any*/)
-                    ],
-                    "storageKey": null
+                    "kind": "FragmentSpread",
+                    "name": "EstablishmentCard_establishnment"
                   }
                 ],
                 "storageKey": null
@@ -172,19 +138,22 @@ return {
   },
   "kind": "Request",
   "operation": {
-    "argumentDefinitions": (v0/*: any*/),
+    "argumentDefinitions": [
+      (v1/*: any*/),
+      (v0/*: any*/)
+    ],
     "kind": "Operation",
     "name": "CreateEstablishmentMutation",
     "selections": [
       {
         "alias": null,
-        "args": (v1/*: any*/),
+        "args": (v2/*: any*/),
         "concreteType": "EstablishmentCreatePayload",
         "kind": "LinkedField",
         "name": "CreateEstablishmentMutation",
         "plural": false,
         "selections": [
-          (v2/*: any*/),
+          (v3/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -201,11 +170,61 @@ return {
                 "name": "node",
                 "plural": false,
                 "selections": [
-                  (v3/*: any*/),
                   (v4/*: any*/),
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "referenceLink",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "description",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "address",
+                    "storageKey": null
+                  },
                   (v5/*: any*/),
-                  (v6/*: any*/),
-                  (v7/*: any*/),
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "category",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "createdAt",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "ReviewConnection",
+                    "kind": "LinkedField",
+                    "name": "reviews",
+                    "plural": false,
+                    "selections": [
+                      {
+                        "alias": null,
+                        "args": null,
+                        "kind": "ScalarField",
+                        "name": "count",
+                        "storageKey": null
+                      }
+                    ],
+                    "storageKey": null
+                  },
                   {
                     "alias": null,
                     "args": null,
@@ -214,18 +233,34 @@ return {
                     "name": "user",
                     "plural": false,
                     "selections": [
-                      (v3/*: any*/),
-                      (v6/*: any*/),
-                      (v8/*: any*/)
+                      (v4/*: any*/),
+                      (v5/*: any*/),
+                      (v6/*: any*/)
                     ],
                     "storageKey": null
                   },
-                  (v8/*: any*/)
+                  (v6/*: any*/)
                 ],
                 "storageKey": null
               }
             ],
             "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "filters": null,
+            "handle": "appendEdge",
+            "key": "",
+            "kind": "LinkedHandle",
+            "name": "EstablishmentEdge",
+            "handleArgs": [
+              {
+                "kind": "Variable",
+                "name": "connections",
+                "variableName": "connections"
+              }
+            ]
           }
         ],
         "storageKey": null
@@ -233,16 +268,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "fdf52c9c0ae8589b06a5fdd8db1bdc25",
+    "cacheID": "3f19f586b328b7d9b131baefb8bbe8ab",
     "id": null,
     "metadata": {},
     "name": "CreateEstablishmentMutation",
     "operationKind": "mutation",
-    "text": "mutation CreateEstablishmentMutation(\n  $input: EstablishmentCreateInput!\n) {\n  CreateEstablishmentMutation(input: $input) {\n    error\n    EstablishmentEdge {\n      node {\n        _id\n        description\n        address\n        name\n        category\n        user {\n          _id\n          name\n          id\n        }\n        id\n      }\n    }\n  }\n}\n"
+    "text": "mutation CreateEstablishmentMutation(\n  $input: EstablishmentCreateInput!\n) {\n  CreateEstablishmentMutation(input: $input) {\n    error\n    EstablishmentEdge {\n      node {\n        ...EstablishmentCard_establishnment\n        id\n      }\n    }\n  }\n}\n\nfragment EstablishmentCard_establishnment on Establishment {\n  _id\n  referenceLink\n  description\n  address\n  name\n  category\n  createdAt\n  reviews {\n    count\n  }\n  user {\n    _id\n    name\n    id\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "239cdec12ee8d0a82f0b552004e49a98";
+(node as any).hash = "1e7c17d55c7e2610f500ce766dbcbdae";
 
 export default node;

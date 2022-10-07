@@ -14,7 +14,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import * as Yup from 'yup';
-import { useLazyLoadQuery, useMutation } from 'react-relay';
+import { ConnectionHandler, useLazyLoadQuery, useMutation } from 'react-relay';
 import { useNavigate } from 'react-router-dom';
 import { AuthMeQuery } from '../auth/AuthMeQuery';
 import { useEffect } from 'react';
@@ -24,6 +24,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { CreateEstablishment } from './CreateEstablishment';
 import type { CreateEstablishmentMutation } from './__generated__/CreateEstablishmentMutation.graphql';
+import { ROOT_ID } from 'relay-runtime';
 
 export const CreateEstablishmentPage = () => {
   const navigate = useNavigate();
@@ -68,10 +69,16 @@ export const CreateEstablishmentPage = () => {
     resolver: yupResolver(schema),
   });
 
+  const connectionID = ConnectionHandler.getConnectionID(
+    ROOT_ID,
+    'GetEstablishmentsQuery__establishments',
+  );
+
   const onSubmit: SubmitHandler<Inputs> = data => {
     handleCreateEstablishment({
       variables: {
         input: data,
+        connections: [connectionID],
       },
       onCompleted: data => {
         if (data.CreateEstablishmentMutation?.error) {
