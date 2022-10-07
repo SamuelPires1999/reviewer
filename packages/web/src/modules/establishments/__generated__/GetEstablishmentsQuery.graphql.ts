@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<d4d8363e9ed0fbb931309b85953e80b7>>
+ * @generated SignedSource<<14a87dc57832450b5400385d61dbc74f>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,26 +9,14 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Query } from 'relay-runtime';
+import { FragmentRefs } from "relay-runtime";
 export type GetEstablishmentsQuery$variables = {};
 export type GetEstablishmentsQuery$data = {
   readonly establishments: {
     readonly count: number | null;
     readonly edges: ReadonlyArray<{
       readonly node: {
-        readonly _id: string;
-        readonly address: string | null;
-        readonly category: string | null;
-        readonly createdAt: string | null;
-        readonly description: string | null;
-        readonly name: string | null;
-        readonly reviews: {
-          readonly count: number | null;
-        };
-        readonly user: {
-          readonly _id: string;
-          readonly email: string | null;
-          readonly name: string | null;
-        } | null;
+        readonly " $fragmentSpreads": FragmentRefs<"EstablishmentCard_establishnment">;
       } | null;
     } | null>;
   };
@@ -57,57 +45,10 @@ v2 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "description",
-  "storageKey": null
-},
-v3 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
   "name": "name",
   "storageKey": null
 },
-v4 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "address",
-  "storageKey": null
-},
-v5 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "createdAt",
-  "storageKey": null
-},
-v6 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "category",
-  "storageKey": null
-},
-v7 = {
-  "alias": null,
-  "args": null,
-  "concreteType": "ReviewConnection",
-  "kind": "LinkedField",
-  "name": "reviews",
-  "plural": false,
-  "selections": [
-    (v0/*: any*/)
-  ],
-  "storageKey": null
-},
-v8 = {
-  "alias": null,
-  "args": null,
-  "kind": "ScalarField",
-  "name": "email",
-  "storageKey": null
-},
-v9 = {
+v3 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
@@ -146,26 +87,10 @@ return {
                 "name": "node",
                 "plural": false,
                 "selections": [
-                  (v1/*: any*/),
-                  (v2/*: any*/),
-                  (v3/*: any*/),
-                  (v4/*: any*/),
-                  (v5/*: any*/),
-                  (v6/*: any*/),
-                  (v7/*: any*/),
                   {
-                    "alias": null,
                     "args": null,
-                    "concreteType": "User",
-                    "kind": "LinkedField",
-                    "name": "user",
-                    "plural": false,
-                    "selections": [
-                      (v1/*: any*/),
-                      (v3/*: any*/),
-                      (v8/*: any*/)
-                    ],
-                    "storageKey": null
+                    "kind": "FragmentSpread",
+                    "name": "EstablishmentCard_establishnment"
                   }
                 ],
                 "storageKey": null
@@ -212,12 +137,54 @@ return {
                 "plural": false,
                 "selections": [
                   (v1/*: any*/),
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "referenceLink",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "description",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "address",
+                    "storageKey": null
+                  },
                   (v2/*: any*/),
-                  (v3/*: any*/),
-                  (v4/*: any*/),
-                  (v5/*: any*/),
-                  (v6/*: any*/),
-                  (v7/*: any*/),
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "category",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
+                    "name": "createdAt",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "ReviewConnection",
+                    "kind": "LinkedField",
+                    "name": "reviews",
+                    "plural": false,
+                    "selections": [
+                      (v0/*: any*/)
+                    ],
+                    "storageKey": null
+                  },
                   {
                     "alias": null,
                     "args": null,
@@ -227,13 +194,12 @@ return {
                     "plural": false,
                     "selections": [
                       (v1/*: any*/),
-                      (v3/*: any*/),
-                      (v8/*: any*/),
-                      (v9/*: any*/)
+                      (v2/*: any*/),
+                      (v3/*: any*/)
                     ],
                     "storageKey": null
                   },
-                  (v9/*: any*/)
+                  (v3/*: any*/)
                 ],
                 "storageKey": null
               }
@@ -246,16 +212,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "10ccff2e1732b68c8227ec04fda95d94",
+    "cacheID": "d0ad648044ea1858798f9dfdd7daf334",
     "id": null,
     "metadata": {},
     "name": "GetEstablishmentsQuery",
     "operationKind": "query",
-    "text": "query GetEstablishmentsQuery {\n  establishments {\n    count\n    edges {\n      node {\n        _id\n        description\n        name\n        address\n        createdAt\n        category\n        reviews {\n          count\n        }\n        user {\n          _id\n          name\n          email\n          id\n        }\n        id\n      }\n    }\n  }\n}\n"
+    "text": "query GetEstablishmentsQuery {\n  establishments {\n    count\n    edges {\n      node {\n        ...EstablishmentCard_establishnment\n        id\n      }\n    }\n  }\n}\n\nfragment EstablishmentCard_establishnment on Establishment {\n  _id\n  referenceLink\n  description\n  address\n  name\n  category\n  createdAt\n  reviews {\n    count\n  }\n  user {\n    _id\n    name\n    id\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "489abcc3a7e252dc1df667f929a4d642";
+(node as any).hash = "774df3d4d5e2759896b86f49d5b599cc";
 
 export default node;

@@ -6,20 +6,7 @@ export const GetEstablishments = graphql`
       count
       edges {
         node {
-          _id
-          description
-          name
-          address
-          createdAt
-          category
-          reviews {
-            count
-          }
-          user {
-            _id
-            name
-            email
-          }
+          ...EstablishmentCard_establishnment
         }
       }
     }
