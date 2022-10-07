@@ -1,22 +1,11 @@
-/* eslint-disable */
-const MMS = require('mongodb-memory-server');
-const fs = require('fs');
-const { TestEnvironment } = require('jest-environment-node');
-const path = require('path');
-const { v4: uuidv4 } = require('uuid');
+// eslint-disable-next-line import/no-extraneous-dependencies
+import NodeEnvironment from 'jest-environment-node';
+import { MongoMemoryServer } from 'mongodb-memory-server';
 
-const cwd = process.cwd();
+class MongoDbEnvironment extends NodeEnvironment {
+  constructor(config, context) {
+    super(config, context);
 
-const globalConfigPath = path.join(cwd, 'globalConfig.json');
-
-const { MongoMemoryServer } = MMS;
-
-class MongoDbEnvironment extends TestEnvironment {
-  constructor(config) {
-    super(config);
-
-    // TODO - enable replset if needed
-    // this.mongod = new MongoMemoryReplSet({
     this.mongod = new MongoMemoryServer({
       instance: {
         // settings here
@@ -27,7 +16,6 @@ class MongoDbEnvironment extends TestEnvironment {
         version: '4.0.5',
       },
       // debug: true,
-      autoStart: false,
     });
   }
 
@@ -94,4 +82,4 @@ class MongoDbEnvironment extends TestEnvironment {
   }
 }
 
-module.exports = MongoDbEnvironment;
+export default MongoDbEnvironment;
