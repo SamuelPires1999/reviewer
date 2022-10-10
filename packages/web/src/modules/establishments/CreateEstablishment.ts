@@ -1,20 +1,15 @@
 import { graphql } from 'relay-runtime';
 
 export const CreateEstablishment = graphql`
-  mutation CreateEstablishmentMutation($input: EstablishmentCreateInput!) {
+  mutation CreateEstablishmentMutation(
+    $input: EstablishmentCreateInput!
+    $connections: [ID!]!
+  ) {
     CreateEstablishmentMutation(input: $input) {
       error
-      EstablishmentEdge {
+      EstablishmentEdge @appendEdge(connections: $connections) {
         node {
-          _id
-          description
-          address
-          name
-          category
-          user {
-            _id
-            name
-          }
+          ...EstablishmentCard_establishnment
         }
       }
     }

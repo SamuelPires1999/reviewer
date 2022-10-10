@@ -9,22 +9,39 @@ import {
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { formatDistance } from 'date-fns';
+import { graphql, useFragment } from 'react-relay';
+import { EstablishmentCard_establishnment$key } from './__generated__/EstablishmentCard_establishnment.graphql';
 interface CardProps {
-  author: string;
-  description: string;
-  reviewCount: number;
-  name: string;
-  category: string;
-  address: string;
-  createdAt: string;
-  id: string;
+  establishment: EstablishmentCard_establishnment$key;
 }
 
-export default function ProductCard(props: CardProps) {
+export default function EstablishmentCard(props: CardProps) {
   const navigate = useNavigate();
 
+  const data = useFragment<EstablishmentCard_establishnment$key>(
+    graphql`
+      fragment EstablishmentCard_establishnment on Establishment {
+        _id
+        referenceLink
+        description
+        address
+        name
+        category
+        createdAt
+        reviews {
+          count
+        }
+        user {
+          _id
+          name
+        }
+      }
+    `,
+    props.establishment,
+  );
+
   return (
-    <Center py={6} onClick={() => navigate(`/establishments/${props.id}`)}>
+    <Center py={6} onClick={() => navigate(`/establishments/${data._id}`)}>
       <Box
         maxW={'445px'}
         w={'full'}
@@ -49,18 +66,18 @@ export default function ProductCard(props: CardProps) {
             fontSize={'sm'}
             letterSpacing={1.1}
           >
-            {props.category}
+            {data.category}
           </Text>
           <Heading
             color={useColorModeValue('gray.700', 'white')}
             fontSize={'2xl'}
             fontFamily={'body'}
           >
-            {props.name}
+            {data.name}
           </Heading>
-          <Text color={'gray.500'}>{props.description}</Text>
+          <Text color={'gray.500'}>{data.description}</Text>
           <Text color={'gray.500'} fontWeight="bold">
-            Reviews: {props.reviewCount}
+            Reviews: {data.reviews.count}
           </Text>
         </Stack>
         <Stack mt={6} direction={'row'} spacing={4} align={'center'}>
@@ -70,11 +87,15 @@ export default function ProductCard(props: CardProps) {
             }
           />
           <Stack direction={'column'} spacing={0} fontSize={'sm'}>
-            <Text fontWeight={600}>{props.author}</Text>
+            <Text fontWeight={600}>{data.user?.name}</Text>
             <Text color={'gray.500'}>
-              {formatDistance(new Date(props.createdAt), new Date(), {
-                addSuffix: true,
-              })}
+              {formatDistance(
+                new Date(data.createdAt || new Date()),
+                new Date(),
+                {
+                  addSuffix: true,
+                },
+              )}
             </Text>
           </Stack>
         </Stack>

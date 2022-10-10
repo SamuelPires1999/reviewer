@@ -29,7 +29,6 @@ export const FeedPage = () => {
     preloadedQuery,
   );
   const authData = useLazyLoadQuery<MeQueryType>(AuthMeQuery, {});
-
   useEffect(() => {
     if (!store.user && localStorage.getItem('CHALLENGE-TOKEN')) {
       store.setUser({
@@ -53,17 +52,9 @@ export const FeedPage = () => {
       <Flex gap={12} px={12} wrap={'wrap'} width="full" justify={'center'}>
         {establishments.edges.map((establishment, index) => (
           <EstablishmentCard
-            author={establishment?.node?.user?.name || 'Anon'}
-            name={establishment?.node?.name || 'No name provided'}
-            description={
-              establishment?.node?.description || 'No description provided'
-            }
-            address={establishment?.node?.address || 'No address'}
-            reviewCount={establishment?.node?.reviews.count || 0}
-            category={establishment?.node?.category || 'No category'}
-            id={establishment?.node?._id || '000'}
-            createdAt={establishment?.node?.createdAt || 'No date available'}
             key={index}
+            //@ts-ignore
+            establishment={establishment?.node}
           />
         ))}
       </Flex>

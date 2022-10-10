@@ -2,24 +2,13 @@ import { graphql } from 'relay-runtime';
 
 export const GetEstablishments = graphql`
   query GetEstablishmentsQuery {
-    establishments {
+    establishments(first: null, last: null)
+      @connection(key: "GetEstablishmentsQuery__establishments") {
+      __id
       count
       edges {
         node {
-          _id
-          description
-          name
-          address
-          createdAt
-          category
-          reviews {
-            count
-          }
-          user {
-            _id
-            name
-            email
-          }
+          ...EstablishmentCard_establishnment
         }
       }
     }

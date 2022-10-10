@@ -20,7 +20,7 @@ import {
 } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useMutation } from 'react-relay';
+import { ConnectionHandler, useMutation } from 'react-relay';
 import * as Yup from 'yup';
 import { CreateReview } from './CreateReview';
 import { CreateReviewMutation as MutationType } from './__generated__/CreateReviewMutation.graphql';
@@ -29,6 +29,7 @@ interface Props {
   isOpen: boolean;
   onClose: () => void;
   establishmentId: string | undefined;
+  establishmentConnection: string;
 }
 
 export const ReviewModal = (props: Props) => {
@@ -56,12 +57,18 @@ export const ReviewModal = (props: Props) => {
     resolver: yupResolver(schema),
   });
 
+  const connectionID = ConnectionHandler.getConnectionID(
+    props.establishmentConnection,
+    'GetSingleEstablishmentQuery__reviews',
+  );
+
   const onSubmit: SubmitHandler<Inputs> = data => {
     commit({
       variables: {
         rating: data.rating.toString(),
         comment: data.comment,
         establishment: props.establishmentId || '000',
+        connections: [props.establishmentConnection],
       },
       onCompleted: ({ CreateReviewMutation }) => {
         if (CreateReviewMutation?.error) {

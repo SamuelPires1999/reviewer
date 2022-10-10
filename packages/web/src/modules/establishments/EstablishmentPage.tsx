@@ -248,6 +248,9 @@ export const EstablishmentPage = () => {
         isOpen={isReviewModalOpen}
         onClose={reviewModalClose}
         establishmentId={params.id}
+        establishmentConnection={
+          data.singleEstablishmentBy?.reviews.__id || 'connection-id'
+        }
       />
       <ExternalLinkWarning
         isOpen={isExternalLinkModalOpen}
