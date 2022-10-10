@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<67bc60cdd628a2c38f37ef86554b3285>>
+ * @generated SignedSource<<709f3239fbc0b20e0a56df2e2ed4443f>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -11,6 +11,7 @@
 import { ConcreteRequest, Mutation } from 'relay-runtime';
 export type CreateReviewMutation$variables = {
   comment: string;
+  connections: ReadonlyArray<string>;
   establishment: string;
   rating: string;
 };
@@ -51,14 +52,19 @@ var v0 = {
 v1 = {
   "defaultValue": null,
   "kind": "LocalArgument",
-  "name": "establishment"
+  "name": "connections"
 },
 v2 = {
   "defaultValue": null,
   "kind": "LocalArgument",
+  "name": "establishment"
+},
+v3 = {
+  "defaultValue": null,
+  "kind": "LocalArgument",
   "name": "rating"
 },
-v3 = [
+v4 = [
   {
     "fields": [
       {
@@ -81,63 +87,63 @@ v3 = [
     "name": "input"
   }
 ],
-v4 = {
+v5 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "error",
   "storageKey": null
 },
-v5 = {
+v6 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "_id",
   "storageKey": null
 },
-v6 = {
+v7 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "comment",
   "storageKey": null
 },
-v7 = {
+v8 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "rating",
   "storageKey": null
 },
-v8 = {
+v9 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "name",
   "storageKey": null
 },
-v9 = {
+v10 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "description",
   "storageKey": null
 },
-v10 = {
+v11 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "address",
   "storageKey": null
 },
-v11 = {
+v12 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "category",
   "storageKey": null
 },
-v12 = {
+v13 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
@@ -149,7 +155,8 @@ return {
     "argumentDefinitions": [
       (v0/*: any*/),
       (v1/*: any*/),
-      (v2/*: any*/)
+      (v2/*: any*/),
+      (v3/*: any*/)
     ],
     "kind": "Fragment",
     "metadata": null,
@@ -157,13 +164,13 @@ return {
     "selections": [
       {
         "alias": null,
-        "args": (v3/*: any*/),
+        "args": (v4/*: any*/),
         "concreteType": "CreateReviewMutationPayload",
         "kind": "LinkedField",
         "name": "CreateReviewMutation",
         "plural": false,
         "selections": [
-          (v4/*: any*/),
+          (v5/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -180,9 +187,9 @@ return {
                 "name": "node",
                 "plural": false,
                 "selections": [
-                  (v5/*: any*/),
                   (v6/*: any*/),
                   (v7/*: any*/),
+                  (v8/*: any*/),
                   {
                     "alias": null,
                     "args": null,
@@ -191,8 +198,8 @@ return {
                     "name": "user",
                     "plural": false,
                     "selections": [
-                      (v5/*: any*/),
-                      (v8/*: any*/)
+                      (v6/*: any*/),
+                      (v9/*: any*/)
                     ],
                     "storageKey": null
                   },
@@ -204,11 +211,11 @@ return {
                     "name": "establishment",
                     "plural": false,
                     "selections": [
-                      (v5/*: any*/),
-                      (v9/*: any*/),
-                      (v8/*: any*/),
+                      (v6/*: any*/),
                       (v10/*: any*/),
-                      (v11/*: any*/)
+                      (v9/*: any*/),
+                      (v11/*: any*/),
+                      (v12/*: any*/)
                     ],
                     "storageKey": null
                   }
@@ -228,8 +235,9 @@ return {
   "kind": "Request",
   "operation": {
     "argumentDefinitions": [
-      (v2/*: any*/),
+      (v3/*: any*/),
       (v0/*: any*/),
+      (v2/*: any*/),
       (v1/*: any*/)
     ],
     "kind": "Operation",
@@ -237,13 +245,13 @@ return {
     "selections": [
       {
         "alias": null,
-        "args": (v3/*: any*/),
+        "args": (v4/*: any*/),
         "concreteType": "CreateReviewMutationPayload",
         "kind": "LinkedField",
         "name": "CreateReviewMutation",
         "plural": false,
         "selections": [
-          (v4/*: any*/),
+          (v5/*: any*/),
           {
             "alias": null,
             "args": null,
@@ -260,9 +268,9 @@ return {
                 "name": "node",
                 "plural": false,
                 "selections": [
-                  (v5/*: any*/),
                   (v6/*: any*/),
                   (v7/*: any*/),
+                  (v8/*: any*/),
                   {
                     "alias": null,
                     "args": null,
@@ -271,9 +279,9 @@ return {
                     "name": "user",
                     "plural": false,
                     "selections": [
-                      (v5/*: any*/),
-                      (v8/*: any*/),
-                      (v12/*: any*/)
+                      (v6/*: any*/),
+                      (v9/*: any*/),
+                      (v13/*: any*/)
                     ],
                     "storageKey": null
                   },
@@ -285,21 +293,37 @@ return {
                     "name": "establishment",
                     "plural": false,
                     "selections": [
-                      (v5/*: any*/),
-                      (v9/*: any*/),
-                      (v8/*: any*/),
+                      (v6/*: any*/),
                       (v10/*: any*/),
+                      (v9/*: any*/),
                       (v11/*: any*/),
-                      (v12/*: any*/)
+                      (v12/*: any*/),
+                      (v13/*: any*/)
                     ],
                     "storageKey": null
                   },
-                  (v12/*: any*/)
+                  (v13/*: any*/)
                 ],
                 "storageKey": null
               }
             ],
             "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "filters": null,
+            "handle": "appendEdge",
+            "key": "",
+            "kind": "LinkedHandle",
+            "name": "reviewEdge",
+            "handleArgs": [
+              {
+                "kind": "Variable",
+                "name": "connections",
+                "variableName": "connections"
+              }
+            ]
           }
         ],
         "storageKey": null
@@ -317,6 +341,6 @@ return {
 };
 })();
 
-(node as any).hash = "f5ba1db9a93a4d7c56938a1dcb01b342";
+(node as any).hash = "026a1174d02eac8ee1a325e6a4e83f52";
 
 export default node;

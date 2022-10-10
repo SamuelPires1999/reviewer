@@ -5,6 +5,7 @@ export const CreateReview = graphql`
     $rating: String!
     $comment: String!
     $establishment: String!
+    $connections: [ID!]!
   ) {
     CreateReviewMutation(
       input: {
@@ -14,7 +15,7 @@ export const CreateReview = graphql`
       }
     ) {
       error
-      reviewEdge {
+      reviewEdge @appendEdge(connections: $connections) {
         node {
           _id
           comment

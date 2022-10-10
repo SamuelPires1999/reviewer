@@ -13,17 +13,25 @@ export const GetSingleEstablishment = graphql`
         _id
         name
       }
-      reviews {
+      reviews(first: null, last: null)
+        @connection(key: "GetSingleEstablishmentQuery__reviews") {
+        __id
         edges {
           node {
             _id
+            comment
+            rating
             user {
               _id
               name
             }
-            createdAt
-            comment
-            rating
+            establishment {
+              _id
+              description
+              name
+              address
+              category
+            }
           }
         }
       }
