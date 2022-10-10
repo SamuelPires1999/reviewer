@@ -65,7 +65,7 @@ const EstablishmentType = new GraphQLObjectType<IEstablishment, GraphQLContext>(
         resolve: async (Establishment, args, context) =>
           await ReviewLoader.loadAll(
             context,
-            withFilter(args, { Establishment: Establishment._id }),
+            withFilter(args, { establishment: Establishment._id }),
           ),
       },
       ...timestampResolver,
