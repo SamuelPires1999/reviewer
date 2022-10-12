@@ -12,6 +12,7 @@ import {
   Radio,
   Select,
   useToast,
+  Icon,
 } from '@chakra-ui/react';
 import * as Yup from 'yup';
 import { ConnectionHandler, useLazyLoadQuery, useMutation } from 'react-relay';
@@ -25,6 +26,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { CreateEstablishment } from './CreateEstablishment';
 import type { CreateEstablishmentMutation } from './__generated__/CreateEstablishmentMutation.graphql';
 import { ROOT_ID } from 'relay-runtime';
+import { ImageUpload } from '../../components/ImageUpload';
+import { ArrowUpIcon } from '@chakra-ui/icons';
 
 export const CreateEstablishmentPage = () => {
   const navigate = useNavigate();
@@ -51,6 +54,7 @@ export const CreateEstablishmentPage = () => {
     address: string;
     referenceLink: string;
     category: string;
+    image: FileList;
   };
 
   const schema = Yup.object({
@@ -68,6 +72,17 @@ export const CreateEstablishmentPage = () => {
   } = useForm<Inputs>({
     resolver: yupResolver(schema),
   });
+
+  const validateFiles = (value: FileList) => {
+    for (const file of Array.from(value)) {
+      const fsMb = file.size / (1024 * 1024);
+      const MAX_FILE_SIZE = 10;
+      if (fsMb > MAX_FILE_SIZE) {
+        return 'Max file size 10mb';
+      }
+    }
+    return true;
+  };
 
   const connectionID = ConnectionHandler.getConnectionID(
     ROOT_ID,
@@ -174,6 +189,22 @@ export const CreateEstablishmentPage = () => {
           {errors.address && (
             <FormErrorMessage>{errors.address.message}</FormErrorMessage>
           )}
+        </FormControl>
+        <FormControl isInvalid={!!errors.image} isRequired>
+          <FormLabel>{'Establishment Picture'}</FormLabel>
+
+          <ImageUpload
+            accept={'image/*'}
+            register={register('image', { validate: validateFiles })}
+          >
+            <Button width={'100%'} leftIcon={<Icon as={ArrowUpIcon} />}>
+              Upload
+            </Button>
+          </ImageUpload>
+
+          <FormErrorMessage>
+            {errors.image && errors?.image.message}
+          </FormErrorMessage>
         </FormControl>
         <Stack spacing={6} direction={['column', 'row']}>
           <Button
